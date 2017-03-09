@@ -1,0 +1,20 @@
+Syntaxique du dépôt:
+- Sources communes (non class ou class principale) dans 'srcs'
+- Si grosse class, dossier au nom + fichier au nom .cpp/.hpp
+- Class en majuscule :)
+- Tout doit être const
+- Un new = un delete
+- Plus de référence que possible
+
+- Librairies utilisé :
+* NCurses
+* SFML
+* OpenGL / SFML
+
+- Groupe Pair :
+* guillaume.tran@epitech.eu
+* lucy.mambre@epitech.eu
+* ludovic.gueth@epitech.eu
+
+- Liste des tâches :
+* http://137.74.196.119/cpp_arcade
