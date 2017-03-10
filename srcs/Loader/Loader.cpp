@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 20:04:35 2017 Arnaud WURMEL
-// Last update Fri Mar 10 20:47:38 2017 Arnaud WURMEL
+// Last update Fri Mar 10 21:46:37 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -17,6 +17,7 @@
 */
 Arcade::Loader::Loader()
 {
+  _handler = NULL;
   std::cout << "    ___                        __   " << std::endl;
   std::cout << "   /   |  ______________ _____/ /__ " << std::endl;
   std::cout << "  / /| | / ___/ ___/ __ `/ __  / _ \\" << std::endl;
@@ -46,8 +47,18 @@ void	Arcade::Loader::displayMessage(std::string const& message, Arcade::Loader::
 */
 bool	Arcade::Loader::loadLib(std::string const& path)
 {
-  static_cast<void>(path);
-  return (false);
+  unsigned int	(*getMagic)();
+
+  _handler = dlopen(path.c_str(), RTLD_NOW);
+  if (_handler)
+    {
+      if ((getMagic = reinterpret_cast<unsigned int (*)()>(dlsym(_handler, "getMagic"))) == NULL)
+	return false;
+      if ((*getMagic)() == MAGIC_NUMBER)
+	return true;
+      return false;
+    }
+  return false;
 }
 
 /*

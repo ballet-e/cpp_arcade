@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 20:02:16 2017 Arnaud WURMEL
-// Last update Fri Mar 10 20:47:53 2017 Arnaud WURMEL
+// Last update Fri Mar 10 21:38:47 2017 Arnaud WURMEL
 //
 
 #ifndef LOADER_HH_
@@ -13,6 +13,8 @@
 
 # include <string>
 # include <dlfcn.h>
+
+# define MAGIC_NUMBER 0x42D2
 
 namespace Arcade
 {
@@ -36,6 +38,9 @@ namespace Arcade
 
   public:
     void	displayMessage(std::string const&, Arcade::Loader::MessageType const&);
+
+  private:
+    void	*_handler;
   };
 }
 
