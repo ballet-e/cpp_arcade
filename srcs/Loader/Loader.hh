@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 20:02:16 2017 Arnaud WURMEL
-// Last update Fri Mar 10 20:29:27 2017 Arnaud WURMEL
+// Last update Fri Mar 10 20:47:53 2017 Arnaud WURMEL
 //
 
 #ifndef LOADER_HH_
@@ -31,15 +31,9 @@ namespace Arcade
     Loader();
     ~Loader();
 
-    /*
-    ** Librairie Loader
-    */
   public:
     bool	loadLib(std::string const&);
 
-    /*
-    ** Message loader display
-    */
   public:
     void	displayMessage(std::string const&, Arcade::Loader::MessageType const&);
   };

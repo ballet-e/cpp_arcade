@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Fri Mar 10 20:38:43 2017 Arnaud WURMEL
+## Last update Fri Mar 10 21:24:15 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -26,14 +26,17 @@ NAME=		arcade
 
 $(NAME):	$(OBJS)
 		$(CC) $(OBJS) -o $(NAME) $(CXXFLAGS) $(LD_FLAGS)
+		make -C ./lib
 
 all:		$(NAME)
 
 
 clean:
 		rm -f $(OBJS)
+		make -C ./lib clean
 
 fclean:		clean
 		rm -f $(NAME)
+		make -C ./lib fclean
 
 re:		fclean all
