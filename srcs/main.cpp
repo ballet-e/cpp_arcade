@@ -5,24 +5,20 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Mar  9 16:27:05 2017 Arnaud WURMEL
-// Last update Fri Mar 10 16:56:23 2017 Arnaud WURMEL
+// Last update Fri Mar 10 20:30:29 2017 Arnaud WURMEL
 //
 
 #include <iostream>
+#include "Loader/Loader.hh"
 
-static void	display_ascii(void)
+int	main(int ac, char **av)
 {
-  std::cout << "    ___                        __   " << std::endl;
-  std::cout << "   /   |  ______________ _____/ /__ " << std::endl;
-  std::cout << "  / /| | / ___/ ___/ __ `/ __  / _ \\" << std::endl;
-  std::cout << " / ___ |/ /  / /__/ /_/ / /_/ /  __/" << std::endl;
-  std::cout << "/_/  |_/_/   \\___/\\__,_/\\__,_/\\___/ " << std::endl;
-  std::cout << "\033[0m" << std::endl;
-}
+  Arcade::Loader	loader;
 
-int	main(void)
-{
-  display_ascii();
-  std::cerr << "[Arcade] Loading...\t\033[32mOK\033[0m" << std::endl;
+  if (ac != 2) {
+    loader.displayMessage("Usage :\n./arcade [LIB_PATH || GAME_PATH]", Arcade::Loader::UNDEFINED);
+    return 84;
+  }
+  loader.displayMessage("Loading", Arcade::Loader::SUCCESS);
   return 0;
 }
