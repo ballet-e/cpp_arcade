@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Fri Mar 10 21:11:20 2017 Arnaud WURMEL
+## Last update Sat Mar 11 23:10:01 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -13,10 +13,13 @@ CC=		g++
 SRCS_PATH=	srcs
 
 SRCS=		$(SRCS_PATH)/mandatory.cpp \
+		SFMLWrapper/SFMLWrapper.cpp
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-I ./Include -Wall -Wextra -std=c++11 -fPIC
+CXXFLAGS+=	-I ./Include -Wall -Wextra -std=c++11 -fPIC -I ./Interface -I ./SFMLWrapper
+
+LD_FLAGS=	-lsfml-graphics -lsfml-window -lsfml-system
 
 NAME=		lib_arcade_sfml.so
 

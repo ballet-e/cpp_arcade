@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 20:02:16 2017 Arnaud WURMEL
-// Last update Fri Mar 10 21:38:47 2017 Arnaud WURMEL
+// Last update Sat Mar 11 22:57:19 2017 Arnaud WURMEL
 //
 
 #ifndef LOADER_HH_
@@ -13,6 +13,7 @@
 
 # include <string>
 # include <dlfcn.h>
+# include "IGraphic.hh"
 
 # define MAGIC_NUMBER 0x42D2
 
@@ -39,8 +40,12 @@ namespace Arcade
   public:
     void	displayMessage(std::string const&, Arcade::Loader::MessageType const&);
 
+  public:
+    IGraphic	*getLibrary() const;
+
   private:
     void	*_handler;
+    IGraphic	*_library;
   };
 }
 

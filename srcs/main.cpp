@@ -5,17 +5,19 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Mar  9 16:27:05 2017 Arnaud WURMEL
-// Last update Fri Mar 10 20:45:03 2017 Arnaud WURMEL
+// Last update Sat Mar 11 23:11:46 2017 Arnaud WURMEL
 //
 
 #include <iostream>
 #include <string>
 #include "Loader/Loader.hh"
 #include "Errors/Error.hh"
+#include "IGraphic.hh"
 
 int	main(int ac, char **av)
 {
   Arcade::Loader	loader;
+  Arcade::IGraphic	*graphic;
 
   if (ac != 2) {
     loader.displayMessage("Usage :\n./arcade [LIB_PATH || GAME_PATH]", Arcade::Loader::UNDEFINED);
@@ -26,11 +28,21 @@ int	main(int ac, char **av)
       throw Arcade::LoadingError(std::string("Can't load librairie : ") + av[1]);
     }
     loader.displayMessage("Loading", Arcade::Loader::SUCCESS);
+    if ((graphic = loader.getLibrary()) == NULL)
+      {
+	loader.displayMessage("Get instance graphic", Arcade::Loader::ERROR);
+	return 84;
+      }
+    loader.displayMessage("Get instance graphic", Arcade::Loader::SUCCESS);
   }
   catch (Arcade::LoadingError& e) {
     loader.displayMessage("Loading", Arcade::Loader::ERROR);
-    std::cout << e.what() << std::endl;
+    std::cerr << e.what() << std::endl;
     return 84;
   }
+  graphic->createWindow(1024, 780);
+  loader.displayMessage("Create Window", Arcade::Loader::SUCCESS);
+  graphic->renderWindowStart();
+  delete graphic;
   return 0;
 }

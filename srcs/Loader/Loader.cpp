@@ -1,11 +1,10 @@
-//
 // Loader.cpp for arcade in /home/wurmel/rendu/cpp_arcade
 // 
 // Made by Arnaud WURMEL
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 20:04:35 2017 Arnaud WURMEL
-// Last update Sat Mar 11 11:28:11 2017 Arnaud WURMEL
+// Last update Sat Mar 11 23:03:44 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -18,6 +17,7 @@
 Arcade::Loader::Loader()
 {
   _handler = NULL;
+  _library = NULL;
   std::cout << "    ___                        __   " << std::endl;
   std::cout << "   /   |  ______________ _____/ /__ " << std::endl;
   std::cout << "  / /| | / ___/ ___/ __ `/ __  / _ \\" << std::endl;
@@ -48,17 +48,31 @@ void	Arcade::Loader::displayMessage(std::string const& message, Arcade::Loader::
 bool	Arcade::Loader::loadLib(std::string const& path)
 {
   unsigned int	(*getMagic)();
+  IGraphic	*(*getLibrary)();
 
-  _handler = dlopen(path.c_str(), RTLD_NOW);
+  _handler = dlopen(path.c_str(), RTLD_LAZY);
   if (_handler)
     {
       if ((getMagic = reinterpret_cast<unsigned int (*)()>(dlsym(_handler, "getMagic"))) == NULL)
 	return false;
       if ((*getMagic)() == MAGIC_NUMBER)
-	return true;
+	{
+	  if ((getLibrary = reinterpret_cast<IGraphic * (*)()>(dlsym(_handler, "getLibrary"))) == NULL)
+	    return false;
+	  if ((_library = (*getLibrary)()) == NULL)
+	    return false;
+	  return true;
+	}
       return false;
     }
   return false;
+}
+
+Arcade::IGraphic	*Arcade::Loader::getLibrary() const
+{
+  if (_library)
+    return _library;
+  return NULL;
 }
 
 /*

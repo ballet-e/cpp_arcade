@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 11:29:38 2017 Arnaud WURMEL
-// Last update Sat Mar 11 23:02:04 2017 Arnaud WURMEL
+// Last update Sat Mar 11 23:02:30 2017 Arnaud WURMEL
 //
 
 #ifndef IGRAPHIC_HH_
