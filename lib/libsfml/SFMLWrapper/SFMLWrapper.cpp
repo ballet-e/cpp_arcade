@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Sat Mar 11 23:14:57 2017 Arnaud WURMEL
+// Last update Sat Mar 11 23:23:21 2017 Arnaud WURMEL
 //
 
 #include "SFMLWrapper.hh"
@@ -40,7 +40,15 @@ bool	Arcade::SFMLWrapper::createWindow(unsigned int width, unsigned int height)
 bool	Arcade::SFMLWrapper::drawSquare64x64(unsigned int x, unsigned int y,
 					     unsigned int color)
 {
+  static_cast<void>(x);
+  static_cast<void>(y);
+  static_cast<void>(color);
+  return (false);
+}
 
+Arcade::LibraryType	Arcade::SFMLWrapper::getLibraryType() const
+{
+  return (Arcade::Graphic);
 }
 
 Arcade::SFMLWrapper::~SFMLWrapper()
@@ -48,3 +56,4 @@ Arcade::SFMLWrapper::~SFMLWrapper()
   if (_window)
     delete _window;
 }
+

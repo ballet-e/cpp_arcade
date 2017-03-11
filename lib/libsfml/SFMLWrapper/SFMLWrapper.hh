@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Sat Mar 11 23:05:55 2017 Arnaud WURMEL
+// Last update Sat Mar 11 23:21:04 2017 Arnaud WURMEL
 //
 
 #ifndef SFMLWRAPPER_HH_
@@ -25,6 +25,7 @@ namespace Arcade
     bool	renderWindowStart();
     bool	createWindow(unsigned int, unsigned int);
     bool	drawSquare64x64(unsigned int, unsigned int, unsigned int);
+    LibraryType	getLibraryType() const;
 
   private:
     sf::Window	*_window;
