@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Sat Mar 11 23:23:21 2017 Arnaud WURMEL
+// Last update Sat Mar 11 23:38:09 2017 Arnaud WURMEL
 //
 
 #include "SFMLWrapper.hh"
@@ -23,7 +23,9 @@ bool	Arcade::SFMLWrapper::renderWindowStart()
     {
       while (_window->pollEvent(event))
 	{
-	  if (event.type == sf::Event::Closed)
+	  if (event.type == sf::Event::Closed ||
+	      (event.type == sf::Event::KeyPressed &&
+	       event.key.code == sf::Keyboard::Escape))
 	    _window->close();
 	}
       _window->display();
