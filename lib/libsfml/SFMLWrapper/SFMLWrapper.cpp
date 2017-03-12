@@ -5,9 +5,10 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Sat Mar 11 23:38:09 2017 Arnaud WURMEL
+// Last update Sun Mar 12 14:37:23 2017 Arnaud WURMEL
 //
 
+#include <iostream>
 #include "SFMLWrapper.hh"
 
 Arcade::SFMLWrapper::SFMLWrapper()
@@ -15,19 +16,40 @@ Arcade::SFMLWrapper::SFMLWrapper()
   _window = NULL;
 }
 
+void	Arcade::SFMLWrapper::drawTitle()
+{
+  sf::Text	text;
+  sf::Font	font;
+
+  if (!font.loadFromFile("Ressources/font.ttf"))
+    std::cerr << "Can't load font.ttf" << std::endl;
+  else
+    text.setFont(font);
+  text.setString("Arcade");
+  text.setCharacterSize(50);
+  text.setColor(sf::Color::Blue);
+  text.setPosition(600 - (text.getLocalBounds().width / 2), 10);
+  _window->draw(text);
+}
+
 bool	Arcade::SFMLWrapper::renderWindowStart()
 {
-  sf::Event	event;
+  sf::Event	e;
 
+  if (_window)
+    {
+      _window->close();
+      delete _window;
+    }
+  Arcade::SFMLWrapper::createWindow(1200, 900);
   while (_window->isOpen())
     {
-      while (_window->pollEvent(event))
+      while (_window->pollEvent(e))
 	{
-	  if (event.type == sf::Event::Closed ||
-	      (event.type == sf::Event::KeyPressed &&
-	       event.key.code == sf::Keyboard::Escape))
+	  if (e.type == sf::Event::Closed)
 	    _window->close();
 	}
+      drawTitle();
       _window->display();
     }
   return true;
@@ -35,7 +57,7 @@ bool	Arcade::SFMLWrapper::renderWindowStart()
 
 bool	Arcade::SFMLWrapper::createWindow(unsigned int width, unsigned int height)
 {
-  _window = new sf::Window(sf::VideoMode(width, height), "SFMLWrapper", sf::Style::Close);
+  _window = new sf::RenderWindow(sf::VideoMode(width, height), "SFMLWrapper", sf::Style::Close);
   return true;
 }
 
@@ -58,4 +80,3 @@ Arcade::SFMLWrapper::~SFMLWrapper()
   if (_window)
     delete _window;
 }
-

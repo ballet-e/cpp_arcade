@@ -5,13 +5,14 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Sat Mar 11 23:21:04 2017 Arnaud WURMEL
+// Last update Sun Mar 12 14:32:37 2017 Arnaud WURMEL
 //
 
 #ifndef SFMLWRAPPER_HH_
 # define SFMLWRAPPER_HH_
 
 # include <SFML/Window.hpp>
+# include <SFML/Graphics.hpp>
 # include "IGraphic.hh"
 
 namespace Arcade
@@ -28,7 +29,9 @@ namespace Arcade
     LibraryType	getLibraryType() const;
 
   private:
-    sf::Window	*_window;
+    void	drawTitle();
+  private:
+    sf::RenderWindow	*_window;
   };
 }
 

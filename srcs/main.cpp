@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Mar  9 16:27:05 2017 Arnaud WURMEL
-// Last update Sat Mar 11 23:11:46 2017 Arnaud WURMEL
+// Last update Sun Mar 12 13:55:30 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -31,6 +31,7 @@ int	main(int ac, char **av)
     if ((graphic = loader.getLibrary()) == NULL)
       {
 	loader.displayMessage("Get instance graphic", Arcade::Loader::ERROR);
+	delete graphic;
 	return 84;
       }
     loader.displayMessage("Get instance graphic", Arcade::Loader::SUCCESS);
@@ -38,11 +39,13 @@ int	main(int ac, char **av)
   catch (Arcade::LoadingError& e) {
     loader.displayMessage("Loading", Arcade::Loader::ERROR);
     std::cerr << e.what() << std::endl;
+    delete graphic;
     return 84;
   }
-  graphic->createWindow(1024, 780);
-  loader.displayMessage("Create Window", Arcade::Loader::SUCCESS);
-  graphic->renderWindowStart();
+  if (graphic->getLibraryType() == Arcade::Graphic)
+    graphic->renderWindowStart();
+  else
+    std::cerr << "Start on game impossible" << std::endl;
   delete graphic;
   return 0;
 }
