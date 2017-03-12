@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Mon Mar 13 00:01:34 2017 Arnaud WURMEL
+// Last update Mon Mar 13 00:08:17 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -236,6 +236,13 @@ Arcade::LibraryType	Arcade::SFMLWrapper::getLibraryType() const
 
 Arcade::SFMLWrapper::~SFMLWrapper()
 {
+  std::vector<Button *>::iterator	it;
+
   if (_window)
     delete _window;
+  for (it = _button_list.begin(); it != _button_list.end(); it++)
+    {
+      delete *it;
+    }
+ 
 }
