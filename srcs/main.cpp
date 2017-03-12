@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Mar  9 16:27:05 2017 Arnaud WURMEL
-// Last update Sun Mar 12 13:55:30 2017 Arnaud WURMEL
+// Last update Sun Mar 12 14:54:20 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -17,7 +17,7 @@
 int	main(int ac, char **av)
 {
   Arcade::Loader	loader;
-  Arcade::IGraphic	*graphic;
+  Arcade::IGraphic	*graphic = NULL;
 
   if (ac != 2) {
     loader.displayMessage("Usage :\n./arcade [LIB_PATH || GAME_PATH]", Arcade::Loader::UNDEFINED);
@@ -31,7 +31,6 @@ int	main(int ac, char **av)
     if ((graphic = loader.getLibrary()) == NULL)
       {
 	loader.displayMessage("Get instance graphic", Arcade::Loader::ERROR);
-	delete graphic;
 	return 84;
       }
     loader.displayMessage("Get instance graphic", Arcade::Loader::SUCCESS);
@@ -39,7 +38,8 @@ int	main(int ac, char **av)
   catch (Arcade::LoadingError& e) {
     loader.displayMessage("Loading", Arcade::Loader::ERROR);
     std::cerr << e.what() << std::endl;
-    delete graphic;
+    if (graphic)
+      delete graphic;
     return 84;
   }
   if (graphic->getLibraryType() == Arcade::Graphic)

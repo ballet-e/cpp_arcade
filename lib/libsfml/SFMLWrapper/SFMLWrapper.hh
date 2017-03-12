@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Sun Mar 12 14:32:37 2017 Arnaud WURMEL
+// Last update Sun Mar 12 14:41:24 2017 Arnaud WURMEL
 //
 
 #ifndef SFMLWRAPPER_HH_
@@ -30,6 +30,7 @@ namespace Arcade
 
   private:
     void	drawTitle();
+
   private:
     sf::RenderWindow	*_window;
   };
