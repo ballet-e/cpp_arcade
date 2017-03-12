@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Sun Mar 12 14:41:24 2017 Arnaud WURMEL
+// Last update Sun Mar 12 19:24:08 2017 Arnaud WURMEL
 //
 
 #ifndef SFMLWRAPPER_HH_
@@ -13,6 +13,8 @@
 
 # include <SFML/Window.hpp>
 # include <SFML/Graphics.hpp>
+# include <vector>
+# include "Button.hh"
 # include "IGraphic.hh"
 
 namespace Arcade
@@ -24,15 +26,23 @@ namespace Arcade
     ~SFMLWrapper();
   public:
     bool	renderWindowStart();
-    bool	createWindow(unsigned int, unsigned int);
     bool	drawSquare64x64(unsigned int, unsigned int, unsigned int);
     LibraryType	getLibraryType() const;
+    bool	createWindow(unsigned int, unsigned int);
 
   private:
     void	drawTitle();
+    void	getAllLibrary();
+    void	drawWindow();
+    bool	keyboardHandler(sf::Event const&);
 
   private:
-    sf::RenderWindow	*_window;
+    sf::RenderWindow		*_window;
+    std::vector<Button>	_button_list;
+    std::vector<Button>::iterator	_current_pos;
+
+    std::string		library_path;
+    std::string		game_path;
   };
 }
 
