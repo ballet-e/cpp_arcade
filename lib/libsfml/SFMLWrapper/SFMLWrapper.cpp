@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Sun Mar 12 19:37:59 2017 Arnaud WURMEL
+// Last update Mon Mar 13 00:01:34 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -18,6 +18,7 @@ Arcade::SFMLWrapper::SFMLWrapper()
 {
   _window = NULL;
   _button_list.clear();
+  _current_pos = _button_list.begin();
 }
 
 void	Arcade::SFMLWrapper::drawTitle()
@@ -49,7 +50,10 @@ void	Arcade::SFMLWrapper::drawTitle()
       _window->draw(text);
       ++it;
     }
-  text.setString("Choisir une librairie pour lancer le jeu");
+  if (_library_path.size() == 0)
+    text.setString("Choisir une librairie pour lancer le jeu");
+  else
+    text.setString("Choisir un jeu");
   text.setCharacterSize(15);
   text.setColor(sf::Color::White);
   text.setPosition(600 - (text.getLocalBounds().width / 2), 120);
@@ -62,43 +66,53 @@ void	Arcade::SFMLWrapper::getAllLibrary()
   DIR	*dir;
   struct dirent	*dent;
   unsigned int	y;
+  std::vector<Button *>::iterator	it;
 
+  it = _button_list.begin();
+  while (it != _button_list.end())
+    {
+      delete (*it);
+      ++it;
+    }
   _button_list.clear();
-  dir = opendir("./lib");
+  dir = opendir(_library_path.size() > 0 ? "./games" : "./lib");
   if (dir == NULL)
     {
-      std::cerr << "Can't load directory" << std::endl;
+      std::cerr << "Can't load libraries directory" << std::endl;
       throw std::exception();
     }
   y = 200;
   while ((dent = readdir(dir)))
     {
-      if (dent->d_type == DT_REG && std::string(dent->d_name).find(".so") != std::string::npos)
+      if (dent->d_type == DT_REG && std::string(dent->d_name).find(".so") != std::string::npos && y <= 600)
 	{
-	  _button_list.push_back(Button(dent->d_name, y, Arcade::Button::CENTER, Arcade::Button::SELECT));
+	  _button_list.push_back(new Button(dent->d_name, y, Arcade::Button::CENTER, Arcade::Button::SELECT));
+	  _current_pos = --(_button_list.end());
 	  y += 30;
 	}
     }
+  _button_list.push_back(new Button("OK", y + 50, _library_path.size() ? Arcade::Button::RIGHT : Arcade::Button::CENTER, Arcade::Button::VALIDATE, false));
+  if (_library_path.size())
+    {
+      _button_list.push_back(new Button("Annuler", y + 50, Arcade::Button::LEFT, Arcade::Button::RETURN, true));
+    }
   closedir(dir);
-  if (_current_pos - _button_list.begin() > _button_list.size())
-    _current_pos = _button_list.begin();
+  _current_pos = _button_list.begin();
 }
 
 void	Arcade::SFMLWrapper::drawWindow()
 {
-  std::vector<Arcade::Button>::iterator	it;
+  std::vector<Arcade::Button *>::iterator	it;
 
   _window->clear();
   drawTitle();
-  getAllLibrary();
   it = _button_list.begin();
   while (it != _button_list.end())
     {
-      if (it == _current_pos)
-	(*it).setSelected(true);
-      (*it).draw(*_window);
-      if (it == _current_pos)
-	(*it).setSelected(false);
+      if (it == _current_pos && !(*it)->isSelected())
+	(*it)->draw(*_window, true);
+      else
+	(*it)->draw(*_window);
       ++it;
     }
   _window->display();
@@ -106,6 +120,8 @@ void	Arcade::SFMLWrapper::drawWindow()
 
 bool	Arcade::SFMLWrapper::keyboardHandler(sf::Event const& e)
 {
+  std::vector<Button *>::iterator	it;
+
   if (e.key.code == sf::Keyboard::Escape)
     {
       _window->close();
@@ -124,7 +140,48 @@ bool	Arcade::SFMLWrapper::keyboardHandler(sf::Event const& e)
       --_current_pos;
     }
   if (e.key.code == sf::Keyboard::Return)
-    (*_current_pos).setSelected(true);
+    {
+      if ((*_current_pos)->getType() == Arcade::Button::SELECT)
+	{
+	  it = _button_list.begin();
+	  while (it != _button_list.end())
+	    {
+	      if ((*it)->getType() == Arcade::Button::VALIDATE)
+		{
+		  (*it)->enable(!(*_current_pos)->isSelected());
+		}
+	      if (it != _current_pos)
+		(*it)->setSelected(false);
+	      ++it;
+	    }
+	  (*_current_pos)->setSelected(!(*_current_pos)->isSelected());
+	}
+      else if ((*_current_pos)->getType() == Arcade::Button::VALIDATE)
+	{
+	  it = _button_list.begin();
+	  while (it != _button_list.end())
+	    {
+	      if ((*it)->isSelected())
+		{
+		  if (_library_path.size() == 0)
+		    {
+		      _library_path = (*it)->getTitle();
+		    }
+		  else
+		    _game_path = (*it)->getTitle();
+		  getAllLibrary();
+		  return true;
+		}
+	      ++it;
+	    }
+	}
+      else
+	{
+	  _library_path.clear();
+	  _game_path.clear();
+	  getAllLibrary();
+	}
+    }
   return true;
 }
 
@@ -137,6 +194,7 @@ bool	Arcade::SFMLWrapper::renderWindowStart()
       _window->close();
       delete _window;
     }
+  getAllLibrary();
   _current_pos = _button_list.begin();
   Arcade::SFMLWrapper::createWindow(1200, 900);
   drawWindow();
@@ -148,8 +206,11 @@ bool	Arcade::SFMLWrapper::renderWindowStart()
 	    _window->close();
 	  if (e.type == sf::Event::KeyPressed && keyboardHandler(e))
 	    drawWindow();
+	  if (_game_path.size() > 0 && _library_path.size() > 0)
+	    _window->close();
 	}
     }
+  std::cout << "Game : " << _game_path << std::endl << "Library : " << _library_path << std::endl;
   return true;
 }
 

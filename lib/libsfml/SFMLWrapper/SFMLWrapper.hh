@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Sun Mar 12 19:24:08 2017 Arnaud WURMEL
+// Last update Sun Mar 12 23:30:16 2017 Arnaud WURMEL
 //
 
 #ifndef SFMLWRAPPER_HH_
@@ -38,11 +38,11 @@ namespace Arcade
 
   private:
     sf::RenderWindow		*_window;
-    std::vector<Button>	_button_list;
-    std::vector<Button>::iterator	_current_pos;
+    std::vector<Button *>	_button_list;
+    std::vector<Button *>::iterator	_current_pos;
 
-    std::string		library_path;
-    std::string		game_path;
+    std::string		_library_path;
+    std::string		_game_path;
   };
 }
 
