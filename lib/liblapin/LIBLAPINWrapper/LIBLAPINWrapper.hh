@@ -5,7 +5,7 @@
 // Login   <erwan.ballet@epitech.eu>
 //
 // Started on  Sun Mar 12 07:18:50 2017 Ballet Erwan
-// Last update Sun Mar 12 07:23:06 2017 Ballet Erwan
+// Last update Mon Mar 13 17:27:27 2017 Ballet Erwan
 //
 
 #ifndef LIBLAPINWRAPPER_HH_
@@ -26,6 +26,9 @@ namespace Arcade
     bool	createWindow(unsigned int, unsigned int);
     bool	drawSquare64x64(unsigned int, unsigned int, unsigned int);
     LibraryType	getLibraryType() const;
+
+  private:
+    t_bunny_window  *win;
   };
 }
 
