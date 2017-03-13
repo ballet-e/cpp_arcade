@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:00 2017 Arnaud WURMEL
-// Last update Mon Mar 13 15:42:53 2017 Arnaud WURMEL
+// Last update Mon Mar 13 17:08:12 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -26,15 +26,14 @@ void	Arcade::ArcadeGames::runGame()
 {
   if (!_game || !_graphic)
     throw LoadingError("Missing library");
-  
+  _graphic->renderWindowGame(750, 750, _game);
 }
 
 bool	Arcade::ArcadeGames::getMissingLibrary()
 {
-  std::cout << _game << std::endl;
-  if (_game && !getGraphicLibrary())
+  if (_game && !getGraphicLibrary(true))
     return false;
-  if (!_game && !getGameLibrary())
+  else if (!_game && !getGameLibrary())
     return false;
   return _game && _graphic;
 }
@@ -55,8 +54,8 @@ Arcade::ILibrary	*Arcade::ArcadeGames::loadLibrary(std::string const& path) cons
 bool	Arcade::ArcadeGames::getGraphicLibrary(bool use_default)
 {
   std::string	path;
+  Arcade::ILibrary	*lib;
 
-  std::cout << "Here" << std::endl;
   if (use_default)
     {
       path = getFirstLibraryIn("./lib/");
@@ -65,9 +64,15 @@ bool	Arcade::ArcadeGames::getGraphicLibrary(bool use_default)
     }
   else
     path = _graphic->getLibraryPath();
+  lib = loadLibrary("./lib/" + path);
+  std::cout << "Path : " << path << std::endl;
+  if (lib->getLibraryType() != Arcade::GRAPHIC)
+    throw LoadingError("Wrong library type expected game");
+  if (_graphic)
+    delete _graphic;
+  _graphic = dynamic_cast<Arcade::IGraphic *>(lib);
   if (path.size() == 0)
     return false;
-  
   return true;
 }
 
@@ -100,7 +105,7 @@ bool	Arcade::ArcadeGames::getGameLibrary()
   if (game->getLibraryType() != Arcade::GAME)
     throw LoadingError("Wrong library type expected game");
   _game = dynamic_cast<IGame *>(game);
-  return true;
+  return (getGraphicLibrary());
 }
 
 Arcade::ArcadeGames::~ArcadeGames()

@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Mon Mar 13 15:24:33 2017 Arnaud WURMEL
+// Last update Mon Mar 13 16:33:23 2017 Arnaud WURMEL
 //
 
 #ifndef SFMLWRAPPER_HH_
@@ -27,7 +27,7 @@ namespace Arcade
     ~SFMLWrapper();
   public:
     bool	renderWindowStart();
-    void	renderWindowGame(unsigned int, unsigned int, IGame&);
+    void	renderWindowGame(unsigned int, unsigned int, IGame*);
     bool	drawSquare64x64(unsigned int, unsigned int, unsigned int);
     LibraryType	getLibraryType() const;
 

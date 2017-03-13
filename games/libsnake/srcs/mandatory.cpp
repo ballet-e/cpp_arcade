@@ -5,10 +5,11 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 21:03:40 2017 Arnaud WURMEL
-// Last update Mon Mar 13 15:43:59 2017 Arnaud WURMEL
+// Last update Mon Mar 13 16:10:33 2017 Arnaud WURMEL
 //
 
 #include "IGame.hh"
+#include "Snake.hh"
 
 extern "C" unsigned int	getMagic()
 {
@@ -17,5 +18,5 @@ extern "C" unsigned int	getMagic()
 
 extern "C" Arcade::ILibrary	*getLibrary()
 {
-  
+  return (new Arcade::Snake());
 }
