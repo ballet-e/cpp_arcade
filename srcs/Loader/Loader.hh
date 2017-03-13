@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 20:02:16 2017 Arnaud WURMEL
-// Last update Mon Mar 13 10:42:44 2017 Arnaud WURMEL
+// Last update Mon Mar 13 15:48:21 2017 Arnaud WURMEL
 //
 
 #ifndef LOADER_HH_
@@ -14,8 +14,6 @@
 # include <string>
 # include <dlfcn.h>
 # include "IGraphic.hh"
-
-# define MAGIC_NUMBER 0x42D2
 
 namespace Arcade
 {

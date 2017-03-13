@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:00 2017 Arnaud WURMEL
-// Last update Mon Mar 13 12:40:57 2017 Arnaud WURMEL
+// Last update Mon Mar 13 15:42:53 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -26,6 +26,7 @@ void	Arcade::ArcadeGames::runGame()
 {
   if (!_game || !_graphic)
     throw LoadingError("Missing library");
+  
 }
 
 bool	Arcade::ArcadeGames::getMissingLibrary()
@@ -64,8 +65,9 @@ bool	Arcade::ArcadeGames::getGraphicLibrary(bool use_default)
     }
   else
     path = _graphic->getLibraryPath();
-  std::cout << "Path : ";
-  std::cout << path << std::endl;
+  if (path.size() == 0)
+    return false;
+  
   return true;
 }
 
@@ -83,9 +85,7 @@ std::string	Arcade::ArcadeGames::getFirstLibraryIn(const char *dir_path) const
   while ((dent = readdir(dir)))
     {
       if (dent->d_type == DT_REG && std::string(dent->d_name).find(".so") != std::string::npos)
-	{
-	  return (std::string(dent->d_name));
-	}
+	return (std::string(dent->d_name));
     }
   return (std::string(""));
 }

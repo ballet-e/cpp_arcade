@@ -4,10 +4,11 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 20:04:35 2017 Arnaud WURMEL
-// Last update Mon Mar 13 12:13:14 2017 Arnaud WURMEL
+// Last update Mon Mar 13 15:51:36 2017 Arnaud WURMEL
 //
 
 #include <iostream>
+#include "ILibrary.hh"
 #include "Loader.hh"
 
 /*
@@ -54,11 +55,14 @@ bool	Arcade::Loader::loadLib(std::string const& path)
 	  if ((getLibrary = reinterpret_cast<ILibrary * (*)()>(dlsym(_handler, "getLibrary"))) == NULL)
 	    return false;
 	  if ((_library = (*getLibrary)()) == NULL)
-	    return false;
+	    {
+	      return false;
+	    }
 	  return true;
 	}
       return false;
     }
+  std::cout << "Here" << std::endl;
   return false;
 }
 
