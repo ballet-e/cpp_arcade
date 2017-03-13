@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ##
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Mon Mar 13 17:47:25 2017 Arnaud WURMEL
+## Last update Mon Mar 13 17:50:46 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -17,7 +17,7 @@ SRCS=		$(SRCS_PATH)/mandatory.cpp \
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-I ./Include -I ./LIBLAPINWrapper -I ./Interface -Wall -Wextra -std=c++11 -fPIC -I ~/.froot/include/ -llapin -L ~/.froot/lib/
+CXXFLAGS+=	-I ./Include -I ./LIBLAPINWrapper -I ../../Interfaces -Wall -Wextra -std=c++11 -fPIC -I ~/.froot/include/ -llapin -L ~/.froot/lib/
 
 LD_FLAGS=		-lsfml-graphics -lsfml-audio -lsfml-window \
 						-lsfml-system -lstdc++ -lm -ldl -lpthread
