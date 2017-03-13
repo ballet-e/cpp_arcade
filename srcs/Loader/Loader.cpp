@@ -4,7 +4,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 20:04:35 2017 Arnaud WURMEL
-// Last update Sat Mar 11 23:03:44 2017 Arnaud WURMEL
+// Last update Mon Mar 13 12:13:14 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -18,12 +18,6 @@ Arcade::Loader::Loader()
 {
   _handler = NULL;
   _library = NULL;
-  std::cout << "    ___                        __   " << std::endl;
-  std::cout << "   /   |  ______________ _____/ /__ " << std::endl;
-  std::cout << "  / /| | / ___/ ___/ __ `/ __  / _ \\" << std::endl;
-  std::cout << " / ___ |/ /  / /__/ /_/ / /_/ /  __/" << std::endl;
-  std::cout << "/_/  |_/_/   \\___/\\__,_/\\__,_/\\___/ " << std::endl;
-  std::cout << "\033[0m" << std::endl << std::endl;
 }
 
 /*
@@ -48,7 +42,7 @@ void	Arcade::Loader::displayMessage(std::string const& message, Arcade::Loader::
 bool	Arcade::Loader::loadLib(std::string const& path)
 {
   unsigned int	(*getMagic)();
-  IGraphic	*(*getLibrary)();
+  ILibrary	*(*getLibrary)();
 
   _handler = dlopen(path.c_str(), RTLD_LAZY);
   if (_handler)
@@ -57,7 +51,7 @@ bool	Arcade::Loader::loadLib(std::string const& path)
 	return false;
       if ((*getMagic)() == MAGIC_NUMBER)
 	{
-	  if ((getLibrary = reinterpret_cast<IGraphic * (*)()>(dlsym(_handler, "getLibrary"))) == NULL)
+	  if ((getLibrary = reinterpret_cast<ILibrary * (*)()>(dlsym(_handler, "getLibrary"))) == NULL)
 	    return false;
 	  if ((_library = (*getLibrary)()) == NULL)
 	    return false;
@@ -68,7 +62,7 @@ bool	Arcade::Loader::loadLib(std::string const& path)
   return false;
 }
 
-Arcade::IGraphic	*Arcade::Loader::getLibrary() const
+Arcade::ILibrary	*Arcade::Loader::getLibrary() const
 {
   if (_library)
     return _library;

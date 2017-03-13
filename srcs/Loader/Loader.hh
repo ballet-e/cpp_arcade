@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 20:02:16 2017 Arnaud WURMEL
-// Last update Sat Mar 11 22:57:19 2017 Arnaud WURMEL
+// Last update Mon Mar 13 10:42:44 2017 Arnaud WURMEL
 //
 
 #ifndef LOADER_HH_
@@ -41,11 +41,11 @@ namespace Arcade
     void	displayMessage(std::string const&, Arcade::Loader::MessageType const&);
 
   public:
-    IGraphic	*getLibrary() const;
+    ILibrary	*getLibrary() const;
 
   private:
     void	*_handler;
-    IGraphic	*_library;
+    ILibrary	*_library;
   };
 }
 

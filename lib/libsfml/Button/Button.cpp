@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Mar 12 14:50:35 2017 Arnaud WURMEL
-// Last update Sun Mar 12 23:46:38 2017 Arnaud WURMEL
+// Last update Mon Mar 13 09:40:35 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -67,7 +67,7 @@ void	Arcade::Button::draw(sf::RenderWindow& window, bool onOverlay)
   else if (_pos == Arcade::Button::RIGHT)
     x = (window.getView().getSize().x / 2) + 50;
   else
-    x = ((window.getView().getSize().x / 2) - 50) - (text.getLocalBounds().width);
+    x = ((window.getView().getSize().x / 2) - 50) - (text.getLocalBounds().width / 2);
   text.setPosition(x, _y);
   if (_selected || onOverlay)
     {
@@ -75,7 +75,7 @@ void	Arcade::Button::draw(sf::RenderWindow& window, bool onOverlay)
       sf::RectangleShape background(sf::Vector2f(backgroundRect.width + 4, backgroundRect.height + 4));
       
       background.setFillColor(sf::Color::White);
-      text.setColor(sf::Color::Black);
+      text.setColor(_enable ? sf::Color::Black : sf::Color(120, 120, 120));
       background.setPosition(x - 2, _y);
       window.draw(background);
     }

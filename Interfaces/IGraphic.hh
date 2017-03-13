@@ -5,12 +5,13 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 11:29:38 2017 Arnaud WURMEL
-// Last update Sat Mar 11 23:32:08 2017 Arnaud WURMEL
+// Last update Mon Mar 13 11:41:34 2017 Arnaud WURMEL
 //
 
 #ifndef IGRAPHIC_HH_
 # define IGRAPHIC_HH_
 
+# include <string>
 # include "ILibrary.hh"
 
 namespace Arcade
@@ -22,6 +23,8 @@ namespace Arcade
     virtual bool	renderWindowStart() = 0;
     virtual bool	drawSquare64x64(unsigned int x, unsigned int y, unsigned int color) = 0;
     virtual bool	createWindow(unsigned int, unsigned int) = 0;
+    virtual std::string const&	getGamePath() const = 0;
+    virtual std::string const&	getLibraryPath() const = 0;
   };
 }
 

@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 21:03:40 2017 Arnaud WURMEL
-// Last update Sat Mar 11 22:40:31 2017 Arnaud WURMEL
+// Last update Mon Mar 13 10:42:20 2017 Arnaud WURMEL
 //
 
 #include "SFMLWrapper.hh"
@@ -17,7 +17,7 @@ extern "C" unsigned int	getMagic()
   return (MAGIC_NUMBER);
 }
 
-extern "C" Arcade::IGraphic	*getLibrary()
+extern "C" Arcade::ILibrary	*getLibrary()
 {
   return (new Arcade::SFMLWrapper());
 }

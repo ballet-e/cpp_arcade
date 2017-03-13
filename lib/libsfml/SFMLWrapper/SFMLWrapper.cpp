@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Mon Mar 13 00:08:17 2017 Arnaud WURMEL
+// Last update Mon Mar 13 11:54:19 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -93,9 +93,7 @@ void	Arcade::SFMLWrapper::getAllLibrary()
     }
   _button_list.push_back(new Button("OK", y + 50, _library_path.size() ? Arcade::Button::RIGHT : Arcade::Button::CENTER, Arcade::Button::VALIDATE, false));
   if (_library_path.size())
-    {
-      _button_list.push_back(new Button("Annuler", y + 50, Arcade::Button::LEFT, Arcade::Button::RETURN, true));
-    }
+    _button_list.push_back(new Button("Annuler", y + 50, Arcade::Button::LEFT, Arcade::Button::RETURN, true));
   closedir(dir);
   _current_pos = _button_list.begin();
 }
@@ -203,15 +201,17 @@ bool	Arcade::SFMLWrapper::renderWindowStart()
       while (_window->pollEvent(e))
 	{
 	  if (e.type == sf::Event::Closed)
-	    _window->close();
+	    {
+	      _window->close();
+	      return false;
+	    }
 	  if (e.type == sf::Event::KeyPressed && keyboardHandler(e))
 	    drawWindow();
 	  if (_game_path.size() > 0 && _library_path.size() > 0)
 	    _window->close();
 	}
     }
-  std::cout << "Game : " << _game_path << std::endl << "Library : " << _library_path << std::endl;
-  return true;
+  return _library_path.size() && _game_path.size();
 }
 
 bool	Arcade::SFMLWrapper::createWindow(unsigned int width, unsigned int height)
@@ -231,7 +231,17 @@ bool	Arcade::SFMLWrapper::drawSquare64x64(unsigned int x, unsigned int y,
 
 Arcade::LibraryType	Arcade::SFMLWrapper::getLibraryType() const
 {
-  return (Arcade::Graphic);
+  return (Arcade::GRAPHIC);
+}
+
+std::string const&	Arcade::SFMLWrapper::getLibraryPath() const
+{
+  return (_library_path);  
+}
+
+std::string const&	Arcade::SFMLWrapper::getGamePath() const
+{
+  return (_game_path);
 }
 
 Arcade::SFMLWrapper::~SFMLWrapper()
@@ -244,5 +254,4 @@ Arcade::SFMLWrapper::~SFMLWrapper()
     {
       delete *it;
     }
- 
 }

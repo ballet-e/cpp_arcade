@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Mar  9 16:27:05 2017 Arnaud WURMEL
-// Last update Sun Mar 12 14:54:20 2017 Arnaud WURMEL
+// Last update Mon Mar 13 12:13:30 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -13,12 +13,25 @@
 #include "Loader/Loader.hh"
 #include "Errors/Error.hh"
 #include "IGraphic.hh"
+#include "ArcadeGames.hpp"
+
+static void	display_ascii()
+{
+  std::cout << "    ___                        __   " << std::endl;
+  std::cout << "   /   |  ______________ _____/ /__ " << std::endl;
+  std::cout << "  / /| | / ___/ ___/ __ `/ __  / _ \\" << std::endl;
+  std::cout << " / ___ |/ /  / /__/ /_/ / /_/ /  __/" << std::endl;
+  std::cout << "/_/  |_/_/   \\___/\\__,_/\\__,_/\\___/ " << std::endl;
+  std::cout << "\033[0m" << std::endl << std::endl;
+}
 
 int	main(int ac, char **av)
 {
   Arcade::Loader	loader;
-  Arcade::IGraphic	*graphic = NULL;
+  Arcade::ILibrary	*graphic = NULL;
+  Arcade::ArcadeGames	*root = NULL;
 
+  display_ascii();
   if (ac != 2) {
     loader.displayMessage("Usage :\n./arcade [LIB_PATH || GAME_PATH]", Arcade::Loader::UNDEFINED);
     return 84;
@@ -42,10 +55,26 @@ int	main(int ac, char **av)
       delete graphic;
     return 84;
   }
-  if (graphic->getLibraryType() == Arcade::Graphic)
-    graphic->renderWindowStart();
-  else
-    std::cerr << "Start on game impossible" << std::endl;
-  delete graphic;
+  try {
+    if (graphic->getLibraryType() == Arcade::GRAPHIC)
+      root = new Arcade::ArcadeGames(dynamic_cast<Arcade::IGraphic *>(graphic), NULL);
+    else
+      root = new Arcade::ArcadeGames(NULL, dynamic_cast<Arcade::IGame *>(graphic));
+  }
+  catch (std::exception& e) {
+    std::cerr << e.what() << std::endl;
+    delete graphic;
+    return 84;
+  }
+  try {
+    if (!root->getMissingLibrary())
+      return (0);
+    root->runGame();
+  } catch (std::exception& e) {
+    std::cerr << e.what() << std::endl;
+    delete root;
+    return 84;
+  }
+  delete root;
   return 0;
 }

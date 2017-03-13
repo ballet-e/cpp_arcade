@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:29:29 2017 Arnaud WURMEL
-// Last update Sat Mar 11 23:31:28 2017 Arnaud WURMEL
+// Last update Mon Mar 13 11:50:17 2017 Arnaud WURMEL
 //
 
 #ifndef ILIBRARY_HH_
@@ -15,12 +15,13 @@ namespace	Arcade
 {
   enum	LibraryType
     {
-      Graphic,
-      Game
+      GRAPHIC,
+      GAME
     };
   class	ILibrary
   {
   public:
+    virtual ~ILibrary() {}
     virtual LibraryType	getLibraryType() const = 0;
   };
 }

@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Sat Mar 11 22:45:01 2017 Arnaud WURMEL
+## Last update Mon Mar 13 12:07:25 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -14,6 +14,7 @@ SRCS_PATH=	srcs
 
 SRCS=		$(SRCS_PATH)/main.cpp \
 		$(SRCS_PATH)/Loader/Loader.cpp \
+		$(SRCS_PATH)/ArcadeGames.cpp \
 		$(SRCS_PATH)/Errors/Loading/LoadingError.cpp
 
 OBJS=		$(SRCS:.cpp=.o)
