@@ -5,7 +5,7 @@
 // Login   <erwan.ballet@epitech.eu>
 //
 // Started on  Mon Mar 13 10:41:10 2017 Ballet Erwan
-// Last update Mon Mar 13 18:04:15 2017 Ballet Erwan
+// Last update Mon Mar 13 18:11:52 2017 Ballet Erwan
 //
 
 #include "IGraphic.hh"
@@ -30,10 +30,23 @@ bool    Arcade::LIBLAPINWrapper::renderWindowStart() {
   return (true);
 }
 
-void	Arcade::LIBLAPINWrapper::renderWindowGame(unsigned int, unsigned int, IGame*) {}
+void	Arcade::LIBLAPINWrapper::renderWindowGame(unsigned int x, unsigned int y, IGame* game) {
+  static_cast<void>(x);
+  static_cast<void>(y);
+  static_cast<void>(game);
+}
 
-bool	Arcade::LIBLAPINWrapper::setPixel(unsigned int x, unsigned int y, unsigned int color) {}
+bool	Arcade::LIBLAPINWrapper::setPixel(unsigned int x, unsigned int y, unsigned int color) {
+  static_cast<void>(x);
+  static_cast<void>(y);
+  static_cast<void>(color);
+  return (true);
+}
 
-void	Arcade::LIBLAPINWrapper::setText(std::string const&, unsigned int y, TextMode const&) {}
+void	Arcade::LIBLAPINWrapper::setText(std::string const& text, unsigned int y, TextMode const& mode) {
+  static_cast<void>(text);
+  static_cast<void>(y);
+  static_cast<void>(mode);
+}
 
 Arcade::LIBLAPINWrapper::~LIBLAPINWrapper() {};
