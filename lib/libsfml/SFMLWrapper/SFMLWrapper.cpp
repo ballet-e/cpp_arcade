@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Mon Mar 13 16:40:29 2017 Arnaud WURMEL
+// Last update Mon Mar 13 17:42:32 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -220,8 +220,8 @@ bool	Arcade::SFMLWrapper::createWindow(unsigned int width, unsigned int height)
   return true;
 }
 
-bool	Arcade::SFMLWrapper::drawSquare64x64(unsigned int x, unsigned int y,
-					     unsigned int color)
+bool	Arcade::SFMLWrapper::setPixel(unsigned int x, unsigned int y,
+				      unsigned int color)
 {
   static_cast<void>(x);
   static_cast<void>(y);
@@ -266,9 +266,10 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
       delete _window;
     }
   createWindow(width, height);
+  game->setUpGraphics(this);
   while (_window->isOpen())
     {
-      while (_window->pollEvent(e))
+      if (_window->pollEvent(e))
 	{
 	  if (e.type == sf::Event::Closed)
 	    {
@@ -284,4 +285,20 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
       _window->clear();
       _window->display();
     }
+}
+
+void	Arcade::SFMLWrapper::setText(std::string const& to_print, unsigned int y,
+				     Arcade::TextMode const& mode)
+{
+  sf::Text	text;
+  sf::Font	font;
+  unsigned int	x;
+
+  if (!font.loadFromFile("Ressources/font.ttf"))
+    std::cerr << "Can't load font.ttf" << std::endl;
+  else
+    text.setFont(font);
+  text.setString(to_print);
+  text.setCharacterSize(15);
+  x = 0;
 }

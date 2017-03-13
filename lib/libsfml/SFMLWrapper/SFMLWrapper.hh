@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Mon Mar 13 16:33:23 2017 Arnaud WURMEL
+// Last update Mon Mar 13 17:32:27 2017 Arnaud WURMEL
 //
 
 #ifndef SFMLWRAPPER_HH_
@@ -28,8 +28,9 @@ namespace Arcade
   public:
     bool	renderWindowStart();
     void	renderWindowGame(unsigned int, unsigned int, IGame*);
-    bool	drawSquare64x64(unsigned int, unsigned int, unsigned int);
+    bool	setPixel(unsigned int, unsigned int, unsigned int);
     LibraryType	getLibraryType() const;
+    void	setText(std::string const&, unsigned int, TextMode const&);
 
   private:
     bool	createWindow(unsigned int, unsigned int);
@@ -43,7 +44,6 @@ namespace Arcade
     void	getAllLibrary();
     void	drawWindow();
     bool	keyboardHandler(sf::Event const&);
-    void	gameLoop();
 
   private:
     sf::RenderWindow		*_window;
