@@ -1,11 +1,11 @@
 //
-// Arcade.cpp for arcade in /home/wurmel/rendu/cpp_arcade
+// ArcadeGames.cpp for arcade in /home/wurmel/rendu/cpp_arcade
 // 
 // Made by Arnaud WURMEL
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:00 2017 Arnaud WURMEL
-// Last update Mon Mar 13 12:33:06 2017 Arnaud WURMEL
+// Last update Mon Mar 13 12:40:57 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -18,6 +18,8 @@ Arcade::ArcadeGames::ArcadeGames(Arcade::IGraphic *graphic, Arcade::IGame *game)
 {
   _game = game;
   _graphic = graphic;
+  if (!_graphic && !_game)
+    throw LoadingError("Library not respecting format");
 }
 
 void	Arcade::ArcadeGames::runGame()
@@ -28,6 +30,7 @@ void	Arcade::ArcadeGames::runGame()
 
 bool	Arcade::ArcadeGames::getMissingLibrary()
 {
+  std::cout << _game << std::endl;
   if (_game && !getGraphicLibrary())
     return false;
   if (!_game && !getGameLibrary())
@@ -52,6 +55,7 @@ bool	Arcade::ArcadeGames::getGraphicLibrary(bool use_default)
 {
   std::string	path;
 
+  std::cout << "Here" << std::endl;
   if (use_default)
     {
       path = getFirstLibraryIn("./lib/");
@@ -60,6 +64,7 @@ bool	Arcade::ArcadeGames::getGraphicLibrary(bool use_default)
     }
   else
     path = _graphic->getLibraryPath();
+  std::cout << "Path : ";
   std::cout << path << std::endl;
   return true;
 }

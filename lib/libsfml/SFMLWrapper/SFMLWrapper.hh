@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Mon Mar 13 11:42:31 2017 Arnaud WURMEL
+// Last update Mon Mar 13 13:10:49 2017 Arnaud WURMEL
 //
 
 #ifndef SFMLWRAPPER_HH_
@@ -28,6 +28,8 @@ namespace Arcade
     bool	renderWindowStart();
     bool	drawSquare64x64(unsigned int, unsigned int, unsigned int);
     LibraryType	getLibraryType() const;
+
+  private:
     bool	createWindow(unsigned int, unsigned int);
 
   public:

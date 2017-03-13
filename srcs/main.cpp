@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Mar  9 16:27:05 2017 Arnaud WURMEL
-// Last update Mon Mar 13 12:13:30 2017 Arnaud WURMEL
+// Last update Mon Mar 13 12:40:10 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -57,9 +57,14 @@ int	main(int ac, char **av)
   }
   try {
     if (graphic->getLibraryType() == Arcade::GRAPHIC)
-      root = new Arcade::ArcadeGames(dynamic_cast<Arcade::IGraphic *>(graphic), NULL);
+      {
+	std::cout << "Library is type of graphic" << std::endl;
+	root = new Arcade::ArcadeGames(dynamic_cast<Arcade::IGraphic *>(graphic), NULL);
+      }
     else
-      root = new Arcade::ArcadeGames(NULL, dynamic_cast<Arcade::IGame *>(graphic));
+      {
+	root = new Arcade::ArcadeGames(NULL, dynamic_cast<Arcade::IGame *>(graphic));
+      }
   }
   catch (std::exception& e) {
     std::cerr << e.what() << std::endl;

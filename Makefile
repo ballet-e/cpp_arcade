@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Mon Mar 13 12:07:25 2017 Arnaud WURMEL
+## Last update Mon Mar 13 12:36:33 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -19,7 +19,7 @@ SRCS=		$(SRCS_PATH)/main.cpp \
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-I ./Includes -Wall -Wextra -std=c++11 -I ./Interfaces
+CXXFLAGS+=	-I ./Includes -Wall -Wextra -std=c++11 -I ./Interfaces -g
 
 LD_FLAGS+=	-ldl
 

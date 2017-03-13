@@ -5,20 +5,23 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Mon Mar 13 12:07:33 2017 Arnaud WURMEL
+## Last update Mon Mar 13 13:09:41 2017 Arnaud WURMEL
 ##
 
 CC=		g++
 
 SRCS_PATH=	srcs
 
+COMMON_PATH=	../../Common/
+
 SRCS=		$(SRCS_PATH)/mandatory.cpp \
 		Button/Button.cpp \
+		$(COMMON_PATH)Event/Event.cpp \
 		SFMLWrapper/SFMLWrapper.cpp
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-I ./Include -Wall -Wextra -std=c++11 -fPIC -I ./Interface -I ./SFMLWrapper -I ./Button -I ../../Interfaces/
+CXXFLAGS+=	-I ./Include -Wall -Wextra -std=c++11 -fPIC -I ./Interface -I ./SFMLWrapper -I ./Button -I ../../Interfaces/ -I $(COMMON_PATH)Event/
 
 LD_FLAGS=	-lsfml-graphics -lsfml-window -lsfml-system
 
