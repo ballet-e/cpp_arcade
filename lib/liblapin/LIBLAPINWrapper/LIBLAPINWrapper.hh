@@ -5,7 +5,7 @@
 // Login   <erwan.ballet@epitech.eu>
 //
 // Started on  Sun Mar 12 07:18:50 2017 Ballet Erwan
-// Last update Mon Mar 13 17:27:27 2017 Ballet Erwan
+// Last update Mon Mar 13 18:03:13 2017 Ballet Erwan
 //
 
 #ifndef LIBLAPINWRAPPER_HH_
@@ -23,9 +23,9 @@ namespace Arcade
     ~LIBLAPINWrapper();
   public:
     bool	renderWindowStart();
-    bool	createWindow(unsigned int, unsigned int);
-    bool	drawSquare64x64(unsigned int, unsigned int, unsigned int);
-    LibraryType	getLibraryType() const;
+    void	renderWindowGame(unsigned int, unsigned int, IGame*);
+    bool	setPixel(unsigned int x, unsigned int y, unsigned int color);
+    void	setText(std::string const&, unsigned int y, TextMode const&);
 
   private:
     t_bunny_window  *win;

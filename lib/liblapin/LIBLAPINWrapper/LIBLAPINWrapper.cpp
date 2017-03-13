@@ -5,7 +5,7 @@
 // Login   <erwan.ballet@epitech.eu>
 //
 // Started on  Mon Mar 13 10:41:10 2017 Ballet Erwan
-// Last update Mon Mar 13 17:27:51 2017 Ballet Erwan
+// Last update Mon Mar 13 18:04:15 2017 Ballet Erwan
 //
 
 #include "IGraphic.hh"
@@ -29,5 +29,11 @@ bool    Arcade::LIBLAPINWrapper::renderWindowStart() {
   bunny_stop(this->win);
   return (true);
 }
+
+void	Arcade::LIBLAPINWrapper::renderWindowGame(unsigned int, unsigned int, IGame*) {}
+
+bool	Arcade::LIBLAPINWrapper::setPixel(unsigned int x, unsigned int y, unsigned int color) {}
+
+void	Arcade::LIBLAPINWrapper::setText(std::string const&, unsigned int y, TextMode const&) {}
 
 Arcade::LIBLAPINWrapper::~LIBLAPINWrapper() {};
