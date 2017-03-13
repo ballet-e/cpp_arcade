@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 10:47:40 2017 Arnaud WURMEL
-// Last update Mon Mar 13 18:12:39 2017 Arnaud WURMEL
+// Last update Mon Mar 13 22:02:34 2017 Arnaud WURMEL
 //
 
 #ifndef IGAME_HH_
@@ -24,6 +24,7 @@ namespace	Arcade
     virtual void	setUpGraphics(Arcade::IGraphic *) = 0;
     virtual void	eventListener(Event const&) = 0;
     virtual void	render() = 0;
+    virtual bool	shouldRender() = 0;
     virtual ~IGame() {}
   };
 }

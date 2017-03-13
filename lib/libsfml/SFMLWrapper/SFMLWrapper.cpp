@@ -5,12 +5,14 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Mon Mar 13 18:08:53 2017 Arnaud WURMEL
+// Last update Tue Mar 14 00:00:37 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
 #include <dirent.h>
 #include <iostream>
+#include <chrono>
+#include <thread>
 #include <exception>
 #include "SFMLWrapper.hh"
 
@@ -223,10 +225,18 @@ bool	Arcade::SFMLWrapper::createWindow(unsigned int width, unsigned int height)
 bool	Arcade::SFMLWrapper::setPixel(unsigned int x, unsigned int y,
 				      unsigned int color)
 {
-  static_cast<void>(x);
-  static_cast<void>(y);
-  static_cast<void>(color);
-  return (false);
+  sf::Color	colors[5];
+
+  colors[BLACK] = sf::Color::Black;
+  colors[GREEN] = sf::Color::Green;
+  colors[GREY] = sf::Color(120, 120, 120);
+  colors[CYAN] = sf::Color::Cyan;
+  colors[YELLOW] = sf::Color::Yellow;
+  if (x >= _image.getSize().x ||
+      y >= _image.getSize().x)
+    return false;
+  _image.setPixel(x, y, colors[color % 5]);
+  return true;
 }
 
 Arcade::LibraryType	Arcade::SFMLWrapper::getLibraryType() const
@@ -244,16 +254,15 @@ std::string const&	Arcade::SFMLWrapper::getGamePath() const
   return (_game_path);
 }
 
-Arcade::SFMLWrapper::~SFMLWrapper()
+void	Arcade::SFMLWrapper::renderGame()
 {
-  std::vector<Button *>::iterator	it;
+  sf::Texture	texture;
+  sf::Sprite	sprite;
 
-  if (_window)
-    delete _window;
-  for (it = _button_list.begin(); it != _button_list.end(); it++)
-    {
-      delete *it;
-    }
+  texture.loadFromImage(_image);
+  sprite.setTexture(texture, true);
+  sprite.setPosition((_window->getView().getSize().x - 600) / 2, 100);
+  _window->draw(sprite);
 }
 
 void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int height, IGame* game)
@@ -266,29 +275,46 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
       delete _window;
     }
   createWindow(width, height);
+  _image.create(600, 600);
   game->setUpGraphics(this);
+  //  renderGame();
   while (_window->isOpen())
     {
       if (_window->pollEvent(e))
 	{
-	  if (e.type == sf::Event::Closed)
+	  if (e.type == sf::Event::Closed ||
+	      (e.type == sf::Event::KeyPressed &&
+	       e.key.code == sf::Keyboard::Escape))
 	    {
 	      _window->close();
 	      return ;
 	    }
-	  if (e.key.code == sf::Keyboard::Escape)
+	  if (e.type == sf::Event::KeyPressed)
 	    {
-	      _window->close();
-	      return ;
+	      if (e.key.code == sf::Keyboard::Up)
+		game->eventListener(Event(Arcade::Event::KEY_UP));
+	      else if (e.key.code == sf::Keyboard::Down)
+		game->eventListener(Event(Arcade::Event::KEY_DOWN));
+	      else if (e.key.code == sf::Keyboard::Left)
+		game->eventListener(Event(Arcade::Event::KEY_LEFT));
+	      else if (e.key.code == sf::Keyboard::Right)
+		game->eventListener(Event(Arcade::Event::KEY_RIGHT));
 	    }
+	  renderGame();
 	}
-      _window->clear();
+      if (game->shouldRender())
+	{
+ 	  _window->clear();
+	  game->render();
+	  renderGame();
+	}
       _window->display();
+      std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
 }
 
 void	Arcade::SFMLWrapper::setText(std::string const& to_print, unsigned int y,
-				     Arcade::TextMode const& mode)
+				     Arcade::TextMode const& mode, unsigned int fontSize)
 {
   sf::Text	text;
   sf::Font	font;
@@ -299,7 +325,7 @@ void	Arcade::SFMLWrapper::setText(std::string const& to_print, unsigned int y,
   else
     text.setFont(font);
   text.setString(to_print);
-  text.setCharacterSize(15);
+  text.setCharacterSize(fontSize);
   x = 5;
   if (mode == Arcade::TextMode::CENTER)
     x = (_window->getView().getSize().x / 2 - (text.getLocalBounds().width / 2));
@@ -308,4 +334,26 @@ void	Arcade::SFMLWrapper::setText(std::string const& to_print, unsigned int y,
   text.setPosition(x, y);
   text.setColor(sf::Color::White);
   _window->draw(text);
+}
+
+unsigned int	Arcade::SFMLWrapper::getDrawableHeight() const
+{
+  return _image.getSize().y;
+}
+
+unsigned int	Arcade::SFMLWrapper::getDrawableWidth() const
+{
+  return _image.getSize().x;
+}
+
+Arcade::SFMLWrapper::~SFMLWrapper()
+{
+  std::vector<Button *>::iterator	it;
+
+  if (_window)
+    delete _window;
+  for (it = _button_list.begin(); it != _button_list.end(); it++)
+    {
+      delete *it;
+    }
 }

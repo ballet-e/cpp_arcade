@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Mon Mar 13 17:32:27 2017 Arnaud WURMEL
+// Last update Mon Mar 13 23:57:21 2017 Arnaud WURMEL
 //
 
 #ifndef SFMLWRAPPER_HH_
@@ -30,7 +30,10 @@ namespace Arcade
     void	renderWindowGame(unsigned int, unsigned int, IGame*);
     bool	setPixel(unsigned int, unsigned int, unsigned int);
     LibraryType	getLibraryType() const;
-    void	setText(std::string const&, unsigned int, TextMode const&);
+    void	setText(std::string const&, unsigned int, TextMode const&,
+			unsigned int fontSize = 15);
+    unsigned int	getDrawableHeight() const;
+    unsigned int	getDrawableWidth() const;
 
   private:
     bool	createWindow(unsigned int, unsigned int);
@@ -40,6 +43,7 @@ namespace Arcade
     std::string const&	getGamePath() const;
 
   private:
+    void	renderGame();
     void	drawTitle();
     void	getAllLibrary();
     void	drawWindow();
@@ -47,6 +51,7 @@ namespace Arcade
 
   private:
     sf::RenderWindow		*_window;
+    sf::Image			_image;
     std::vector<Button *>	_button_list;
     std::vector<Button *>::iterator	_current_pos;
 
