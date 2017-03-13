@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:00 2017 Arnaud WURMEL
-// Last update Mon Mar 13 17:08:12 2017 Arnaud WURMEL
+// Last update Mon Mar 13 17:30:30 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -26,7 +26,7 @@ void	Arcade::ArcadeGames::runGame()
 {
   if (!_game || !_graphic)
     throw LoadingError("Missing library");
-  _graphic->renderWindowGame(750, 750, _game);
+  _graphic->renderWindowGame(1200, 900, _game);
 }
 
 bool	Arcade::ArcadeGames::getMissingLibrary()

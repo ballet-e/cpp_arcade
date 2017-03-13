@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ##
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Mon Mar 13 17:49:11 2017 Ballet Erwan
+## Last update Mon Mar 13 17:56:55 2017 Ballet Erwan
 ##
 
 CC=		g++
@@ -17,10 +17,10 @@ SRCS=		$(SRCS_PATH)/mandatory.cpp \
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-I ./Include -I ./LIBLAPINWrapper -I ./Interface -Wall -Wextra -std=c++11 -fPIC
+CXXFLAGS+=	-I ./Include -I ./LIBLAPINWrapper -I ../../Interfaces -Wall -Wextra -std=c++11 -fPIC -I ~/.froot/include/ -llapin -L ~/.froot/lib/
 
 LD_FLAGS=		-lsfml-graphics -lsfml-audio -lsfml-window \
-						-lsfml-system -lstdc++ -lm -ldl -lpthread -llapin -L ~/.froot/lib
+						-lsfml-system -lstdc++ -lm -ldl -lpthread
 
 NAME=		lib_arcade_lapin.so
 
