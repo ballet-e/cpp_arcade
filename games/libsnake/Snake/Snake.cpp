@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Mon Mar 13 17:27:49 2017 Arnaud WURMEL
+// Last update Mon Mar 13 18:10:59 2017 Arnaud WURMEL
 //
 
 #include "Snake.hh"
@@ -23,6 +23,11 @@ void	Arcade::Snake::setUpGraphics(IGraphic *ref)
 Arcade::LibraryType	Arcade::Snake::getLibraryType() const
 {
   return (Arcade::GAME);
+}
+
+void	Arcade::Snake::eventListener(Event const& e)
+{
+
 }
 
 Arcade::Snake::~Snake() {}

@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Mon Mar 13 17:42:32 2017 Arnaud WURMEL
+// Last update Mon Mar 13 18:08:53 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -300,5 +300,12 @@ void	Arcade::SFMLWrapper::setText(std::string const& to_print, unsigned int y,
     text.setFont(font);
   text.setString(to_print);
   text.setCharacterSize(15);
-  x = 0;
+  x = 5;
+  if (mode == Arcade::TextMode::CENTER)
+    x = (_window->getView().getSize().x / 2 - (text.getLocalBounds().width / 2));
+  else if (mode == Arcade::TextMode::RIGHT)
+    x = ((_window->getView().getSize().x - text.getLocalBounds().width) - 5);
+  text.setPosition(x, y);
+  text.setColor(sf::Color::White);
+  _window->draw(text);
 }
