@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Tue Mar 14 16:13:08 2017 Arnaud WURMEL
+// Last update Tue Mar 14 19:38:55 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -25,6 +25,8 @@ void	Arcade::Snake::initGame()
   initMap();
   _hasEat = false;
   _isInit = true;
+  _playing = true;
+  _end = false;
   _dir = Arcade::Snake::RIGHT;
 }
 
@@ -189,11 +191,8 @@ void	Arcade::Snake::moveSnake()
       _body[i] = _body[i - 1];
       --i;
     }
-  if (_map[(*_body.begin()).second + y_shift][(*_body.begin()).first + x_shift] != 1)
-    {
-      (*_body.begin()).second += y_shift;
-      (*_body.begin()).first += x_shift;
-    }
+  (*_body.begin()).second += y_shift;
+  (*_body.begin()).first += x_shift;
   if (_hasEat)
     {
       _body.push_back(new_elem);
@@ -205,22 +204,33 @@ void	Arcade::Snake::moveSnake()
       _hasEat = true;
       _score += 1;
     }
+  if (checkSnakeColision() == false)
+    {
+      _playing = false;
+      _end = true;
+    }
 }
 
 void	Arcade::Snake::render()
 {
   if (!_isInit)
     initGame();
-  moveSnake();
+  if (_playing)
+    moveSnake();
   _graphic_library->setText(std::string("Niveau: ") + std::to_string(_score / 10), 10, Arcade::TextMode::LEFT);
   _graphic_library->setText(std::string("Snake"), 10, Arcade::TextMode::CENTER, 25);
   _graphic_library->setText(std::string("Score: ") + std::to_string(_score), 10, Arcade::TextMode::RIGHT);
-  showMap();
+  if (!_end)
+    showMap();
+  else
+    _graphic_library->setText(std::string("Game Over"), _graphic_library->getDrawableHeight() / 2, Arcade::TextMode::CENTER, 25);
 }
 
 bool	Arcade::Snake::shouldRender()
 {
-  if ((50 - _score) != 0)
+  if (!_playing || _end)
+    return true;
+  if ((50 - _score) > 0)
     {
       if (_frame % (50 - _score) <= 0)
 	{
@@ -228,6 +238,8 @@ bool	Arcade::Snake::shouldRender()
 	  return true;
 	}
     }
+  else
+    return true;
   _frame += 1;
   return false;
 }
@@ -236,25 +248,25 @@ void	Arcade::Snake::eventListener(Event const& e)
 {
   bool	need_to_render = false;
 
-  if (e.getType() == Arcade::Event::KEY_UP)
+  if (e.getType() == Arcade::Event::KEY_UP && _dir != Arcade::Snake::DOWN)
     {
       if (_dir != Arcade::Snake::UP)
 	need_to_render = true;
       _dir = Arcade::Snake::UP;
     }
-  else if (e.getType() == Arcade::Event::KEY_DOWN)
+  else if (e.getType() == Arcade::Event::KEY_DOWN && _dir != Arcade::Snake::UP)
     {
       if (_dir != Arcade::Snake::DOWN)
 	need_to_render = true;
       _dir = Arcade::Snake::DOWN;
     }
-  else if (e.getType() == Arcade::Event::KEY_LEFT)
+  else if (e.getType() == Arcade::Event::KEY_LEFT && _dir != Arcade::Snake::RIGHT)
     {
       if (_dir != Arcade::Snake::LEFT)
 	need_to_render = true;
       _dir = Arcade::Snake::LEFT;
     }
-  else if (e.getType() == Arcade::Event::KEY_RIGHT)
+  else if (e.getType() == Arcade::Event::KEY_RIGHT && _dir != Arcade::Snake::LEFT)
     {
       if (_dir != Arcade::Snake::RIGHT)
 	need_to_render = true;
@@ -265,6 +277,35 @@ void	Arcade::Snake::eventListener(Event const& e)
       render();
       _frame = 1;
     }
+}
+
+bool	Arcade::Snake::checkSnakeColision() const
+{
+  std::vector<std::pair<unsigned int, unsigned int> >::const_iterator	it;
+
+  it = _body.begin();
+  if (_map[(*it).second][(*it).first] != 0)
+    return false;
+  ++it;
+  while (it != _body.end())
+    {
+      if ((*_body.begin()).first == (*it).first &&
+	  (*_body.begin()).second == (*it).second)
+	{
+	  return false;
+	}
+      ++it;
+    }
+  return true;
+}
+
+Arcade::IGame::GameState	Arcade::Snake::gameState() const
+{
+  if (_playing)
+    return (Arcade::IGame::PLAYING);
+  if (!_playing && !_end)
+    return (Arcade::IGame::PAUSED);
+  return (Arcade::IGame::ENDED);
 }
 
 Arcade::Snake::~Snake() {}

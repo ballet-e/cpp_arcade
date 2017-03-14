@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Tue Mar 14 13:22:01 2017 Arnaud WURMEL
+// Last update Tue Mar 14 19:09:06 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -278,7 +278,6 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
   createWindow(width, height);
   _image.create(600, 600);
   game->setUpGraphics(this);
-  //  renderGame();
   while (_window->isOpen())
     {
       if (_window->pollEvent(e))
@@ -301,13 +300,15 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
 	      else if (e.key.code == sf::Keyboard::Right)
 		game->eventListener(Event(Arcade::Event::KEY_RIGHT));
 	    }
-	  renderGame();
+	  if (game->gameState() == Arcade::IGame::PLAYING)
+	    renderGame();
 	}
       if (game->shouldRender())
 	{
  	  _window->clear();
 	  game->render();
-	  renderGame();
+	  if (game->gameState() == Arcade::IGame::PLAYING)
+	    renderGame();
 	}
       _window->display();
       std::this_thread::sleep_for(std::chrono::milliseconds(20));

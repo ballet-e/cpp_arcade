@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Tue Mar 14 15:24:27 2017 Arnaud WURMEL
+// Last update Tue Mar 14 19:04:56 2017 Arnaud WURMEL
 //
 
 #ifndef SNAKE_HH_
@@ -43,6 +43,7 @@ namespace	Arcade
     void	eventListener(Event const&);
     void	render();
     bool	shouldRender();
+    Arcade::IGame::GameState	gameState() const;
 
   private:
     void	showMap();
@@ -52,6 +53,7 @@ namespace	Arcade
     void	moveSnake();
     void	generateFood();
     bool	eatFood();
+    bool	checkSnakeColision() const;
     
   private:
     IGraphic	*_graphic_library;
@@ -61,6 +63,8 @@ namespace	Arcade
     Directions		_dir;
     bool		_isInit;
     bool		_hasEat;
+    bool		_playing;
+    bool		_end;
 
     std::vector<std::pair<unsigned int, unsigned int> >	_body;
     std::vector<std::pair<unsigned int, unsigned int> >	_food;
