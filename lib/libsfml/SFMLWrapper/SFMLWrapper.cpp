@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Tue Mar 14 00:00:37 2017 Arnaud WURMEL
+// Last update Tue Mar 14 13:22:01 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -225,17 +225,18 @@ bool	Arcade::SFMLWrapper::createWindow(unsigned int width, unsigned int height)
 bool	Arcade::SFMLWrapper::setPixel(unsigned int x, unsigned int y,
 				      unsigned int color)
 {
-  sf::Color	colors[5];
+  sf::Color	colors[6];
 
   colors[BLACK] = sf::Color::Black;
   colors[GREEN] = sf::Color::Green;
   colors[GREY] = sf::Color(120, 120, 120);
   colors[CYAN] = sf::Color::Cyan;
   colors[YELLOW] = sf::Color::Yellow;
+  colors[RED] = sf::Color::Red;
   if (x >= _image.getSize().x ||
       y >= _image.getSize().x)
     return false;
-  _image.setPixel(x, y, colors[color % 5]);
+  _image.setPixel(x, y, colors[color % 6]);
   return true;
 }
 

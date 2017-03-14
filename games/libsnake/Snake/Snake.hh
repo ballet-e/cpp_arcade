@@ -5,12 +5,14 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Tue Mar 14 00:04:08 2017 Arnaud WURMEL
+// Last update Tue Mar 14 15:24:27 2017 Arnaud WURMEL
 //
 
 #ifndef SNAKE_HH_
 # define SNAKE_HH_
 
+# include <vector>
+# include <utility>
 # include "IGame.hh"
 # include "Event.hh"
 
@@ -48,7 +50,8 @@ namespace	Arcade
     void	initGame();
     void	drawSquare(unsigned int, unsigned int, unsigned int, unsigned int);
     void	moveSnake();
-    void	getSnakePosition(unsigned int&, unsigned int&) const;
+    void	generateFood();
+    bool	eatFood();
     
   private:
     IGraphic	*_graphic_library;
@@ -57,6 +60,10 @@ namespace	Arcade
     unsigned char	_map[MAP_HEIGHT][MAP_WIDTH];
     Directions		_dir;
     bool		_isInit;
+    bool		_hasEat;
+
+    std::vector<std::pair<unsigned int, unsigned int> >	_body;
+    std::vector<std::pair<unsigned int, unsigned int> >	_food;
   };
 }
 

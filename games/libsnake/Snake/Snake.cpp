@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Tue Mar 14 00:04:19 2017 Arnaud WURMEL
+// Last update Tue Mar 14 16:13:08 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -23,7 +23,9 @@ Arcade::Snake::Snake()
 void	Arcade::Snake::initGame()
 {
   initMap();
+  _hasEat = false;
   _isInit = true;
+  _dir = Arcade::Snake::RIGHT;
 }
 
 void	Arcade::Snake::initMap()
@@ -37,12 +39,43 @@ void	Arcade::Snake::initMap()
       x = 0;
       while (x < MAP_WIDTH)
 	{
-	  _map[y][x] = 0;
+	  if (x == 0 || x + 1 == MAP_WIDTH || y == 0 || y + 1 == MAP_HEIGHT)
+	    _map[y][x] = 1;
+	  else
+	    _map[y][x] = 0;
 	  ++x;
 	}
       ++y;
     }
-  _map[MAP_HEIGHT / 2][MAP_WIDTH / 2] = 2;
+  generateFood();
+  _body.push_back(std::make_pair(MAP_WIDTH / 2, MAP_HEIGHT / 2));
+}
+
+void	Arcade::Snake::generateFood()
+{
+  std::vector<std::pair<unsigned int, unsigned int> >::const_iterator	it;
+  std::pair<unsigned int, unsigned int>	new_pos;
+  unsigned int	nb_recur;
+  bool		founded;
+
+  founded = false;
+  nb_recur = 0;
+  while (nb_recur < 1 + _food.size() && !founded)
+    {
+      founded = true;
+      new_pos.first = (rand() % (MAP_WIDTH - 1)) + 1;
+      new_pos.second = (rand() % (MAP_HEIGHT - 1)) + 1;
+      it = _food.begin();
+      while (it != _food.end())
+	{
+	  if ((*it).first == new_pos.first && (*it).second == new_pos.second)
+	    founded = false;
+	  ++it;
+	}
+      if (founded == true)
+	_food.push_back(new_pos);
+      ++nb_recur;
+    }
 }
 
 void	Arcade::Snake::drawSquare(unsigned int size, unsigned int color,
@@ -83,12 +116,23 @@ void	Arcade::Snake::showMap()
 	  if (_map[y][x] == 0)
 	    drawSquare(square_size, Arcade::Colors::GREY, x * square_size, y * square_size);
 	  else if (_map[y][x] == 1)
-	    drawSquare(square_size, Arcade::Colors::GREEN, x * square_size, y * square_size);
-	  else if (_map[y][x] == 2)
-	    drawSquare(square_size, Arcade::Colors::YELLOW, x * square_size, y * square_size);
+	    drawSquare(square_size, Arcade::Colors::RED, x * square_size, y * square_size);
 	  ++x;
 	}
       ++y;
+    }
+  std::vector<std::pair<unsigned int, unsigned int> >::iterator	it = _body.begin();
+
+  while (it != _body.end())
+    {
+      drawSquare(square_size, Arcade::Colors::YELLOW, (*it).first * square_size, (*it).second * square_size);
+      ++it;
+    }
+  it = _food.begin();
+  while (it != _food.end())
+    {
+      drawSquare(square_size, Arcade::Colors::CYAN, (*it).first * square_size, (*it).second * square_size);
+      ++it;
     }
 }
 
@@ -102,38 +146,65 @@ Arcade::LibraryType	Arcade::Snake::getLibraryType() const
   return (Arcade::GAME);
 }
 
-void	Arcade::Snake::getSnakePosition(unsigned int& y, unsigned int& x) const
+bool	Arcade::Snake::eatFood()
 {
-  y = 0;
-  while (y < MAP_HEIGHT)
+  std::vector<std::pair<unsigned int, unsigned int> >::iterator	it;
+  std::pair<unsigned int, unsigned int>& head = (*_body.begin());
+
+  it = _food.begin();
+  while (it != _food.end())
     {
-      x = 0;
-      while (x < MAP_WIDTH)
+      if (head.first == (*it).first && head.second == (*it).second)
 	{
-	  if (_map[y][x] == 2)
-	    return ;
-	  ++x;
+	  _food.erase(it);
+	  return (true);
 	}
-      ++y;
+      else
+	++it;
     }
-  
+  return (false);
 }
 
 void	Arcade::Snake::moveSnake()
 {
-  unsigned int	x;
-  unsigned int	y;
+  int	x_shift;
+  int	y_shift;
+  std::pair<unsigned int, unsigned int>	new_elem;
+  unsigned int	i;
 
-  getSnakePosition(y, x);
-  _map[y][x] = 0;
-  if (_dir == Arcade::Snake::LEFT && x > 0)
-    _map[y][x - 1] = 2;
-  else if (_dir == Arcade::Snake::RIGHT && x + 1 < MAP_WIDTH)
-    _map[y][x + 1] = 2;
-  else if (_dir == Arcade::Snake::UP && y > 0)
-    _map[y - 1][x] = 2;
-  else if (_dir == Arcade::Snake::DOWN && y < MAP_HEIGHT)
-    _map[y + 1][x] = 2;
+  x_shift = 0;
+  y_shift = 0;
+  if (_dir == Arcade::Snake::UP)
+    y_shift = -1;
+  else if (_dir == Arcade::Snake::DOWN)
+    y_shift = 1;
+  else if (_dir == Arcade::Snake::LEFT)
+    x_shift = -1;
+  else if (_dir == Arcade::Snake::RIGHT)
+    x_shift = 1;
+  i = _body.size() - 1;
+  new_elem = _body.back();
+  while (i >= 1)
+    {
+      _body[i] = _body[i - 1];
+      --i;
+    }
+  if (_map[(*_body.begin()).second + y_shift][(*_body.begin()).first + x_shift] != 1)
+    {
+      (*_body.begin()).second += y_shift;
+      (*_body.begin()).first += x_shift;
+    }
+  if (_hasEat)
+    {
+      _body.push_back(new_elem);
+       _hasEat = false;
+    }
+  if (eatFood())
+    {
+      generateFood();
+      _hasEat = true;
+      _score += 1;
+    }
 }
 
 void	Arcade::Snake::render()
@@ -149,15 +220,15 @@ void	Arcade::Snake::render()
 
 bool	Arcade::Snake::shouldRender()
 {
-  _frame += 1;
   if ((50 - _score) != 0)
     {
       if (_frame % (50 - _score) <= 0)
 	{
-	  _frame = 0;
+	  _frame = 1;
 	  return true;
 	}
     }
+  _frame += 1;
   return false;
 }
 
@@ -192,7 +263,7 @@ void	Arcade::Snake::eventListener(Event const& e)
   if (need_to_render)
     {
       render();
-      _frame = 0;
+      _frame = 1;
     }
 }
 
