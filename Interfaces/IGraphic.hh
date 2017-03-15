@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 11:29:38 2017 Arnaud WURMEL
-// Last update Tue Mar 14 13:21:00 2017 Arnaud WURMEL
+// Last update Wed Mar 15 13:18:37 2017 Arnaud WURMEL
 //
 
 #ifndef IGRAPHIC_HH_
@@ -24,7 +24,8 @@ namespace Arcade
       CYAN,
       GREEN,
       YELLOW,
-      RED
+      RED,
+      PINK
     };
   enum	TextMode
     {

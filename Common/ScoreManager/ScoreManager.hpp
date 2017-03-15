@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Tue Mar 14 20:23:38 2017 Arnaud WURMEL
-// Last update Tue Mar 14 21:00:44 2017 Arnaud WURMEL
+// Last update Wed Mar 15 16:01:33 2017 Arnaud WURMEL
 //
 
 #ifndef SCOREMANAGER_HPP_
@@ -17,7 +17,7 @@
 # include <iostream>
 # include <fstream>
 
-# define MAGIC_NUMBER 0xAE57
+# define MAGIC_NUMBER_SCORE 0xAE57
 
 namespace	Arcade
 {
@@ -29,7 +29,7 @@ namespace	Arcade
     {
       char	gameName[20];
       unsigned short	magicNumber;
-    } __attribute__((packed));
+    };
 
   public:
     struct	ScoreRow
@@ -43,7 +43,11 @@ namespace	Arcade
     ~ScoreManager();
 
   public:
-    std::vector<std::pair<std::string, unsigned int> > const&	getScoreForGame(std::string const&);
+    std::vector<ScoreRow> const&	getScoreForGame(std::string const&);
+    void							addScoreForGame(std::string const&, std::string const&, unsigned int);
+
+  public:
+    static bool	sortVector(ScoreRow const&, ScoreRow const&);
   private:
     bool	openFile(std::string const&, bool);
     bool	loadScoreForGame(std::string const&);
@@ -51,7 +55,7 @@ namespace	Arcade
 				std::string const&) const;
 
   private:
-    std::vector<std::pair<std::string, unsigned int> >	_scoreList;
+    std::vector<ScoreRow>	_scoreList;
     std::fstream					_file;
   };
 }

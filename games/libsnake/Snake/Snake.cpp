@@ -5,11 +5,12 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Tue Mar 14 19:38:55 2017 Arnaud WURMEL
+// Last update Wed Mar 15 16:54:36 2017 Arnaud WURMEL
 //
 
 #include <iostream>
 #include "Snake.hh"
+#include "ScoreManager.hpp"
 #include "IGraphic.hh"
 
 Arcade::Snake::Snake()
@@ -17,6 +18,7 @@ Arcade::Snake::Snake()
   _score = 0;
   _frame = 0;
   _isInit = false;
+  _pseudo = "Player";
   initGame();
 }
 
@@ -51,6 +53,8 @@ void	Arcade::Snake::initMap()
     }
   generateFood();
   _body.push_back(std::make_pair(MAP_WIDTH / 2, MAP_HEIGHT / 2));
+  _body.push_back(std::make_pair((MAP_WIDTH / 2) - 1, MAP_HEIGHT / 2));
+  _body.push_back(std::make_pair((MAP_WIDTH / 2) - 2, MAP_HEIGHT / 2));
 }
 
 void	Arcade::Snake::generateFood()
@@ -65,8 +69,8 @@ void	Arcade::Snake::generateFood()
   while (nb_recur < 1 + _food.size() && !founded)
     {
       founded = true;
-      new_pos.first = (rand() % (MAP_WIDTH - 1)) + 1;
-      new_pos.second = (rand() % (MAP_HEIGHT - 1)) + 1;
+      new_pos.first = (rand() % (MAP_WIDTH - 2)) + 1;
+      new_pos.second = (rand() % (MAP_HEIGHT - 2)) + 1;
       it = _food.begin();
       while (it != _food.end())
 	{
@@ -116,7 +120,7 @@ void	Arcade::Snake::showMap()
       while (x < MAP_WIDTH)
 	{
 	  if (_map[y][x] == 0)
-	    drawSquare(square_size, Arcade::Colors::GREY, x * square_size, y * square_size);
+	    drawSquare(square_size, Arcade::Colors::BLACK, x * square_size, y * square_size);
 	  else if (_map[y][x] == 1)
 	    drawSquare(square_size, Arcade::Colors::RED, x * square_size, y * square_size);
 	  ++x;
@@ -127,7 +131,10 @@ void	Arcade::Snake::showMap()
 
   while (it != _body.end())
     {
-      drawSquare(square_size, Arcade::Colors::YELLOW, (*it).first * square_size, (*it).second * square_size);
+      if (it == _body.begin())
+	drawSquare(square_size, Arcade::Colors::GREEN, (*it).first * square_size, (*it).second * square_size);
+      else
+	drawSquare(square_size, Arcade::Colors::YELLOW, (*it).first * square_size, (*it).second * square_size);
       ++it;
     }
   it = _food.begin();
@@ -208,7 +215,15 @@ void	Arcade::Snake::moveSnake()
     {
       _playing = false;
       _end = true;
+      saveScore();
     }
+}
+
+void	Arcade::Snake::saveScore() const
+{
+  Arcade::ScoreManager	scoreManager;
+
+  scoreManager.addScoreForGame("snake", _pseudo, _score);
 }
 
 void	Arcade::Snake::render()
@@ -230,9 +245,9 @@ bool	Arcade::Snake::shouldRender()
 {
   if (!_playing || _end)
     return true;
-  if ((50 - _score) > 0)
+  if ((20 - (_score / 10)) > 0)
     {
-      if (_frame % (50 - _score) <= 0)
+      if (_frame % (20 - (_score / 10)) <= 0)
 	{
 	  _frame = 1;
 	  return true;
@@ -306,6 +321,11 @@ Arcade::IGame::GameState	Arcade::Snake::gameState() const
   if (!_playing && !_end)
     return (Arcade::IGame::PAUSED);
   return (Arcade::IGame::ENDED);
+}
+
+void	Arcade::Snake::setUpPseudo(std::string const& pseudo)
+{
+  _pseudo = pseudo;
 }
 
 Arcade::Snake::~Snake() {}

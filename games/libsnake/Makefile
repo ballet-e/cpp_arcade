@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Mon Mar 13 22:50:03 2017 Arnaud WURMEL
+## Last update Wed Mar 15 11:28:59 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -16,11 +16,12 @@ COMMON_PATH=	../../Common/
 
 SRCS=		$(SRCS_PATH)/mandatory.cpp \
 		$(COMMON_PATH)Event/Event.cpp \
+		$(COMMON_PATH)ScoreManager/ScoreManager.cpp \
 		Snake/Snake.cpp
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-Wall -Wextra -std=c++11 -fPIC -I ./Snake -I ./Button -I ../../Interfaces/ -I $(COMMON_PATH)Event/ -g
+CXXFLAGS+=	-Wall -Wextra -std=c++11 -fPIC -I ./Snake -I ./Button -I ../../Interfaces/ -I $(COMMON_PATH)Event/ -I $(COMMON_PATH)ScoreManager/
 
 LD_FLAGS=	-lsfml-graphics -lsfml-window -lsfml-system
 

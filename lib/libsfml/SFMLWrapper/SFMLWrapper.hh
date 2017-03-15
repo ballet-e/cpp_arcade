@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Mon Mar 13 23:57:21 2017 Arnaud WURMEL
+// Last update Wed Mar 15 11:30:53 2017 Arnaud WURMEL
 //
 
 #ifndef SFMLWRAPPER_HH_
@@ -17,6 +17,7 @@
 # include "Button.hh"
 # include "IGraphic.hh"
 # include "IGame.hh"
+# include "ScoreManager.hpp"
 
 namespace Arcade
 {
@@ -48,6 +49,7 @@ namespace Arcade
     void	getAllLibrary();
     void	drawWindow();
     bool	keyboardHandler(sf::Event const&);
+    void	getScore();
 
   private:
     sf::RenderWindow		*_window;

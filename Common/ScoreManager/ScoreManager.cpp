@@ -5,9 +5,12 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Tue Mar 14 20:23:24 2017 Arnaud WURMEL
-// Last update Tue Mar 14 21:01:48 2017 Arnaud WURMEL
+// Last update Wed Mar 15 17:25:38 2017 Arnaud WURMEL
 //
 
+#include <cstring>
+#include <algorithm>
+#include <fstream>
 #include "ScoreManager.hpp"
 
 Arcade::ScoreManager::ScoreManager()
@@ -20,24 +23,54 @@ bool	Arcade::ScoreManager::loadScoreForGame(std::string const& gameName)
   Arcade::ScoreManager::FileHeader	fileHeader;
   Arcade::ScoreManager::ScoreRow	scoreRow;
 
+  if (openFile(gameName, false) == false)
+    {
+      std::cerr << "Can't open file for : " << gameName << std::endl;
+      return false;
+    }
   _scoreList.clear();
   _file.read(reinterpret_cast<char *>(&fileHeader), sizeof(Arcade::ScoreManager::FileHeader));
   if (checkFileHeader(fileHeader, gameName) == false)
     {
-      std::cout << "Wrong score file format maybe corrupted. Ignored" << std::endl;
+      std::cerr << "Wrong score file format maybe corrupted. Ignored" << std::endl;
       _file.close();
       return false;
     }
-  while (_file.eof() == false)
+  while (true)
     {
       _file.read(reinterpret_cast<char *>(&scoreRow), sizeof(Arcade::ScoreManager::ScoreRow));
-      _scoreList.push_back(std::make_pair(scoreRow.pseudo, scoreRow.score));
+      if (!_file)
+	break;
+      _scoreList.push_back(scoreRow);
     }
   _file.close();
+  std::sort(_scoreList.begin(), _scoreList.end(), Arcade::ScoreManager::sortVector);
   return true;
 }
 
-std::vector<std::pair<std::string, unsigned int> > const&	Arcade::ScoreManager::getScoreForGame(std::string const& gameName)
+bool	Arcade::ScoreManager::sortVector(Arcade::ScoreManager::ScoreRow const& first, Arcade::ScoreManager::ScoreRow const& second)
+{
+  return (first.score > second.score);
+}
+
+void	Arcade::ScoreManager::addScoreForGame(std::string const& game,
+					      std::string const& pseudo,
+					      unsigned int value)
+{
+  Arcade::ScoreManager::ScoreRow	score;
+
+  if (openFile(game, true) == false)
+    {
+      std::cerr << "Can't add score for : " << game << std::endl;
+      return ;
+    }
+  std::strncpy(score.pseudo, pseudo.c_str(), 20);
+  score.score = value;
+  _file.write(reinterpret_cast<char *>(&score), sizeof(Arcade::ScoreManager::ScoreRow));
+  _file.close();
+}
+
+std::vector<Arcade::ScoreManager::ScoreRow> const&	Arcade::ScoreManager::getScoreForGame(std::string const& gameName)
 {
   loadScoreForGame(gameName);
   return (_scoreList);
@@ -46,7 +79,7 @@ std::vector<std::pair<std::string, unsigned int> > const&	Arcade::ScoreManager::
 bool	Arcade::ScoreManager::checkFileHeader(Arcade::ScoreManager::FileHeader const& fileHeader,
 					      std::string const& gameName) const
 {
-  if (gameName.compare(fileHeader.gameName) || fileHeader.magicNumber != MAGIC_NUMBER)
+  if (gameName.compare(fileHeader.gameName) || fileHeader.magicNumber != MAGIC_NUMBER_SCORE)
     return false;
   return true;
 }
@@ -54,21 +87,24 @@ bool	Arcade::ScoreManager::checkFileHeader(Arcade::ScoreManager::FileHeader cons
 bool	Arcade::ScoreManager::openFile(std::string const& gameName,
 				       bool writeMode)
 {
-  filepath = "./game/" + gameName + ".score";
+  std::string	filepath;
+
+  filepath = "./scores/" + gameName + ".score";
   if (writeMode == false)
     _file.open(filepath, std::fstream::in | std::fstream::binary);
   else
-    _file.open(filepath, std::fstream::out | std::fstream::binary);
-  if (!file.is_open())
+    _file.open(filepath, std::fstream::out | std::fstream::binary | std::fstream::binary | std::fstream::app);
+  if (!_file.is_open())
     return false;
+  if (writeMode && _file.tellg() == 0)
+    {
+      Arcade::ScoreManager::FileHeader	fileHeader;
+
+      std::strncpy(fileHeader.gameName, gameName.c_str(), 20);
+      fileHeader.magicNumber = MAGIC_NUMBER_SCORE;
+      _file.write((char *)&fileHeader, sizeof(Arcade::ScoreManager::FileHeader));
+    }
   return true;
 }
 
 Arcade::ScoreManager::~ScoreManager() {}
-
-int	main(void)
-{
-  Arcade::ScoreManager	score;
-
-  return (0);
-}

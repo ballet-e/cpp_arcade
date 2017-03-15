@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Tue Mar 14 19:09:06 2017 Arnaud WURMEL
+// Last update Wed Mar 15 18:08:07 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -53,7 +53,7 @@ void	Arcade::SFMLWrapper::drawTitle()
       ++it;
     }
   if (_library_path.size() == 0)
-    text.setString("Choisir une librairie pour lancer le jeu");
+    text.setString("Choisir une bibliotheque pour lancer le jeu");
   else
     text.setString("Choisir un jeu");
   text.setCharacterSize(15);
@@ -115,6 +115,7 @@ void	Arcade::SFMLWrapper::drawWindow()
 	(*it)->draw(*_window);
       ++it;
     }
+  getScore();
   _window->display();
 }
 
@@ -225,14 +226,15 @@ bool	Arcade::SFMLWrapper::createWindow(unsigned int width, unsigned int height)
 bool	Arcade::SFMLWrapper::setPixel(unsigned int x, unsigned int y,
 				      unsigned int color)
 {
-  sf::Color	colors[6];
+  sf::Color	colors[7];
 
   colors[BLACK] = sf::Color::Black;
-  colors[GREEN] = sf::Color::Green;
-  colors[GREY] = sf::Color(120, 120, 120);
-  colors[CYAN] = sf::Color::Cyan;
-  colors[YELLOW] = sf::Color::Yellow;
-  colors[RED] = sf::Color::Red;
+  colors[GREEN] = sf::Color(39, 174, 96);
+  colors[GREY] = sf::Color(52, 73, 94);
+  colors[CYAN] = sf::Color(52, 152, 219);
+  colors[YELLOW] = sf::Color(241, 196, 15);
+  colors[RED] = sf::Color(231, 76, 60);
+  colors[PINK] = sf::Color(142, 68, 173);
   if (x >= _image.getSize().x ||
       y >= _image.getSize().x)
     return false;
@@ -336,6 +338,37 @@ void	Arcade::SFMLWrapper::setText(std::string const& to_print, unsigned int y,
   text.setPosition(x, y);
   text.setColor(sf::Color::White);
   _window->draw(text);
+}
+
+void	Arcade::SFMLWrapper::getScore()
+{
+  Arcade::ScoreManager	scoreManager;
+  std::string	text_line;
+  size_t	pos;
+
+  if (_library_path.size() && !_game_path.size())
+    {
+      if ((*_current_pos)->getType() == Arcade::Button::SELECT)
+	{
+	  std::string game_name = (*_current_pos)->getTitle();
+	  
+	  if (game_name.find("lib_arcade_") == 0)
+	    game_name.erase(0, 11);
+	  if ((pos = game_name.find(".so")) != std::string::npos)
+	    game_name.erase(pos);
+	  std::vector<Arcade::ScoreManager::ScoreRow> const&	vec = scoreManager.getScoreForGame(game_name);
+	  std::vector<Arcade::ScoreManager::ScoreRow>::const_iterator	it;
+
+	  it = vec.begin();
+	  pos = 600;
+	  for (unsigned int i = 0; i < 10 && it != vec.end(); i++) {
+	    text_line = "#" + std::to_string(i + 1) + " ";
+	    text_line = text_line + (*it).pseudo + " : " + std::to_string((*it).score);
+	    setText(text_line, 250 + ((_button_list.size() + 1) * 32) + (i * 20), Arcade::TextMode::CENTER);
+	    ++it;
+	  }
+	}
+    }
 }
 
 unsigned int	Arcade::SFMLWrapper::getDrawableHeight() const

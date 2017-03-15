@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Tue Mar 14 19:04:56 2017 Arnaud WURMEL
+// Last update Wed Mar 15 16:52:16 2017 Arnaud WURMEL
 //
 
 #ifndef SNAKE_HH_
@@ -39,6 +39,7 @@ namespace	Arcade
 
   public:
     void	setUpGraphics(Arcade::IGraphic *);
+    void	setUpPseudo(std::string const&);
     LibraryType	getLibraryType() const;
     void	eventListener(Event const&);
     void	render();
@@ -54,9 +55,11 @@ namespace	Arcade
     void	generateFood();
     bool	eatFood();
     bool	checkSnakeColision() const;
+    void	saveScore() const;
     
   private:
     IGraphic	*_graphic_library;
+    std::string		_pseudo;
     unsigned int	_score;
     unsigned int	_frame;
     unsigned char	_map[MAP_HEIGHT][MAP_WIDTH];
