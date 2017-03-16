@@ -1,0 +1,3 @@
+- Write exception classes for Graphic Library / Games (Into Commons/)
+- Replace all std::exception by this
+- Choose game n°2
