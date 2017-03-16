@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 11:29:38 2017 Arnaud WURMEL
-// Last update Wed Mar 15 13:18:37 2017 Arnaud WURMEL
+// Last update Thu Mar 16 00:52:12 2017 Arnaud WURMEL
 //
 
 #ifndef IGRAPHIC_HH_
@@ -25,13 +25,16 @@ namespace Arcade
       GREEN,
       YELLOW,
       RED,
-      PINK
+      PINK,
+      WHITE
     };
-  enum	TextMode
+  enum	ElementPosition
     {
-      LEFT,
       CENTER,
-      RIGHT
+      LEFT,
+      RIGHT,
+      LEFT_CENTER,
+      RIGHT_CENTER
     };
   class	IGraphic : public Arcade::ILibrary
   {
@@ -40,7 +43,11 @@ namespace Arcade
     virtual bool	renderWindowStart() = 0;
     virtual void	renderWindowGame(unsigned int, unsigned int, IGame *) = 0;
     virtual bool	setPixel(unsigned int x, unsigned int y, unsigned int color) = 0;
-    virtual void	setText(std::string const&, unsigned int y, TextMode const&, unsigned int fontSize = 15) = 0;
+    virtual void	setText(std::string const&, unsigned int y,
+				Arcade::ElementPosition const&,
+				unsigned int fontSize = 15,
+				Arcade::Colors const& fontColor = Arcade::Colors::WHITE,
+				Arcade::Colors const& backgroundColor = Arcade::Colors::BLACK) = 0;
     virtual unsigned int	getDrawableHeight() const = 0;
     virtual unsigned int	getDrawableWidth() const = 0;
 

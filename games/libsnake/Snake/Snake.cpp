@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Wed Mar 15 16:54:36 2017 Arnaud WURMEL
+// Last update Thu Mar 16 02:32:53 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -223,7 +223,7 @@ void	Arcade::Snake::saveScore() const
 {
   Arcade::ScoreManager	scoreManager;
 
-  scoreManager.addScoreForGame("snake", _pseudo, _score);
+  scoreManager.addScoreForGame("Nibbler", _pseudo, _score);
 }
 
 void	Arcade::Snake::render()
@@ -232,13 +232,13 @@ void	Arcade::Snake::render()
     initGame();
   if (_playing)
     moveSnake();
-  _graphic_library->setText(std::string("Niveau: ") + std::to_string(_score / 10), 10, Arcade::TextMode::LEFT);
-  _graphic_library->setText(std::string("Snake"), 10, Arcade::TextMode::CENTER, 25);
-  _graphic_library->setText(std::string("Score: ") + std::to_string(_score), 10, Arcade::TextMode::RIGHT);
+  _graphic_library->setText(std::string("Niveau: ") + std::to_string(_score / 10), 10, Arcade::ElementPosition::LEFT);
+  _graphic_library->setText(std::string("Nibbler"), 10, Arcade::ElementPosition::CENTER, 25);
+  _graphic_library->setText(std::string("Score: ") + std::to_string(_score), 10, Arcade::ElementPosition::RIGHT);
   if (!_end)
     showMap();
   else
-    _graphic_library->setText(std::string("Game Over"), _graphic_library->getDrawableHeight() / 2, Arcade::TextMode::CENTER, 25);
+    _graphic_library->setText(std::string("Game Over"), _graphic_library->getDrawableHeight() / 2, Arcade::ElementPosition::CENTER, 25);
 }
 
 bool	Arcade::Snake::shouldRender()
