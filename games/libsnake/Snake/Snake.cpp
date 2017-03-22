@@ -5,15 +5,16 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Wed Mar 22 15:14:54 2017 Arnaud WURMEL
+// Last update Thu Mar 23 00:19:35 2017 Arnaud WURMEL
 //
 
 #include <iostream>
+#include "Protocol.hpp"
 #include "Snake.hh"
 #include "ScoreManager.hpp"
 #include "IGraphic.hh"
 
-Arcade::Snake::Snake()
+Arcade::Snake::Snake() : _map(MAP_HEIGHT)
 {
   _score = 0;
   _frame = 0;
@@ -25,6 +26,7 @@ Arcade::Snake::Snake()
 
 void	Arcade::Snake::initGame()
 {
+  _map.clear();
   initMap();
   _hasEat = false;
   _isInit = true;
@@ -45,9 +47,9 @@ void	Arcade::Snake::initMap()
       while (x < MAP_WIDTH)
 	{
 	  if (x == 0 || x + 1 == MAP_WIDTH || y == 0 || y + 1 == MAP_HEIGHT)
-	    _map[y][x] = 1;
+	    _map[y].push_back(1);
 	  else
-	    _map[y][x] = 0;
+	    _map[y].push_back(0);
 	  ++x;
 	}
       ++y;
@@ -338,7 +340,91 @@ Arcade::Snake::~Snake() {}
 ** ======================================
 */
 
-// unsigned char**	Arcade::Snake::getMap() const
-// {
-//   return (_map);
-// }
+void	Arcade::Snake::whereAmI()
+{
+  struct arcade::WhereAmI	*amI;
+  char				*buf;
+  std::vector<std::pair<unsigned int, unsigned int> >::const_iterator	it;
+
+  buf = new char[sizeof(struct arcade::WhereAmI) + (_body.size() * sizeof(struct arcade::Position))];
+  amI = new (buf) struct arcade::WhereAmI;
+  amI->type = arcade::CommandType::WHERE_AM_I;
+  amI->lenght = _body.size();
+  it = _body.begin();
+  while (it != _body.end())
+    {
+      amI->position[(it - _body.begin()) % _body.size()].x = (*it).first;
+      amI->position[(it - _body.begin()) % _body.size()].y = (*it).second;
+      ++it;
+    }
+  std::cout.write(reinterpret_cast<char *>(amI), sizeof(amI) + (_body.size() * sizeof(struct arcade::Position)));
+  delete [] buf;
+}
+
+void	Arcade::Snake::getMap()
+{
+  struct arcade::GetMap		*map;
+  char				*buf;
+  std::vector<std::vector<unsigned char> >::const_iterator	it;
+
+  buf = new char[sizeof(struct arcade::GetMap) + (MAP_WIDTH * MAP_HEIGHT * sizeof(arcade::TileType))];
+  map = new (buf) struct arcade::GetMap;
+  map->type = arcade::CommandType::GET_MAP;
+  map->width = MAP_WIDTH;
+  map->height = MAP_HEIGHT;
+  it = _map.begin();
+  while (it != _map.end())
+    {
+      std::vector<unsigned char>::const_iterator it_char = (*it).begin();
+
+      while (it_char != (*it).end())
+	{
+	  if (*it_char == 0)
+	    map->tile[(it_char - (*it).end()) + ((it - _map.end()) * MAP_WIDTH)] = arcade::TileType::EMPTY;
+	  else
+	    map->tile[(it_char - (*it).end()) + ((it - _map.end()) * MAP_WIDTH)] = arcade::TileType::BLOCK;
+	  ++it_char;
+	}
+    }
+  std::cout.write(reinterpret_cast<char *>(map), sizeof(map) + (MAP_WIDTH * MAP_HEIGHT * sizeof(arcade::TileType)));
+  delete [] buf;
+}
+
+void	Arcade::Snake::goUp()
+{
+
+}
+
+void	Arcade::Snake::goDown()
+{
+  
+}
+
+void	Arcade::Snake::goLeft()
+{
+}
+
+void	Arcade::Snake::goRight()
+{
+
+}
+
+void	Arcade::Snake::goForward()
+{
+  std::cerr << "Not used for snake" << std::endl;
+}
+
+void	Arcade::Snake::makeShoot()
+{
+  std::cerr << "Not used for snake" << std::endl;
+}
+
+void	Arcade::Snake::illegal()
+{
+  std::cerr << "Not used for snake" << std::endl;
+}
+
+void	Arcade::Snake::playRound()
+{
+
+}

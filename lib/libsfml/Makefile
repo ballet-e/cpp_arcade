@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Thu Mar 16 14:57:47 2017 Arnaud WURMEL
+## Last update Wed Mar 22 22:14:37 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -24,7 +24,7 @@ SRCS=		$(SRCS_PATH)/mandatory.cpp \
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./Interface -I ./SFMLWrapper -I ./Button -I ../../Interfaces/ -I $(COMMON_PATH)Event/ -I $(COMMON_PATH)ScoreManager/ -I ./GraphicElements -I ./GraphicElements/HeritableObject/ -I ./StartScreen -I ./GraphicElements/Button/
+CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./Interface -I ./SFMLWrapper -I ./Button -I ../../Interfaces/ -I $(COMMON_PATH)Event/ -I $(COMMON_PATH)ScoreManager/ -I ./GraphicElements -I ./GraphicElements/HeritableObject/ -I ./StartScreen -I ./GraphicElements/Button/ -g
 
 LD_FLAGS=	-lsfml-graphics -lsfml-window -lsfml-system
 

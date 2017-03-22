@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Wed Mar 22 15:14:47 2017 Arnaud WURMEL
+// Last update Wed Mar 22 23:29:05 2017 Arnaud WURMEL
 //
 
 #ifndef SNAKE_HH_
@@ -46,8 +46,21 @@ namespace	Arcade
     bool	shouldRender();
     Arcade::IGame::GameState	gameState() const;
 
+    /*
+    ** Koalinette protocol
+    */
   public:
-    //    unsigned char	**getMap() const;
+    void	whereAmI();
+    void	getMap();
+    void	goUp();
+    void	goDown();
+    void	goLeft();
+    void	goRight();
+    void	goForward();
+    void	makeShoot();
+    void	illegal();
+    void	playRound();
+
   private:
     void	showMap();
     void	initMap();
@@ -64,7 +77,7 @@ namespace	Arcade
     std::string		_pseudo;
     unsigned int	_score;
     unsigned int	_frame;
-    unsigned char	_map[MAP_HEIGHT][MAP_WIDTH];
+    std::vector<std::vector<unsigned char> >	_map;
     Directions		_dir;
     bool		_isInit;
     bool		_hasEat;

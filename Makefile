@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Wed Mar 15 16:51:38 2017 Arnaud WURMEL
+## Last update Wed Mar 22 22:28:21 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -27,8 +27,8 @@ NAME=		arcade
 
 $(NAME):	$(OBJS)
 		$(CC) $(OBJS) -o $(NAME) $(CXXFLAGS) $(LD_FLAGS)
-		make -C ./lib
 		make -C ./games/
+		make -C ./lib
 
 all:		$(NAME)
 
