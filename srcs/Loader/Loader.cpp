@@ -4,7 +4,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 20:04:35 2017 Arnaud WURMEL
-// Last update Mon Mar 13 15:51:36 2017 Arnaud WURMEL
+// Last update Wed Mar 22 10:19:13 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -62,7 +62,6 @@ bool	Arcade::Loader::loadLib(std::string const& path)
 	}
       return false;
     }
-  std::cout << "Here" << std::endl;
   return false;
 }
 

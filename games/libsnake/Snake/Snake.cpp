@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Thu Mar 16 02:32:53 2017 Arnaud WURMEL
+// Last update Wed Mar 22 15:14:54 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -18,6 +18,7 @@ Arcade::Snake::Snake()
   _score = 0;
   _frame = 0;
   _isInit = false;
+  _graderMode = true;
   _pseudo = "Player";
   initGame();
 }
@@ -147,6 +148,7 @@ void	Arcade::Snake::showMap()
 
 void	Arcade::Snake::setUpGraphics(Arcade::IGraphic *ref)
 {
+  _graderMode = false;
   _graphic_library = ref;
 }
 
@@ -329,3 +331,14 @@ void	Arcade::Snake::setUpPseudo(std::string const& pseudo)
 }
 
 Arcade::Snake::~Snake() {}
+
+/*
+** ======================================
+**          Mandatory Protocol
+** ======================================
+*/
+
+// unsigned char**	Arcade::Snake::getMap() const
+// {
+//   return (_map);
+// }

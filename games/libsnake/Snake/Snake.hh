@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Wed Mar 15 16:52:16 2017 Arnaud WURMEL
+// Last update Wed Mar 22 15:14:47 2017 Arnaud WURMEL
 //
 
 #ifndef SNAKE_HH_
@@ -46,6 +46,8 @@ namespace	Arcade
     bool	shouldRender();
     Arcade::IGame::GameState	gameState() const;
 
+  public:
+    //    unsigned char	**getMap() const;
   private:
     void	showMap();
     void	initMap();
@@ -68,6 +70,8 @@ namespace	Arcade
     bool		_hasEat;
     bool		_playing;
     bool		_end;
+
+    bool		_graderMode;
 
     std::vector<std::pair<unsigned int, unsigned int> >	_body;
     std::vector<std::pair<unsigned int, unsigned int> >	_food;
