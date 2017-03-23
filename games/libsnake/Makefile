@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Wed Mar 22 23:49:05 2017 Arnaud WURMEL
+## Last update Thu Mar 23 19:58:34 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -28,8 +28,8 @@ LD_FLAGS=	-lsfml-graphics -lsfml-window -lsfml-system
 NAME=		lib_arcade_Nibbler.so
 
 $(NAME):	$(OBJS)
-		$(CC) $(OBJS) -o $(NAME) $(CXXFLAGS) $(LD_FLAGS)
-#		mv $(NAME) ..
+		$(CC) -shared $(OBJS) -o $(NAME) $(CXXFLAGS) $(LD_FLAGS)
+		mv $(NAME) ..
 
 all:		$(NAME)
 

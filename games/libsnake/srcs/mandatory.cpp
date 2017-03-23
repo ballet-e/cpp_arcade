@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 21:03:40 2017 Arnaud WURMEL
-// Last update Wed Mar 22 23:41:09 2017 Arnaud WURMEL
+// Last update Thu Mar 23 19:56:12 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -70,10 +70,4 @@ extern "C" void	Play(void)
       if (std::cin.eof())
 	break;
     }
-}
-
-int	main(void)
-{
-  Play();
-  return 0;
 }

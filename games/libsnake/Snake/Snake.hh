@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Wed Mar 22 23:29:05 2017 Arnaud WURMEL
+// Last update Thu Mar 23 19:55:46 2017 Arnaud WURMEL
 //
 
 #ifndef SNAKE_HH_

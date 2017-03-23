@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Thu Mar 23 00:19:35 2017 Arnaud WURMEL
+// Last update Thu Mar 23 19:58:15 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -343,11 +343,9 @@ Arcade::Snake::~Snake() {}
 void	Arcade::Snake::whereAmI()
 {
   struct arcade::WhereAmI	*amI;
-  char				*buf;
   std::vector<std::pair<unsigned int, unsigned int> >::const_iterator	it;
 
-  buf = new char[sizeof(struct arcade::WhereAmI) + (_body.size() * sizeof(struct arcade::Position))];
-  amI = new (buf) struct arcade::WhereAmI;
+  amI = static_cast<struct arcade::WhereAmI *>(std::malloc(sizeof(struct arcade::WhereAmI) + (sizeof(struct arcade::Position) * _body.size())));
   amI->type = arcade::CommandType::WHERE_AM_I;
   amI->lenght = _body.size();
   it = _body.begin();
@@ -358,36 +356,38 @@ void	Arcade::Snake::whereAmI()
       ++it;
     }
   std::cout.write(reinterpret_cast<char *>(amI), sizeof(amI) + (_body.size() * sizeof(struct arcade::Position)));
-  delete [] buf;
+  std::free(amI);
 }
 
 void	Arcade::Snake::getMap()
 {
-  struct arcade::GetMap		*map;
-  char				*buf;
-  std::vector<std::vector<unsigned char> >::const_iterator	it;
+  struct arcade::GetMap	*map;
+  unsigned int		y;
+  unsigned int		x;
 
-  buf = new char[sizeof(struct arcade::GetMap) + (MAP_WIDTH * MAP_HEIGHT * sizeof(arcade::TileType))];
-  map = new (buf) struct arcade::GetMap;
-  map->type = arcade::CommandType::GET_MAP;
-  map->width = MAP_WIDTH;
-  map->height = MAP_HEIGHT;
-  it = _map.begin();
-  while (it != _map.end())
+  map = static_cast<struct arcade::GetMap *>(std::malloc(sizeof(struct arcade::GetMap) + (sizeof(arcade::TileType) * MAP_HEIGHT * MAP_WIDTH)));
+  if (map != NULL)
     {
-      std::vector<unsigned char>::const_iterator it_char = (*it).begin();
-
-      while (it_char != (*it).end())
+      map->width = MAP_WIDTH;
+      map->height = MAP_HEIGHT;
+      map->type = arcade::CommandType::GET_MAP;
+      y = 0;
+      while (y < MAP_HEIGHT)
 	{
-	  if (*it_char == 0)
-	    map->tile[(it_char - (*it).end()) + ((it - _map.end()) * MAP_WIDTH)] = arcade::TileType::EMPTY;
-	  else
-	    map->tile[(it_char - (*it).end()) + ((it - _map.end()) * MAP_WIDTH)] = arcade::TileType::BLOCK;
-	  ++it_char;
+	  x = 0;
+	  while (x < MAP_WIDTH)
+	    {
+	      if (_map[y][x] == 0)
+		map->tile[x + (y * MAP_WIDTH)] = arcade::TileType::EMPTY;
+	      else
+		map->tile[x + (y * MAP_WIDTH)] = arcade::TileType::BLOCK;
+	      ++x;
+	    }
+	  ++y;
 	}
+      std::cout.write(reinterpret_cast<char *>(map), sizeof(struct arcade::GetMap) + (sizeof(arcade::TileType) * MAP_HEIGHT * MAP_WIDTH));
+      std::free(map);
     }
-  std::cout.write(reinterpret_cast<char *>(map), sizeof(map) + (MAP_WIDTH * MAP_HEIGHT * sizeof(arcade::TileType)));
-  delete [] buf;
 }
 
 void	Arcade::Snake::goUp()
