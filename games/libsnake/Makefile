@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Fri Mar 24 15:29:03 2017 Arnaud WURMEL
+## Last update Fri Mar 24 16:55:15 2017 Victorien Fischer
 ##
 
 CC=		g++
@@ -25,7 +25,7 @@ CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./Snake -I ./Button -I ../../Interf
 
 LD_FLAGS=	-lsfml-graphics -lsfml-window -lsfml-system
 
-NAME=		lib_arcade_Nibbler.so
+NAME=		lib_arcade_nibbler.so
 
 $(NAME):	$(OBJS)
 		$(CC) -shared $(OBJS) -o $(NAME) $(CXXFLAGS) $(LD_FLAGS)
