@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Thu Mar 23 19:58:15 2017 Arnaud WURMEL
+// Last update Fri Mar 24 15:42:07 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -28,6 +28,7 @@ void	Arcade::Snake::initGame()
 {
   _map.clear();
   initMap();
+  _validatePosition = true;
   _hasEat = false;
   _isInit = true;
   _playing = true;
@@ -219,7 +220,8 @@ void	Arcade::Snake::moveSnake()
     {
       _playing = false;
       _end = true;
-      saveScore();
+      if (!_graderMode)
+	saveScore();
     }
 }
 
@@ -232,26 +234,30 @@ void	Arcade::Snake::saveScore() const
 
 void	Arcade::Snake::render()
 {
+  _validatePosition = true;
   if (!_isInit)
     initGame();
   if (_playing)
     moveSnake();
-  _graphic_library->setText(std::string("Niveau: ") + std::to_string(_score / 10), 10, Arcade::ElementPosition::LEFT);
-  _graphic_library->setText(std::string("Nibbler"), 10, Arcade::ElementPosition::CENTER, 25);
-  _graphic_library->setText(std::string("Score: ") + std::to_string(_score), 10, Arcade::ElementPosition::RIGHT);
-  if (!_end)
-    showMap();
-  else
-    _graphic_library->setText(std::string("Game Over"), _graphic_library->getDrawableHeight() / 2, Arcade::ElementPosition::CENTER, 25);
+  if (_graderMode == false)
+    {
+      _graphic_library->setText(std::string("Niveau: ") + std::to_string(_score / 10), 10, Arcade::ElementPosition::LEFT);
+      _graphic_library->setText(std::string("Nibbler"), 10, Arcade::ElementPosition::CENTER, 25);
+      _graphic_library->setText(std::string("Score: ") + std::to_string(_score), 10, Arcade::ElementPosition::RIGHT);
+      if (!_end)
+	showMap();
+      else
+	_graphic_library->setText(std::string("Game Over"), _graphic_library->getDrawableHeight() / 2, Arcade::ElementPosition::CENTER, 25);
+    }
 }
 
 bool	Arcade::Snake::shouldRender()
 {
   if (!_playing || _end)
     return true;
-  if ((20 - (_score / 10)) > 0)
+  if ((10 - (_score / 10)) > 0)
     {
-      if (_frame % (20 - (_score / 10)) <= 0)
+      if (_frame % (10 - (_score / 10)) <= 0)
 	{
 	  _frame = 1;
 	  return true;
@@ -265,36 +271,27 @@ bool	Arcade::Snake::shouldRender()
 
 void	Arcade::Snake::eventListener(Event const& e)
 {
-  bool	need_to_render = false;
-
+  if (!_validatePosition)
+    return ;
   if (e.getType() == Arcade::Event::KEY_UP && _dir != Arcade::Snake::DOWN)
     {
-      if (_dir != Arcade::Snake::UP)
-	need_to_render = true;
+      _validatePosition = false;
       _dir = Arcade::Snake::UP;
     }
   else if (e.getType() == Arcade::Event::KEY_DOWN && _dir != Arcade::Snake::UP)
     {
-      if (_dir != Arcade::Snake::DOWN)
-	need_to_render = true;
+      _validatePosition = false;
       _dir = Arcade::Snake::DOWN;
     }
   else if (e.getType() == Arcade::Event::KEY_LEFT && _dir != Arcade::Snake::RIGHT)
     {
-      if (_dir != Arcade::Snake::LEFT)
-	need_to_render = true;
+      _validatePosition = false;
       _dir = Arcade::Snake::LEFT;
     }
   else if (e.getType() == Arcade::Event::KEY_RIGHT && _dir != Arcade::Snake::LEFT)
     {
-      if (_dir != Arcade::Snake::RIGHT)
-	need_to_render = true;
+      _validatePosition = false;
       _dir = Arcade::Snake::RIGHT;
-    }
-  if (need_to_render)
-    {
-      render();
-      _frame = 1;
     }
 }
 
@@ -344,18 +341,21 @@ void	Arcade::Snake::whereAmI()
 {
   struct arcade::WhereAmI	*amI;
   std::vector<std::pair<unsigned int, unsigned int> >::const_iterator	it;
+  unsigned int	pos;
 
-  amI = static_cast<struct arcade::WhereAmI *>(std::malloc(sizeof(struct arcade::WhereAmI) + (sizeof(struct arcade::Position) * _body.size())));
+  amI = static_cast<struct arcade::WhereAmI *>(std::calloc(1, sizeof(struct arcade::WhereAmI) + (sizeof(struct arcade::Position) * _body.size())));
   amI->type = arcade::CommandType::WHERE_AM_I;
   amI->lenght = _body.size();
   it = _body.begin();
+  pos = 0;
   while (it != _body.end())
     {
-      amI->position[(it - _body.begin()) % _body.size()].x = (*it).first;
-      amI->position[(it - _body.begin()) % _body.size()].y = (*it).second;
+      amI->position[pos].x = (*it).first;
+      amI->position[pos].y = (*it).second;
       ++it;
+      ++pos;
     }
-  std::cout.write(reinterpret_cast<char *>(amI), sizeof(amI) + (_body.size() * sizeof(struct arcade::Position)));
+  std::cout.write(reinterpret_cast<char *>(amI), sizeof(struct arcade::WhereAmI) + (sizeof(struct arcade::Position) * _body.size()));
   std::free(amI);
 }
 
@@ -392,39 +392,40 @@ void	Arcade::Snake::getMap()
 
 void	Arcade::Snake::goUp()
 {
-
+  eventListener(Arcade::Event(Arcade::Event::KEY_UP));
 }
 
 void	Arcade::Snake::goDown()
 {
-  
+    eventListener(Arcade::Event(Arcade::Event::KEY_DOWN));
 }
 
 void	Arcade::Snake::goLeft()
 {
+    eventListener(Arcade::Event(Arcade::Event::KEY_LEFT));
 }
 
 void	Arcade::Snake::goRight()
 {
-
+  eventListener(Arcade::Event(Arcade::Event::KEY_RIGHT));
 }
 
 void	Arcade::Snake::goForward()
 {
-  std::cerr << "Not used for snake" << std::endl;
+  //  std::cerr << "Not used for snake" << std::endl;
 }
 
 void	Arcade::Snake::makeShoot()
 {
-  std::cerr << "Not used for snake" << std::endl;
+  //  std::cerr << "Not used for snake" << std::endl;
 }
 
 void	Arcade::Snake::illegal()
 {
-  std::cerr << "Not used for snake" << std::endl;
+  //std::cerr << "Not used for snake" << std::endl;
 }
 
 void	Arcade::Snake::playRound()
 {
-
+  render();
 }

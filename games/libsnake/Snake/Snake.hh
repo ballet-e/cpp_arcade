@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Thu Mar 23 19:55:46 2017 Arnaud WURMEL
+// Last update Fri Mar 24 15:40:44 2017 Arnaud WURMEL
 //
 
 #ifndef SNAKE_HH_
@@ -85,6 +85,7 @@ namespace	Arcade
     bool		_end;
 
     bool		_graderMode;
+    bool		_validatePosition;
 
     std::vector<std::pair<unsigned int, unsigned int> >	_body;
     std::vector<std::pair<unsigned int, unsigned int> >	_food;
