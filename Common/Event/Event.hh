@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 12:55:00 2017 Arnaud WURMEL
-// Last update Mon Mar 13 13:10:02 2017 Arnaud WURMEL
+// Last update Thu Mar 30 15:33:21 2017 Victorien Fischer
 //
 
 #ifndef EVENT_HH_
@@ -18,11 +18,11 @@ namespace	Arcade
   public:
     enum	EventType
       {
-	KEY_UP,
-	KEY_DOWN,
-	KEY_LEFT,
-	KEY_RIGHT,
-	KEY_SPACE
+	AKEY_UP,
+	AKEY_DOWN,
+	AKEY_LEFT,
+	AKEY_RIGHT,
+	AKEY_SPACE
       };
 
   public:

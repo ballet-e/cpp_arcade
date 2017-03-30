@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Wed Mar 22 16:29:46 2017 Arnaud WURMEL
+// Last update Thu Mar 30 16:17:46 2017 Victorien Fischer
 //
 
 #include <sys/types.h>
@@ -185,13 +185,13 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
 	  if (e.type == sf::Event::KeyPressed)
 	    {
 	      if (e.key.code == sf::Keyboard::Up)
-		game->eventListener(Event(Arcade::Event::KEY_UP));
+		game->eventListener(Event(Arcade::Event::AKEY_UP));
 	      else if (e.key.code == sf::Keyboard::Down)
-		game->eventListener(Event(Arcade::Event::KEY_DOWN));
+		game->eventListener(Event(Arcade::Event::AKEY_DOWN));
 	      else if (e.key.code == sf::Keyboard::Left)
-		game->eventListener(Event(Arcade::Event::KEY_LEFT));
+		game->eventListener(Event(Arcade::Event::AKEY_LEFT));
 	      else if (e.key.code == sf::Keyboard::Right)
-		game->eventListener(Event(Arcade::Event::KEY_RIGHT));
+		game->eventListener(Event(Arcade::Event::AKEY_RIGHT));
 	    }
 	  if (game->gameState() == Arcade::IGame::PLAYING)
 	    renderGame();

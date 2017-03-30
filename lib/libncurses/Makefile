@@ -5,18 +5,26 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Fri Mar 10 21:21:54 2017 Arnaud WURMEL
+## Last update Thu Mar 30 16:19:18 2017 Victorien Fischer
 ##
 
 CC=		g++
 
 SRCS_PATH=	srcs
 
-SRCS=		$(SRCS_PATH)/mandatory.cpp \
+COMMON_PATH=	../../Common/
+
+SRCS=		$(SRCS_PATH)/mandatory.cpp				\
+		$(COMMON_PATH)GraphicElements/Button/Button.cpp		\
+		$(COMMON_PATH)GraphicElements/HeritableObject/Selectable.cpp \
+		$(COMMON_PATH)StartScreen/StartScreen.cpp		\
+		$(COMMON_PATH)Event/Event.cpp				\
+		$(COMMON_PATH)ScoreManager/ScoreManager.cpp		\
+		Wrapper/NCursesWrapper.cpp
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-I ./Include -Wall -Wextra -std=c++11 -fPIC
+CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./Wrapper -I ../../Interfaces -I $(COMMON_PATH)ScoreManager -I $(COMMON_PATH)Event/ -I $(COMMON_PATH)Button -I $(COMMON_PATH)GraphicElements -I $(COMMON_PATH)GraphicElements/HeritableObject -I $(COMMON_PATH)GraphicElements/Button -I $(COMMON_PATH)StartScreen -lncurses
 
 NAME=		lib_arcade_ncurses.so
 

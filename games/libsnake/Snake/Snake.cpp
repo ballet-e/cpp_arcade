@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Fri Mar 24 15:42:07 2017 Arnaud WURMEL
+// Last update Thu Mar 30 16:20:31 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -273,22 +273,22 @@ void	Arcade::Snake::eventListener(Event const& e)
 {
   if (!_validatePosition)
     return ;
-  if (e.getType() == Arcade::Event::KEY_UP && _dir != Arcade::Snake::DOWN)
+  if (e.getType() == Arcade::Event::AKEY_UP && _dir != Arcade::Snake::DOWN)
     {
       _validatePosition = false;
       _dir = Arcade::Snake::UP;
     }
-  else if (e.getType() == Arcade::Event::KEY_DOWN && _dir != Arcade::Snake::UP)
+  else if (e.getType() == Arcade::Event::AKEY_DOWN && _dir != Arcade::Snake::UP)
     {
       _validatePosition = false;
       _dir = Arcade::Snake::DOWN;
     }
-  else if (e.getType() == Arcade::Event::KEY_LEFT && _dir != Arcade::Snake::RIGHT)
+  else if (e.getType() == Arcade::Event::AKEY_LEFT && _dir != Arcade::Snake::RIGHT)
     {
       _validatePosition = false;
       _dir = Arcade::Snake::LEFT;
     }
-  else if (e.getType() == Arcade::Event::KEY_RIGHT && _dir != Arcade::Snake::LEFT)
+  else if (e.getType() == Arcade::Event::AKEY_RIGHT && _dir != Arcade::Snake::LEFT)
     {
       _validatePosition = false;
       _dir = Arcade::Snake::RIGHT;
@@ -392,22 +392,22 @@ void	Arcade::Snake::getMap()
 
 void	Arcade::Snake::goUp()
 {
-  eventListener(Arcade::Event(Arcade::Event::KEY_UP));
+  eventListener(Arcade::Event(Arcade::Event::AKEY_UP));
 }
 
 void	Arcade::Snake::goDown()
 {
-    eventListener(Arcade::Event(Arcade::Event::KEY_DOWN));
+    eventListener(Arcade::Event(Arcade::Event::AKEY_DOWN));
 }
 
 void	Arcade::Snake::goLeft()
 {
-    eventListener(Arcade::Event(Arcade::Event::KEY_LEFT));
+    eventListener(Arcade::Event(Arcade::Event::AKEY_LEFT));
 }
 
 void	Arcade::Snake::goRight()
 {
-  eventListener(Arcade::Event(Arcade::Event::KEY_RIGHT));
+  eventListener(Arcade::Event(Arcade::Event::AKEY_RIGHT));
 }
 
 void	Arcade::Snake::goForward()
