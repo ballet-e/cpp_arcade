@@ -5,13 +5,13 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Fri Mar 10 21:12:00 2017 Arnaud WURMEL
-## Last update Fri Mar 24 17:13:24 2017 Arnaud WURMEL
+## Last update Sat Apr  1 19:49:54 2017 Victorien Fischer
 ##
 
 all:
 	make -C ./libsfml/
 #	make -C ./liblapin/
-#	make -C ./libncurses/
+	make -C ./libncurses/
 
 clean:
 	make -C ./libsfml/ clean

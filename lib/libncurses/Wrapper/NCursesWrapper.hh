@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:07:36 2017 Victorien Fischer
-// Last update Thu Mar 30 15:44:49 2017 Victorien Fischer
+// Last update Sat Apr  1 20:01:19 2017 Victorien Fischer
 //
 
 #ifndef __NCURSESWRAPPER_HH__
@@ -44,6 +44,11 @@ namespace Arcade
 
   private:
     Arcade::StartScreen	_screen;
+
+  private:
+    void	drawTitle();
+    void       	drawWindow();
+    bool	keyboardHandler(unsigned char);
   };
 }
 

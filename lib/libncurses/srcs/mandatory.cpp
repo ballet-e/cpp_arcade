@@ -5,12 +5,18 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 21:03:40 2017 Arnaud WURMEL
-// Last update Wed Mar 29 22:49:42 2017 Victorien Fischer
+// Last update Sat Apr  1 19:52:11 2017 Victorien Fischer
 //
 
+#include "NCursesWrapper.hh"
 #include "IGraphic.hh"
 
 extern "C" unsigned int	getMagic()
 {
   return (MAGIC_NUMBER);
+}
+
+extern "C" Arcade::ILibrary	*getLibrary()
+{
+  return (new Arcade::NCursesWrapper());
 }
