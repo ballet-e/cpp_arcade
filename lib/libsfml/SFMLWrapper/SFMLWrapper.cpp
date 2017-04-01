@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Thu Mar 30 16:17:46 2017 Victorien Fischer
+// Last update Sat Apr  1 19:51:29 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -204,7 +204,7 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
 	    renderGame();
 	}
       _window->display();
-      std::this_thread::sleep_for(std::chrono::milliseconds(20));
+      std::this_thread::sleep_for(std::chrono::milliseconds(2));
     }
 }
 
