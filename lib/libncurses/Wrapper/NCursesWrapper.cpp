@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Sat Apr  1 20:02:37 2017 Victorien Fischer
+// Last update Sun Apr  2 20:17:02 2017 Victorien Fischer
 //
 
 #include <thread>
@@ -14,47 +14,84 @@
 
 Arcade::NCursesWrapper::NCursesWrapper()
 {
+  initscr();
+  cbreak();
+  noecho();
+  start_color();
+  init_color(BLACK, 0, 0, 0);
+  init_color(GREEN, 39, 174, 96);
+  init_color(GREY, 120, 120, 120);
+  init_color(CYAN, 52, 152, 219);
+  init_color(YELLOW, 241, 196, 15);
+  init_color(RED, 231, 76, 60);
+  init_color(PINK, 231, 76, 60);
+  init_color(WHITE, 255, 255, 255);
+  _row = 0;
+  _col = 0;
+  _window = NULL;
 }
 
 bool	Arcade::NCursesWrapper::renderWindowStart()
 {
-  return (true);
+  int	key;
+
+  deleteWindow();
+  createWindow(80, 80);
+  drawWindow();
+  while (_window)
+    {
+      if ((key = wgetch(_window)) != ERR)
+	{
+	  if (keyboardHandler(key))
+	    drawWindow();
+	  if (_screen.getGamePath().size() > 0 &&
+	      _screen.getLibraryPath().size() > 0)
+	    {
+	      delwin(_window);
+	      _window = NULL;
+	    }
+	}
+      //std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+  return (_screen.getLibraryPath().size() && _screen.getGamePath().size());
 }
 
 void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int height, IGame *game)
 {
-  char	c;
+  int	key;
 
-  initscr();
-  nodelay(stdscr, TRUE);
+  deleteWindow();
+  createWindow(width, height);
   game->setUpGraphics(this);
-  while (42)
+  while (_window)
     {
-      if ((c = getch()))
+      if ((key = wgetch(_window)) != ERR)
 	{
-	  if (c == 27)
-	    break;
-	  if (c == KEY_UP)
+	  if (key == 27)
+	    {
+	      deleteWindow();
+	      return ;
+	    }
+	  if (key == KEY_UP)
 	    game->eventListener(Event(Arcade::Event::AKEY_UP));;
-	  if (c == KEY_DOWN)
+	  if (key == KEY_DOWN)
 	    game->eventListener(Event(Arcade::Event::AKEY_DOWN));;
-	  if (c == KEY_LEFT)
+	  if (key == KEY_LEFT)
 	    game->eventListener(Event(Arcade::Event::AKEY_LEFT));;
-	  if (c == KEY_RIGHT)
+	  if (key == KEY_RIGHT)
 	    game->eventListener(Event(Arcade::Event::AKEY_RIGHT));;
 	  if (game->gameState() == Arcade::IGame::PLAYING)
-	    refresh();
+	    wrefresh(_window);
 	}
       if (game->shouldRender())
 	{
-	  erase();
+	  wclear(_window);
 	  game->render();
 	  if (game->gameState() == Arcade::IGame::PLAYING)
-	    refresh();
+	    wrefresh(_window);
 	}
       std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
-  endwin();
 }
 
 bool	Arcade::NCursesWrapper::setPixel(unsigned int x, unsigned int y, unsigned int p)
@@ -67,7 +104,6 @@ Arcade::LibraryType	Arcade::NCursesWrapper::getLibraryType() const
   return (Arcade::GRAPHIC);
 }
 
-
 void	Arcade::NCursesWrapper::setText(std::string const &to_print,
 					unsigned int y,
 					Arcade::ElementPosition const &mode,
@@ -75,16 +111,21 @@ void	Arcade::NCursesWrapper::setText(std::string const &to_print,
 					Arcade::Colors const &fontColor,
 					Arcade::Colors const &backgroundColor)
 {
+  init_pair(1, fontColor, backgroundColor);
+  mvwin(_window, (_col - to_print.length())/2, _row / 2);
+  attron(COLOR_PAIR(1));
+  wprintw(_window, to_print.c_str());
+  attroff(COLOR_PAIR(1));
 }
 
 unsigned int	Arcade::NCursesWrapper::getDrawableHeight() const
 {
-  return (0);
+  return (_row);
 }
 
 unsigned int	Arcade::NCursesWrapper::getDrawableWidth() const
 {
-  return (0);
+  return (_col);
 }
 
 std::string const	&Arcade::NCursesWrapper::getLibraryPath() const
@@ -99,26 +140,48 @@ std::string const	&Arcade::NCursesWrapper::getGamePath() const
 
 void	Arcade::NCursesWrapper::drawTitle()
 {
-  mvprintw((COLS - 3)/2, 2, "Arcade");
+  mvwprintw(_window, 0, _row/2, "Arcade");
   if (_screen.getLibraryPath().size() == 0)
-    mvprintw((COLS - 2)/2, 10, "Choisir une bibliothèque pour lancer le jeu");
+    mvwprintw(_window, 2, _row/2, "Choisir une bibliothèque pour lancer le jeu");
   else
-    mvprintw((COLS - 2)/2, 10, "Choisir un jeu");
+    mvwprintw(_window, 2, _row/2, "Choisir un jeu");
+}
+
+bool	Arcade::NCursesWrapper::createWindow(unsigned int width, unsigned int height)
+{
+  _row = width;
+  _col = height;
+  resizeterm(_row, _col);
+  _window = newwin(width, height, 0, 0);
+  nodelay(_window, TRUE);
+  keypad(_window, TRUE);
+}
+
+bool	Arcade::NCursesWrapper::deleteWindow()
+{
+  if (_window)
+    {
+      delwin(_window);
+      _window = NULL;
+      return (true);
+    }
+  return (false);
 }
 
 void	Arcade::NCursesWrapper::drawWindow()
 {
-  erase();
+  wclear(_window);
   drawTitle();
   _screen.render(this);
-  refresh();
+  wrefresh(_window);
 }
 
-bool	Arcade::NCursesWrapper::keyboardHandler(unsigned char e)
+bool	Arcade::NCursesWrapper::keyboardHandler(int e)
 {
   if (e == 27)
     {
-      endwin();
+      deleteWindow();
+      _window = NULL;
       return (false);
     }
   if (e == KEY_ENTER)
@@ -128,4 +191,9 @@ bool	Arcade::NCursesWrapper::keyboardHandler(unsigned char e)
   if (e == KEY_DOWN)
     _screen.downKey();
   return (true);
+}
+
+Arcade::NCursesWrapper::~NCursesWrapper()
+{
+  endwin();
 }
