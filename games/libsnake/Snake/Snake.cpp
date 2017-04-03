@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Sat Apr  1 19:52:41 2017 Arnaud WURMEL
+// Last update Mon Apr  3 13:54:46 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -229,7 +229,7 @@ void	Arcade::Snake::saveScore() const
 {
   Arcade::ScoreManager	scoreManager;
 
-  scoreManager.addScoreForGame("Nibbler", _pseudo, _score);
+  scoreManager.addScoreForGame("snake", _pseudo, _score);
 }
 
 void	Arcade::Snake::render()
