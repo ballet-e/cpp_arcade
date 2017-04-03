@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Thu Mar 16 02:51:42 2017 Arnaud WURMEL
+// Last update Mon Apr  3 19:14:07 2017 Arnaud WURMEL
 //
 
 #ifndef SFMLWRAPPER_HH_
@@ -46,6 +46,7 @@ namespace Arcade
   public:
     std::string const&	getLibraryPath() const;
     std::string const&	getGamePath() const;
+    std::string const&	getPseudo() const;
 
   private:
     void	renderGame();

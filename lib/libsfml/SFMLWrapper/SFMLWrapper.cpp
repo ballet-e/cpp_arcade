@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Sat Apr  1 19:51:29 2017 Arnaud WURMEL
+// Last update Mon Apr  3 19:14:31 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -53,8 +53,10 @@ void	Arcade::SFMLWrapper::drawTitle()
     }
   if (_screen.getLibraryPath().size() == 0)
     text.setString("Choisir une bibliotheque pour lancer le jeu");
-  else
+  else if (_screen.getGamePath().size() == 0)
     text.setString("Choisir un jeu");
+  else
+    text.setString("Entrez votre pseudo");
   text.setCharacterSize(15);
   text.setColor(sf::Color::White);
   text.setPosition(600 - (text.getLocalBounds().width / 2), 120);
@@ -76,12 +78,22 @@ bool	Arcade::SFMLWrapper::keyboardHandler(sf::Event const& e)
       _window->close();
       return false;
     }
-  if (e.key.code == sf::Keyboard::Return)
+  else if (e.key.code == sf::Keyboard::Return)
     _screen.enterKey();
-  if (e.key.code == sf::Keyboard::Up)
+  else if (e.key.code == sf::Keyboard::Up)
     _screen.upKey();
-  if (e.key.code == sf::Keyboard::Down)
+  else if (e.key.code == sf::Keyboard::Down)
     _screen.downKey();
+  else if (e.key.code >= sf::Keyboard::A && e.key.code <= sf::Keyboard::Z)
+    {
+      std::string	alpha = "abcdefghijklmnopqrstuvwxyz";
+
+      _screen.enterChar(alpha[e.key.code - sf::Keyboard::A]);
+    }
+  else if (e.key.code == sf::Keyboard::Space)
+    _screen.enterChar(' ');
+  else if (e.key.code == sf::Keyboard::Delete || e.key.code == sf::Keyboard::Return)
+    _screen.enterChar(-1);
   return true;
 }
 
@@ -107,11 +119,13 @@ bool	Arcade::SFMLWrapper::renderWindowStart()
 	    }
 	  if (e.type == sf::Event::KeyPressed && keyboardHandler(e))
 	    drawWindow();
-	  if (_screen.getGamePath().size() > 0 && _screen.getLibraryPath().size() > 0)
+	  if (_screen.getGamePath().size() > 0 && _screen.getLibraryPath().size() > 0 &&
+	      _screen.getPseudo().size() > 0)
 	    _window->close();
 	}
     }
-  return _screen.getLibraryPath().size() && _screen.getGamePath().size();
+  return (_screen.getLibraryPath().size() && _screen.getGamePath().size() &&
+	  _screen.getPseudo().size() > 0);
 }
 
 bool	Arcade::SFMLWrapper::createWindow(unsigned int width, unsigned int height)
@@ -141,6 +155,11 @@ Arcade::LibraryType	Arcade::SFMLWrapper::getLibraryType() const
 std::string const&	Arcade::SFMLWrapper::getLibraryPath() const
 {
   return _screen.getLibraryPath();
+}
+
+std::string const&	Arcade::SFMLWrapper::getPseudo() const
+{
+  return _screen.getPseudo();
 }
 
 std::string const&	Arcade::SFMLWrapper::getGamePath() const

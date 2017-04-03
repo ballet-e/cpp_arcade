@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Mar 12 14:43:37 2017 Arnaud WURMEL
-// Last update Thu Mar 16 00:56:30 2017 Arnaud WURMEL
+// Last update Mon Apr  3 17:29:44 2017 Arnaud WURMEL
 //
 
 #ifndef BUTTON_HH_
@@ -15,21 +15,12 @@
 # include <algorithm>
 # include <utility>
 # include <string>
-# include <SFML/Window.hpp>
-# include <SFML/Graphics.hpp>
 # include "Selectable.hpp"
 
 namespace Arcade
 {
   class	Button : public Arcade::Selectable
   {
-  public:
-    enum	ButtonType
-      {
-	VALIDATE,
-	SELECT,
-	RETURN
-      };
   public:
     Button(std::string const&, unsigned int,
 	   Arcade::ElementPosition const&,

@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:00 2017 Arnaud WURMEL
-// Last update Mon Mar 13 17:30:30 2017 Arnaud WURMEL
+// Last update Mon Apr  3 19:24:28 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -105,6 +105,7 @@ bool	Arcade::ArcadeGames::getGameLibrary()
   if (game->getLibraryType() != Arcade::GAME)
     throw LoadingError("Wrong library type expected game");
   _game = dynamic_cast<IGame *>(game);
+  _game->setUpPseudo(_graphic->getPseudo());
   return (getGraphicLibrary());
 }
 

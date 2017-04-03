@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 11:29:38 2017 Arnaud WURMEL
-// Last update Thu Mar 16 00:52:12 2017 Arnaud WURMEL
+// Last update Mon Apr  3 19:14:58 2017 Arnaud WURMEL
 //
 
 #ifndef IGRAPHIC_HH_
@@ -54,6 +54,7 @@ namespace Arcade
   public:
     virtual std::string const&	getGamePath() const = 0;
     virtual std::string const&	getLibraryPath() const = 0;
+    virtual std::string const&	getPseudo() const = 0;
   };
 }
 
