@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Sun Apr  2 20:17:02 2017 Victorien Fischer
+// Last update Mon Apr  3 16:35:17 2017 Victorien Fischer
 //
 
 #include <thread>
@@ -112,10 +112,10 @@ void	Arcade::NCursesWrapper::setText(std::string const &to_print,
 					Arcade::Colors const &backgroundColor)
 {
   init_pair(1, fontColor, backgroundColor);
-  mvwin(_window, (_col - to_print.length())/2, _row / 2);
-  attron(COLOR_PAIR(1));
+  wmove(_window, (y / 12), (_row - to_print.length())/2);
+  wattron(_window, COLOR_PAIR(1));
   wprintw(_window, to_print.c_str());
-  attroff(COLOR_PAIR(1));
+  wattroff(_window, COLOR_PAIR(1));
 }
 
 unsigned int	Arcade::NCursesWrapper::getDrawableHeight() const
@@ -140,11 +140,15 @@ std::string const	&Arcade::NCursesWrapper::getGamePath() const
 
 void	Arcade::NCursesWrapper::drawTitle()
 {
-  mvwprintw(_window, 0, _row/2, "Arcade");
+  std::string	name("Arcade");
+  std::string	lib("Choisir une bibliothèque pour lancer le jeu");
+  std::string	game("Choisir un jeu");
+  
+  mvwprintw(_window, 4, (_row - name.length())/2, name.c_str());
   if (_screen.getLibraryPath().size() == 0)
-    mvwprintw(_window, 2, _row/2, "Choisir une bibliothèque pour lancer le jeu");
+    mvwprintw(_window, 7, (_row - lib.length())/2, lib.c_str());
   else
-    mvwprintw(_window, 2, _row/2, "Choisir un jeu");
+    mvwprintw(_window, 7, (_row - game.length())/2, game.c_str());
 }
 
 bool	Arcade::NCursesWrapper::createWindow(unsigned int width, unsigned int height)
