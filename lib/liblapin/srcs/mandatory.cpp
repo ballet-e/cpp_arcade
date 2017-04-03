@@ -5,10 +5,10 @@
 // Login   <wurmel_a@epitech.net>
 //
 // Started on  Fri Mar 10 21:03:40 2017 Arnaud WURMEL
-// Last update Mon Apr  3 13:05:45 2017 Ballet Erwan
+// Last update Mon Apr  3 22:42:05 2017 Arnaud WURMEL
 //
 
-#include "LIBLAPINWrapper.hh"
+#include "LapinWrapper.hh"
 #include "IGraphic.hh"
 
 extern "C" unsigned int	getMagic()
@@ -18,5 +18,5 @@ extern "C" unsigned int	getMagic()
 
 extern "C" Arcade::ILibrary	*getLibrary()
 {
-  return (new Arcade::LIBLAPINWrapper());
+  return (new Arcade::LapinWrapper());
 }

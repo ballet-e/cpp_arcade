@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Mar 12 14:50:35 2017 Arnaud WURMEL
-// Last update Mon Apr  3 14:55:08 2017 Arnaud WURMEL
+// Last update Mon Apr  3 22:57:25 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -40,16 +40,16 @@ void	Arcade::Button::renderObject(Arcade::IGraphic *graphic, bool isHighlighted)
   Arcade::Colors	backgroundColor;
   Arcade::Colors	frontColor;
 
-  backgroundColor = Arcade::Colors::BLACK;
-  frontColor = Arcade::Colors::WHITE;
+  backgroundColor = Arcade::Colors::ABLACK;
+  frontColor = Arcade::Colors::AWHITE;
   to_print = (this->isSelected() ? "* " : "") + _title;
   if (isHighlighted || this->isSelected())
     {
-      backgroundColor = Arcade::Colors::WHITE;
-      frontColor = Arcade::Colors::BLACK;
+      backgroundColor = Arcade::Colors::AWHITE;
+      frontColor = Arcade::Colors::ABLACK;
     }
   if (isEnabled() == false)
-    frontColor = Arcade::Colors::GREY;
+    frontColor = Arcade::Colors::AGREY;
   graphic->setText(to_print, _y, _pos, 15, frontColor, backgroundColor);
 }
 

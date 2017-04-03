@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Mon Apr  3 19:14:31 2017 Arnaud WURMEL
+// Last update Mon Apr  3 22:55:27 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -229,14 +229,14 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
 
 void	Arcade::SFMLWrapper::getColor(sf::Color colors[8]) const
 {
-  colors[BLACK] = sf::Color::Black;
-  colors[GREEN] = sf::Color(39, 174, 96);
-  colors[GREY] = sf::Color(120, 120, 120);
-  colors[CYAN] = sf::Color(52, 152, 219);
-  colors[YELLOW] = sf::Color(241, 196, 15);
-  colors[RED] = sf::Color(231, 76, 60);
-  colors[PINK] = sf::Color(142, 68, 173);
-  colors[WHITE] = sf::Color(255, 255, 255);
+  colors[ABLACK] = sf::Color::Black;
+  colors[AGREEN] = sf::Color(39, 174, 96);
+  colors[AGREY] = sf::Color(120, 120, 120);
+  colors[ACYAN] = sf::Color(52, 152, 219);
+  colors[AYELLOW] = sf::Color(241, 196, 15);
+  colors[ARED] = sf::Color(231, 76, 60);
+  colors[APINK] = sf::Color(142, 68, 173);
+  colors[AWHITE] = sf::Color(255, 255, 255);
 }
 
 void	Arcade::SFMLWrapper::setText(std::string const& to_print,

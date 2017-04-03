@@ -1,19 +1,17 @@
 //
-// SFMLWrapper.hh for cpp_arcade in /home/wurmel/rendu/cpp_arcade/lib/libsfml
+// LapinWrapper.hh for cpp_arcade in /home/wurmel_a/rendu/cpp_arcade/lib/libopengl
 // 
 // Made by Arnaud WURMEL
 // Login   <wurmel_a@epitech.net>
 // 
-// Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Mon Apr  3 22:55:38 2017 Arnaud WURMEL
+// Started on  Mon Apr  3 22:01:33 2017 Arnaud WURMEL
+// Last update Mon Apr  3 23:40:05 2017 Arnaud WURMEL
 //
 
-#ifndef SFMLWRAPPER_HH_
-# define SFMLWRAPPER_HH_
+#ifndef LAPINWRAPPER_HH_
+# define LAPINWRAPPER_HH_
 
-# include <SFML/Window.hpp>
-# include <SFML/Graphics.hpp>
-# include <vector>
+# include "lapin.h"
 # include "IGraphic.hh"
 # include "IGame.hh"
 # include "ScoreManager.hpp"
@@ -21,11 +19,12 @@
 
 namespace Arcade
 {
-  class	SFMLWrapper : public Arcade::IGraphic
+  class	LapinWrapper : public Arcade::IGraphic
   {
   public:
-    SFMLWrapper();
-    ~SFMLWrapper();
+    LapinWrapper();
+    ~LapinWrapper();
+
   public:
     bool	renderWindowStart();
     void	renderWindowGame(unsigned int, unsigned int, IGame*);
@@ -41,24 +40,20 @@ namespace Arcade
 
   private:
     bool	createWindow(unsigned int, unsigned int);
+    t_bunny_pixelarray	*createPixelArray(unsigned int, unsigned int);
 
   public:
     std::string const&	getLibraryPath() const;
     std::string const&	getGamePath() const;
     std::string const&	getPseudo() const;
 
-  private:
-    void	renderGame();
-    void	drawTitle();
-    void	drawWindow();
-    bool	keyboardHandler(sf::Event const&);
-    void	getColor(sf::Color[8]) const;
-
-  private:
-    sf::RenderWindow		*_window;
-    sf::Image			_image;
-    Arcade::StartScreen		_screen; 
+  public:
+    t_bunny_window	*_window;
+    t_bunny_pixelarray	*_root;
+    std::string		_library_path;
+    std::string		_game_path;
+    std::string		_pseudo;
   };
 }
 
-#endif /* !SMFLWRAPPER_HH_ */
+#endif /* !OPENGLWRAPPER_HH_ */

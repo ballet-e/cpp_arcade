@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 11:29:38 2017 Arnaud WURMEL
-// Last update Mon Apr  3 19:14:58 2017 Arnaud WURMEL
+// Last update Mon Apr  3 22:55:54 2017 Arnaud WURMEL
 //
 
 #ifndef IGRAPHIC_HH_
@@ -19,14 +19,14 @@ namespace Arcade
 {
   enum	Colors
     {
-      BLACK = 0,
-      GREY,
-      CYAN,
-      GREEN,
-      YELLOW,
-      RED,
-      PINK,
-      WHITE
+      ABLACK = 0,
+      AGREY,
+      ACYAN,
+      AGREEN,
+      AYELLOW,
+      ARED,
+      APINK,
+      AWHITE
     };
   enum	ElementPosition
     {
@@ -46,8 +46,8 @@ namespace Arcade
     virtual void	setText(std::string const&, unsigned int y,
 				Arcade::ElementPosition const&,
 				unsigned int fontSize = 15,
-				Arcade::Colors const& fontColor = Arcade::Colors::WHITE,
-				Arcade::Colors const& backgroundColor = Arcade::Colors::BLACK) = 0;
+				Arcade::Colors const& fontColor = Arcade::Colors::AWHITE,
+				Arcade::Colors const& backgroundColor = Arcade::Colors::ABLACK) = 0;
     virtual unsigned int	getDrawableHeight() const = 0;
     virtual unsigned int	getDrawableWidth() const = 0;
 

@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 14:01:45 2017 Arnaud WURMEL
-// Last update Mon Apr  3 19:07:44 2017 Arnaud WURMEL
+// Last update Mon Apr  3 22:56:19 2017 Arnaud WURMEL
 //
 
 #include "TextField.hpp"
@@ -26,14 +26,14 @@ void		Arcade::TextField::renderObject(Arcade::IGraphic *graphic,
   Arcade::Colors	backgroundColor;
   Arcade::Colors	frontColor;
 
-  backgroundColor = Arcade::Colors::BLACK;
-  frontColor = Arcade::Colors::WHITE;
+  backgroundColor = Arcade::Colors::ABLACK;
+  frontColor = Arcade::Colors::AWHITE;
   to_print = getTitle();
   to_print += "_";
   if (isHighlighted)
     {
-      backgroundColor = Arcade::Colors::WHITE;
-      frontColor = Arcade::Colors::BLACK;
+      backgroundColor = Arcade::Colors::AWHITE;
+      frontColor = Arcade::Colors::ABLACK;
     }
   graphic->setText(to_print, _y, _pos, 15, frontColor, backgroundColor);
 }

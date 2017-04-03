@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Mon Apr  3 13:54:46 2017 Arnaud WURMEL
+// Last update Mon Apr  3 22:57:09 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -124,9 +124,9 @@ void	Arcade::Snake::showMap()
       while (x < MAP_WIDTH)
 	{
 	  if (_map[y][x] == 0)
-	    drawSquare(square_size, Arcade::Colors::BLACK, x * square_size, y * square_size);
+	    drawSquare(square_size, Arcade::Colors::ABLACK, x * square_size, y * square_size);
 	  else if (_map[y][x] == 1)
-	    drawSquare(square_size, Arcade::Colors::RED, x * square_size, y * square_size);
+	    drawSquare(square_size, Arcade::Colors::ARED, x * square_size, y * square_size);
 	  ++x;
 	}
       ++y;
@@ -136,15 +136,15 @@ void	Arcade::Snake::showMap()
   while (it != _body.end())
     {
       if (it == _body.begin())
-	drawSquare(square_size, Arcade::Colors::GREEN, (*it).first * square_size, (*it).second * square_size);
+	drawSquare(square_size, Arcade::Colors::AGREEN, (*it).first * square_size, (*it).second * square_size);
       else
-	drawSquare(square_size, Arcade::Colors::YELLOW, (*it).first * square_size, (*it).second * square_size);
+	drawSquare(square_size, Arcade::Colors::AYELLOW, (*it).first * square_size, (*it).second * square_size);
       ++it;
     }
   it = _food.begin();
   while (it != _food.end())
     {
-      drawSquare(square_size, Arcade::Colors::CYAN, (*it).first * square_size, (*it).second * square_size);
+      drawSquare(square_size, Arcade::Colors::ACYAN, (*it).first * square_size, (*it).second * square_size);
       ++it;
     }
 }
