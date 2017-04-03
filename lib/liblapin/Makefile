@@ -5,19 +5,21 @@
 ## Login   <wurmel_a@epitech.net>
 ##
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Mon Mar 13 17:56:55 2017 Ballet Erwan
+## Last update Mon Apr  3 11:16:56 2017 Ballet Erwan
 ##
 
 CC=		g++
 
 SRCS_PATH=	srcs
 
+COMMON_PATH=	../../Common/
+
 SRCS=		$(SRCS_PATH)/mandatory.cpp \
 				LIBLAPINWrapper/LIBLAPINWrapper.cpp
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-I ./Include -I ./LIBLAPINWrapper -I ../../Interfaces -Wall -Wextra -std=c++11 -fPIC -I ~/.froot/include/ -llapin -L ~/.froot/lib/
+CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./Interface -I ./LIBLAPINWrapper -I ../../Interfaces/ -I $(COMMON_PATH)Event/ -I $(COMMON_PATH)ScoreManager/ -I $(COMMON_PATH)GraphicElements -I $(COMMON_PATH)GraphicElements/HeritableObject/ -I $(COMMON_PATH)GraphicElements/Button/ -I $(COMMON_PATH)StartScreen -I ~/.froot/include/ -llapin -L ~/.froot/lib/ -g
 
 LD_FLAGS=		-lsfml-graphics -lsfml-audio -lsfml-window \
 						-lsfml-system -lstdc++ -lm -ldl -lpthread

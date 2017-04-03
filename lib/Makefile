@@ -1,16 +1,16 @@
 ##
 ## Makefile for Arcade in /home/wurmel/rendu/cpp_arcade/lib
-## 
+##
 ## Made by Arnaud WURMEL
 ## Login   <wurmel_a@epitech.net>
-## 
+##
 ## Started on  Fri Mar 10 21:12:00 2017 Arnaud WURMEL
-## Last update Sat Apr  1 19:49:54 2017 Victorien Fischer
+## Last update Mon Apr  3 12:56:24 2017 Ballet Erwan
 ##
 
 all:
 	make -C ./libsfml/
-#	make -C ./liblapin/
+	make -C ./liblapin/
 	make -C ./libncurses/
 
 clean:

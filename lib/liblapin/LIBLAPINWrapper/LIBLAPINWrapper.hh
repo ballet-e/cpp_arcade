@@ -5,13 +5,17 @@
 // Login   <erwan.ballet@epitech.eu>
 //
 // Started on  Sun Mar 12 07:18:50 2017 Ballet Erwan
-// Last update Mon Mar 13 18:03:13 2017 Ballet Erwan
+// Last update Mon Apr  3 13:22:01 2017 Ballet Erwan
 //
 
 #ifndef LIBLAPINWRAPPER_HH_
 # define LIBLAPINWRAPPER_HH_
 
+# include "Button.hh"
 # include "IGraphic.hh"
+# include "IGame.hh"
+# include "ScoreManager.hpp"
+# include "StartScreen.hpp"
 # include "lapin.h"
 
 namespace Arcade
@@ -23,12 +27,24 @@ namespace Arcade
     ~LIBLAPINWrapper();
   public:
     bool	renderWindowStart();
-    void	renderWindowGame(unsigned int, unsigned int, IGame*);
+    void	renderWindowGame(unsigned int, unsigned int, IGame *);
     bool	setPixel(unsigned int x, unsigned int y, unsigned int color);
-    void	setText(std::string const&, unsigned int y, TextMode const&);
+    LibraryType	getLibraryType() const;
+    void	setText(std::string const&, unsigned int y,
+        Arcade::ElementPosition const&,
+        unsigned int fontSize,
+        Arcade::Colors const& fontColor,
+        Arcade::Colors const& backgroundColor);
+    unsigned int	getDrawableHeight() const;
+    unsigned int	getDrawableWidth() const;
+
+  public:
+    std::string const&	getGamePath() const;
+    std::string const&	getLibraryPath() const;
 
   private:
-    t_bunny_window  *win;
+    t_bunny_window  *_win;
+    Arcade::StartScreen		_screen;
   };
 }
 
