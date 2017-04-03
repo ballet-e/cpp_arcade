@@ -5,12 +5,14 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:07:36 2017 Victorien Fischer
-// Last update Sun Apr  2 19:52:30 2017 Victorien Fischer
+// Last update Mon Apr  3 21:53:44 2017 Victorien Fischer
 //
 
 #ifndef __NCURSESWRAPPER_HH__
 # define __NCURSESWRAPPER_HH__
 
+#include <map>
+#include <utility>
 #include <ncurses.h>
 #include "IGraphic.hh"
 #include "IGame.hh"
@@ -41,12 +43,14 @@ namespace Arcade
   public:
     std::string const	&getLibraryPath() const;
     std::string const	&getGamePath() const;
+    std::string const	&getPseudo() const;
 
   private:
     Arcade::StartScreen	_screen;
     WINDOW		*_window;
     int			_row;
     int			_col;
+    std::map<short, std::pair<short, short>>	_colorpair;
 
   private:
     void	drawTitle();
@@ -54,6 +58,7 @@ namespace Arcade
     bool	keyboardHandler(int);
     bool	createWindow(unsigned int, unsigned int);
     bool	deleteWindow();
+    short	createPair(short, short);
   };
 }
 

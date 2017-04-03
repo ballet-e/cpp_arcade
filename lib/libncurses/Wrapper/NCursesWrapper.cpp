@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Mon Apr  3 16:35:17 2017 Victorien Fischer
+// Last update Mon Apr  3 22:09:32 2017 Victorien Fischer
 //
 
 #include <thread>
@@ -46,12 +46,9 @@ bool	Arcade::NCursesWrapper::renderWindowStart()
 	    drawWindow();
 	  if (_screen.getGamePath().size() > 0 &&
 	      _screen.getLibraryPath().size() > 0)
-	    {
-	      delwin(_window);
-	      _window = NULL;
-	    }
+	    deleteWindow();
 	}
-      //std::this_thread::sleep_for(std::chrono::milliseconds(1));
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
   return (_screen.getLibraryPath().size() && _screen.getGamePath().size());
 }
@@ -111,11 +108,34 @@ void	Arcade::NCursesWrapper::setText(std::string const &to_print,
 					Arcade::Colors const &fontColor,
 					Arcade::Colors const &backgroundColor)
 {
-  init_pair(1, fontColor, backgroundColor);
+  int	id_pair;
+
+  id_pair = createPair(fontColor, backgroundColor);
   wmove(_window, (y / 12), (_row - to_print.length())/2);
   wattron(_window, COLOR_PAIR(1));
   wprintw(_window, to_print.c_str());
   wattroff(_window, COLOR_PAIR(1));
+}
+
+short		Arcade::NCursesWrapper::createPair(short font,
+						   short back)
+{
+  short		id;
+  std::map<short, std::pair<short, short>>::iterator	it;
+
+  id = 1;
+  it = _colorpair.begin();
+  while (it != _colorpair.end())
+    {
+      id += 1;
+      if ((it->second).first == font && (it->second).second == back)
+	return (it->first);
+      it++;
+    }
+  init_pair(id, font, back);
+  _colorpair.insert(std::pair<short, std::pair<short, short>>
+		    (id, std::pair<short, short>(font, back)));
+  return (id);
 }
 
 unsigned int	Arcade::NCursesWrapper::getDrawableHeight() const
@@ -136,6 +156,11 @@ std::string const	&Arcade::NCursesWrapper::getLibraryPath() const
 std::string const	&Arcade::NCursesWrapper::getGamePath() const
 {
   return (_screen.getGamePath());
+}
+
+std::string const	&Arcade::NCursesWrapper::getPseudo() const
+{
+  return (_screen.getPseudo());
 }
 
 void	Arcade::NCursesWrapper::drawTitle()
@@ -159,6 +184,7 @@ bool	Arcade::NCursesWrapper::createWindow(unsigned int width, unsigned int heigh
   _window = newwin(width, height, 0, 0);
   nodelay(_window, TRUE);
   keypad(_window, TRUE);
+  return (true);
 }
 
 bool	Arcade::NCursesWrapper::deleteWindow()
@@ -185,7 +211,6 @@ bool	Arcade::NCursesWrapper::keyboardHandler(int e)
   if (e == 27)
     {
       deleteWindow();
-      _window = NULL;
       return (false);
     }
   if (e == KEY_ENTER)
