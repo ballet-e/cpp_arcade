@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Thu Mar 30 16:19:18 2017 Victorien Fischer
+## Last update Mon Apr  3 22:11:38 2017 Victorien Fischer
 ##
 
 CC=		g++
@@ -16,6 +16,7 @@ COMMON_PATH=	../../Common/
 
 SRCS=		$(SRCS_PATH)/mandatory.cpp				\
 		$(COMMON_PATH)GraphicElements/Button/Button.cpp		\
+		$(COMMON_PATH)GraphicElements/TextField/TextField.cpp	\
 		$(COMMON_PATH)GraphicElements/HeritableObject/Selectable.cpp \
 		$(COMMON_PATH)StartScreen/StartScreen.cpp		\
 		$(COMMON_PATH)Event/Event.cpp				\
