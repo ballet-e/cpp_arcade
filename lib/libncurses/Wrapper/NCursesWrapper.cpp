@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Tue Apr  4 19:56:19 2017 Victorien Fischer
+// Last update Tue Apr  4 23:45:40 2017 Arnaud WURMEL
 //
 
 #include <thread>
@@ -26,8 +26,6 @@ Arcade::NCursesWrapper::NCursesWrapper()
   init_color(ARED + 8, 231, 76, 60);
   init_color(APINK + 8, 231, 76, 60);
   init_color(AWHITE + 8, 255, 255, 255);
-  _row = 0;
-  _col = 0;
   _window = NULL;
 }
 
@@ -36,7 +34,7 @@ bool	Arcade::NCursesWrapper::renderWindowStart()
   int	key;
 
   deleteWindow();
-  createWindow(80, 80);
+  createWindow();
   drawWindow();
   while (_window)
     {
@@ -53,12 +51,13 @@ bool	Arcade::NCursesWrapper::renderWindowStart()
   return (_screen.getLibraryPath().size() && _screen.getGamePath().size());
 }
 
-void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int height, IGame *game)
+void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int height,
+						 IGame *game)
 {
   int	key;
 
   deleteWindow();
-  createWindow(width / 18, height / 18);
+  createWindow();
   game->setUpGraphics(this);
   while (_window)
     {
@@ -95,7 +94,7 @@ bool	Arcade::NCursesWrapper::setPixel(unsigned int x, unsigned int y, unsigned i
 {
   short	id_pair;
 
-  id_pair = createPair(color + 8, color + 8);
+  id_pair = createPair(color, color);
   if (x >= getDrawableWidth() || y >= getDrawableHeight())
     return (false);
   attron(COLOR_PAIR(id_pair));
@@ -122,13 +121,13 @@ void	Arcade::NCursesWrapper::setText(std::string const &to_print,
   id_pair = createPair(fontColor + 8, backgroundColor + 8);
   x = 1;
   if (mode == Arcade::ElementPosition::CENTER)
-    x = (_row - to_print.length())/2;
+    x = (COLS - to_print.size()) / 2;
   else if (mode == Arcade::ElementPosition::RIGHT)
-    x = (_row - to_print.length() - 1);
+    x = (COLS - to_print.size() - 1);
   else if (mode == Arcade::ElementPosition::RIGHT_CENTER)
-    x = (_row / 2) - 50;
+    x = (COLS / 2) + 2;
   else if (mode == Arcade::ElementPosition::LEFT_CENTER)
-    x = (_row / 2) - (to_print.length() + 50);
+    x = (COLS / 2) - (to_print.size() + 2);
   wmove(_window, (y / 18), x);
   wattron(_window, COLOR_PAIR(id_pair));
   wprintw(_window, to_print.c_str());
@@ -158,12 +157,10 @@ short		Arcade::NCursesWrapper::createPair(short font,
 
 unsigned int	Arcade::NCursesWrapper::getDrawableHeight() const
 {
-  return (_row);
 }
 
 unsigned int	Arcade::NCursesWrapper::getDrawableWidth() const
 {
-  return (_col);
 }
 
 std::string const	&Arcade::NCursesWrapper::getLibraryPath() const
@@ -188,21 +185,18 @@ void	Arcade::NCursesWrapper::drawTitle()
   std::string	game("Choisir un jeu");
   std::string	pseudo("Entrez votre pseudo");
   
-  mvwprintw(_window, 4, (_row - name.length())/2, name.c_str());
+  mvwprintw(_window, 4, (COLS - name.length())/2, name.c_str());
   if (_screen.getLibraryPath().size() == 0)
-    mvwprintw(_window, 7, (_row - lib.length())/2, lib.c_str());
+    mvwprintw(_window, 7, (COLS - lib.length())/2, lib.c_str());
   else if (_screen.getGamePath().size() == 0)
-    mvwprintw(_window, 7, (_row - game.length())/2, game.c_str());
+    mvwprintw(_window, 7, (COLS - game.length())/2, game.c_str());
   else
-    mvwprintw(_window, 7, (_row - pseudo.length())/2, pseudo.c_str());
+    mvwprintw(_window, 7, (COLS - pseudo.length())/2, pseudo.c_str());
 }
 
-bool	Arcade::NCursesWrapper::createWindow(unsigned int width, unsigned int height)
+bool	Arcade::NCursesWrapper::createWindow()
 {
-  _row = width;
-  _col = height;
-  resizeterm(_row, _col);
-  _window = newwin(width, height, 0, 0);
+  _window = newwin(0, 0, 0, 0);
   nodelay(_window, TRUE);
   keypad(_window, TRUE);
   return (true);
@@ -213,6 +207,7 @@ bool	Arcade::NCursesWrapper::deleteWindow()
   if (_window)
     {
       delwin(_window);
+      endwin();
       _window = NULL;
       return (true);
     }
@@ -245,5 +240,5 @@ bool	Arcade::NCursesWrapper::keyboardHandler(int e)
 
 Arcade::NCursesWrapper::~NCursesWrapper()
 {
-  endwin();
+
 }

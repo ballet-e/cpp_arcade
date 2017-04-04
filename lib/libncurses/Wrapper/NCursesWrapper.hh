@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:07:36 2017 Victorien Fischer
-// Last update Tue Apr  4 01:07:18 2017 Victorien Fischer
+// Last update Tue Apr  4 23:43:54 2017 Arnaud WURMEL
 //
 
 #ifndef __NCURSESWRAPPER_HH__
@@ -48,15 +48,13 @@ namespace Arcade
   private:
     Arcade::StartScreen	_screen;
     WINDOW		*_window;
-    int			_row;
-    int			_col;
     std::map<short, std::pair<short, short>>	_colorpair;
 
   private:
     void	drawTitle();
     void       	drawWindow();
     bool	keyboardHandler(int);
-    bool	createWindow(unsigned int, unsigned int);
+    bool	createWindow();
     bool	deleteWindow();
     short	createPair(short, short);
   };
