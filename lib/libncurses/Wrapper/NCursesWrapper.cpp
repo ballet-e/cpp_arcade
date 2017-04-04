@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Mon Apr  3 22:09:32 2017 Victorien Fischer
+// Last update Tue Apr  4 01:48:46 2017 Victorien Fischer
 //
 
 #include <thread>
@@ -18,14 +18,14 @@ Arcade::NCursesWrapper::NCursesWrapper()
   cbreak();
   noecho();
   start_color();
-  init_color(BLACK, 0, 0, 0);
-  init_color(GREEN, 39, 174, 96);
-  init_color(GREY, 120, 120, 120);
-  init_color(CYAN, 52, 152, 219);
-  init_color(YELLOW, 241, 196, 15);
-  init_color(RED, 231, 76, 60);
-  init_color(PINK, 231, 76, 60);
-  init_color(WHITE, 255, 255, 255);
+  init_color(ABLACK + 8, 0, 0, 0);
+  init_color(AGREEN + 8, 39, 174, 96);
+  init_color(AGREY + 8, 120, 120, 120);
+  init_color(ACYAN + 8, 52, 152, 219);
+  init_color(AYELLOW + 8, 241, 196, 15);
+  init_color(ARED + 8, 231, 76, 60);
+  init_color(APINK + 8, 231, 76, 60);
+  init_color(AWHITE + 8, 255, 255, 255);
   _row = 0;
   _col = 0;
   _window = NULL;
@@ -108,13 +108,23 @@ void	Arcade::NCursesWrapper::setText(std::string const &to_print,
 					Arcade::Colors const &fontColor,
 					Arcade::Colors const &backgroundColor)
 {
-  int	id_pair;
+  int		id_pair;
+  unsigned int	x;
 
-  id_pair = createPair(fontColor, backgroundColor);
-  wmove(_window, (y / 12), (_row - to_print.length())/2);
-  wattron(_window, COLOR_PAIR(1));
+  id_pair = createPair(fontColor + 8, backgroundColor + 8);
+  x = 1;
+  if (mode == Arcade::ElementPosition::CENTER)
+    x = (_row - to_print.length())/2;
+  else if (mode == Arcade::ElementPosition::RIGHT)
+    x = (_row - to_print.length() - 1);
+  else if (mode == Arcade::ElementPosition::RIGHT_CENTER)
+    x = (_row / 2) - 50;
+  else if (mode == Arcade::ElementPosition::LEFT_CENTER)
+    x = (_row / 2) - (to_print.length() + 50);
+  wmove(_window, (y / 20), x);
+  wattron(_window, COLOR_PAIR(id_pair));
   wprintw(_window, to_print.c_str());
-  wattroff(_window, COLOR_PAIR(1));
+  wattroff(_window, COLOR_PAIR(id_pair));
 }
 
 short		Arcade::NCursesWrapper::createPair(short font,
@@ -168,12 +178,15 @@ void	Arcade::NCursesWrapper::drawTitle()
   std::string	name("Arcade");
   std::string	lib("Choisir une bibliothèque pour lancer le jeu");
   std::string	game("Choisir un jeu");
+  std::string	pseudo("Entrez votre pseudo");
   
   mvwprintw(_window, 4, (_row - name.length())/2, name.c_str());
   if (_screen.getLibraryPath().size() == 0)
     mvwprintw(_window, 7, (_row - lib.length())/2, lib.c_str());
-  else
+  else if (_screen.getGamePath().size() == 0)
     mvwprintw(_window, 7, (_row - game.length())/2, game.c_str());
+  else
+    mvwprintw(_window, 7, (_row - pseudo.length())/2, pseudo.c_str());
 }
 
 bool	Arcade::NCursesWrapper::createWindow(unsigned int width, unsigned int height)
@@ -213,7 +226,7 @@ bool	Arcade::NCursesWrapper::keyboardHandler(int e)
       deleteWindow();
       return (false);
     }
-  if (e == KEY_ENTER)
+  if (e == 10)
     _screen.enterKey();
   if (e == KEY_UP)
     _screen.upKey();

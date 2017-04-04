@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:07:36 2017 Victorien Fischer
-// Last update Mon Apr  3 21:53:44 2017 Victorien Fischer
+// Last update Tue Apr  4 01:07:18 2017 Victorien Fischer
 //
 
 #ifndef __NCURSESWRAPPER_HH__
@@ -35,8 +35,8 @@ namespace Arcade
     void	setText(std::string const &to_print, unsigned int y,
 			Arcade::ElementPosition const &mode,
 			unsigned int fontSize = 15,
-			Arcade::Colors const &fontColor = Arcade::Colors::WHITE,
-			Arcade::Colors const &backgroundColor = Arcade::Colors::BLACK);
+			Arcade::Colors const &fontColor = Arcade::Colors::AWHITE,
+			Arcade::Colors const &backgroundColor = Arcade::Colors::ABLACK);
     unsigned int	getDrawableHeight() const;
     unsigned int	getDrawableWidth() const;
 
