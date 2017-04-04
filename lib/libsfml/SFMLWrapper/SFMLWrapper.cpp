@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Tue Apr  4 19:01:37 2017 Arnaud WURMEL
+// Last update Tue Apr  4 19:35:10 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -92,7 +92,7 @@ bool	Arcade::SFMLWrapper::keyboardHandler(sf::Event const& e)
     }
   else if (e.key.code == sf::Keyboard::Space)
     _screen.enterChar(' ');
-  else if (e.key.code == sf::Keyboard::Delete || e.key.code == sf::Keyboard::Return)
+  else if (e.key.code == sf::Keyboard::Delete || e.key.code == sf::Keyboard::BackSpace)
     _screen.enterChar(-1);
   return true;
 }

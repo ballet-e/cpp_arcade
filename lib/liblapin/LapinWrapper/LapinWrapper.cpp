@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 22:07:33 2017 Arnaud WURMEL
-// Last update Tue Apr  4 19:10:03 2017 Arnaud WURMEL
+// Last update Tue Apr  4 19:36:16 2017 Arnaud WURMEL
 //
 
 #include "LapinHelper.hh"
@@ -80,7 +80,7 @@ static t_bunny_response	keyStartMenu(t_bunny_event_state sta,
 
       wrapper->_screen.enterChar(alpha[value]);
     }
-  else if (sym == BKS_DELETE)
+  else if (sym == BKS_DELETE || sym == BKS_BACKSPACE)
     wrapper->_screen.enterChar(-1);
   else if (sym == BKS_SPACE)
     wrapper->_screen.enterChar(' ');
