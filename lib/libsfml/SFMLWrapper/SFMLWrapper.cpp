@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Mon Apr  3 22:55:27 2017 Arnaud WURMEL
+// Last update Tue Apr  4 13:38:55 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -143,7 +143,7 @@ bool	Arcade::SFMLWrapper::setPixel(unsigned int x, unsigned int y,
   if (x >= _image.getSize().x ||
       y >= _image.getSize().x)
     return false;
-  _image.setPixel(x, y, colors[color % 8]);
+  _image.setPixel(x, y, colors[color % 9]);
   return true;
 }
 
@@ -173,7 +173,7 @@ void	Arcade::SFMLWrapper::renderGame()
   sf::Sprite	sprite;
 
   texture.loadFromImage(_image);
-  sprite.setTexture(texture, true);
+  sprite.setTexture(texture);
   sprite.setPosition((_window->getView().getSize().x - 600) / 2, 100);
   _window->draw(sprite);
 }
@@ -189,6 +189,7 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
     }
   createWindow(width, height);
   _image.create(600, 600);
+  _window->setFramerateLimit(60);
   game->setUpGraphics(this);
   while (_window->isOpen())
     {
@@ -216,18 +217,18 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
 	    renderGame();
 	}
       if (game->shouldRender())
-	{
- 	  _window->clear();
+      	{
+      	  _window->clear();
 	  game->render();
 	  if (game->gameState() == Arcade::IGame::PLAYING)
 	    renderGame();
+	  _window->display();
 	}
-      _window->display();
-      std::this_thread::sleep_for(std::chrono::milliseconds(2));
+      //      std::this_thread::sleep_for(std::chrono::milliseconds(2));
     }
 }
 
-void	Arcade::SFMLWrapper::getColor(sf::Color colors[8]) const
+void	Arcade::SFMLWrapper::getColor(sf::Color colors[9]) const
 {
   colors[ABLACK] = sf::Color::Black;
   colors[AGREEN] = sf::Color(39, 174, 96);
@@ -237,6 +238,7 @@ void	Arcade::SFMLWrapper::getColor(sf::Color colors[8]) const
   colors[ARED] = sf::Color(231, 76, 60);
   colors[APINK] = sf::Color(142, 68, 173);
   colors[AWHITE] = sf::Color(255, 255, 255);
+  colors[ABLUE] = sf::Color(41, 128, 185);
 }
 
 void	Arcade::SFMLWrapper::setText(std::string const& to_print,
@@ -248,7 +250,7 @@ void	Arcade::SFMLWrapper::setText(std::string const& to_print,
 {
   sf::Text	text;
   sf::Font	font;
-  sf::Color	colors[8];
+  sf::Color	colors[9];
   unsigned int	x;
 
   if (!font.loadFromFile("Ressources/font.ttf"))

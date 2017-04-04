@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Tue Apr  4 11:20:41 2017 Arnaud WURMEL
+## Last update Tue Apr  4 12:26:16 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -21,11 +21,12 @@ SRCS=		$(SRCS_PATH)/mandatory.cpp \
 		$(COMMON_PATH)StartScreen/StartScreen.cpp \
 		$(COMMON_PATH)Event/Event.cpp \
 		$(COMMON_PATH)ScoreManager/ScoreManager.cpp \
-		LapinWrapper/LapinWrapper.cpp
+		LapinWrapper/LapinWrapper.cpp \
+		LapinHelper/LapinHelper.cpp
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./Interface -I ./LapinWrapper -I ../../Interfaces/ -I $(COMMON_PATH)Event/ -I $(COMMON_PATH)ScoreManager/ -I $(COMMON_PATH)GraphicElements -I $(COMMON_PATH)GraphicElements/HeritableObject/ -I $(COMMON_PATH)GraphicElements/Button/ -I $(COMMON_PATH)StartScreen
+CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./Interface -I ./LapinWrapper -I ../../Interfaces/ -I $(COMMON_PATH)Event/ -I $(COMMON_PATH)ScoreManager/ -I $(COMMON_PATH)GraphicElements -I $(COMMON_PATH)GraphicElements/HeritableObject/ -I $(COMMON_PATH)GraphicElements/Button/ -I $(COMMON_PATH)StartScreen -I ./LapinHelper
 
 LD_FLAGS=	-lsfml-system -lsfml-window -lsfml-graphics -llapin -L /home/wurmel_a/.froot/lib/ -lusb -lstdc++
 

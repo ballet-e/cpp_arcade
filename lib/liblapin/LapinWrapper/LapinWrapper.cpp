@@ -5,24 +5,48 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 22:07:33 2017 Arnaud WURMEL
-// Last update Tue Apr  4 11:36:12 2017 Arnaud WURMEL
+// Last update Tue Apr  4 13:09:19 2017 Arnaud WURMEL
 //
 
+#include "LapinHelper.hh"
 #include "LapinWrapper.hh"
 
-static t_bunny_response	keyStartMenu(void *data)
+static t_bunny_response	keyStartMenu(t_bunny_event_state sta,
+				     t_bunny_keysym sym,
+				     void *data)
 {
   Arcade::LapinWrapper	*wrapper;
 
+  if (sta == GO_UP)
+    return (GO_ON);
   wrapper = static_cast<Arcade::LapinWrapper *>(data);
-  (void)wrapper;
+  if (sym == BKS_ESCAPE)
+    return (EXIT_ON_ERROR);
+  else if (sym == BKS_RETURN)
+    wrapper->_screen.enterKey();
+  else if (sym == BKS_UP)
+    wrapper->_screen.upKey();
+  else if (sym == BKS_DOWN)
+    wrapper->_screen.downKey();
+  else if (sym >= BKS_A && sym <= BKS_Z)
+    {
+      std::string	alpha = "abcdefghijklmnopqrstuvwxyz";
+      int		value = static_cast<int>(sym) - static_cast<int>(BKS_A);
+      
+      wrapper->_screen.enterChar(value);
+    }
+  return (GO_ON);
 }
 
 static t_bunny_response	loopStartMenu(void *data)
 {
   Arcade::LapinWrapper	*wrapper;
+  t_color		background_color;
 
+  background_color.full = 0;
   wrapper = static_cast<Arcade::LapinWrapper *>(data);
+  Arcade::LapinHelper::setPixArrayColor(wrapper->_root, background_color);
+  wrapper->_screen.render(wrapper);
   bunny_blit(&wrapper->_window->buffer, &wrapper->_root->clipable, NULL);
   bunny_display(wrapper->_window);
   return (GO_ON);
@@ -35,15 +59,16 @@ Arcade::LapinWrapper::LapinWrapper()
   _library_path = "";
   _game_path = "";
   _pseudo = "";
+  _font = bunny_load_pixelarray("Ressources/font.png");
 }
 
 bool	Arcade::LapinWrapper::renderWindowStart()
 {
   if (createWindow(1200, 900) == false)
     return false;
+  bunny_set_key_response(&keyStartMenu);
   bunny_set_loop_main_function(&loopStartMenu);
-  bunny_loop(this->_window, 50, this);
-  return true;
+  return bunny_loop(this->_window, 50, this) == EXIT_ON_SUCCESS;
 }
 
 bool	Arcade::LapinWrapper::createWindow(unsigned int width, unsigned int height)
@@ -85,7 +110,16 @@ void	Arcade::LapinWrapper::setText(std::string const& to_print, unsigned int y,
 				      Arcade::Colors const& fontColor,
 				      Arcade::Colors const& backgroundColor)
 {
+  t_bunny_position	text_pos;
+  t_color		test;
 
+  text_pos.y = y;
+  text_pos.x = 0;
+  if (_font == NULL)
+    return ;
+  test.full = WHITE;
+  Arcade::LapinHelper::setText(to_print.c_str(), _root,
+			       _font, text_pos, test);
 }
 
 t_bunny_pixelarray	*Arcade::LapinWrapper::createPixelArray(unsigned int width,

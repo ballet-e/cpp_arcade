@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 11:29:38 2017 Arnaud WURMEL
-// Last update Mon Apr  3 22:55:54 2017 Arnaud WURMEL
+// Last update Tue Apr  4 13:17:06 2017 Arnaud WURMEL
 //
 
 #ifndef IGRAPHIC_HH_
@@ -26,7 +26,8 @@ namespace Arcade
       AYELLOW,
       ARED,
       APINK,
-      AWHITE
+      AWHITE,
+      ABLUE
     };
   enum	ElementPosition
     {
