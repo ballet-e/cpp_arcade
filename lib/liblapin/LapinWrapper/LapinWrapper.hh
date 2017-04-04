@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 22:01:33 2017 Arnaud WURMEL
-// Last update Mon Apr  3 23:40:05 2017 Arnaud WURMEL
+// Last update Tue Apr  4 11:26:54 2017 Arnaud WURMEL
 //
 
 #ifndef LAPINWRAPPER_HH_
@@ -48,6 +48,7 @@ namespace Arcade
     std::string const&	getPseudo() const;
 
   public:
+    Arcade::StartScreen	_screen;
     t_bunny_window	*_window;
     t_bunny_pixelarray	*_root;
     std::string		_library_path;

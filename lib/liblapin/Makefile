@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Mon Apr  3 23:31:31 2017 Arnaud WURMEL
+## Last update Tue Apr  4 11:20:41 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -29,7 +29,7 @@ CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./Interface -I ./LapinWrapper -I ..
 
 LD_FLAGS=	-lsfml-system -lsfml-window -lsfml-graphics -llapin -L /home/wurmel_a/.froot/lib/ -lusb -lstdc++
 
-NAME=		lib_arcade_opengl.so
+NAME=		lib_arcade_lapin.so
 
 $(NAME):	$(OBJS)
 		$(CC) -shared $(OBJS) -o $(NAME) $(CXXFLAGS) $(LD_FLAGS)

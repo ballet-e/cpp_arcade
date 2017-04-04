@@ -5,10 +5,18 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 22:07:33 2017 Arnaud WURMEL
-// Last update Mon Apr  3 23:41:38 2017 Arnaud WURMEL
+// Last update Tue Apr  4 11:36:12 2017 Arnaud WURMEL
 //
 
 #include "LapinWrapper.hh"
+
+static t_bunny_response	keyStartMenu(void *data)
+{
+  Arcade::LapinWrapper	*wrapper;
+
+  wrapper = static_cast<Arcade::LapinWrapper *>(data);
+  (void)wrapper;
+}
 
 static t_bunny_response	loopStartMenu(void *data)
 {
