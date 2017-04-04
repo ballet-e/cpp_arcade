@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 22:07:33 2017 Arnaud WURMEL
-// Last update Tue Apr  4 16:09:26 2017 Arnaud WURMEL
+// Last update Tue Apr  4 19:10:03 2017 Arnaud WURMEL
 //
 
 #include "LapinHelper.hh"
@@ -27,7 +27,8 @@ static t_bunny_response	loopGame(void *data)
       bunny_blit(&wrapper->_window->buffer, &wrapper->_root->clipable, NULL);
       pos.x = (1200 - wrapper->getDrawableWidth()) / 2;
       pos.y = 100;
-      bunny_blit(&wrapper->_window->buffer, &wrapper->_game_pix->clipable, &pos);
+      if (wrapper->_game->gameState() == Arcade::IGame::PLAYING)
+	bunny_blit(&wrapper->_window->buffer, &wrapper->_game_pix->clipable, &pos);
       bunny_display(wrapper->_window);
     }
   return (GO_ON);
@@ -44,6 +45,14 @@ static t_bunny_response	keyGame(t_bunny_event_state sta,
   if (sym == BKS_ESCAPE)
     return (EXIT_ON_SUCCESS);
   wrapper = static_cast<Arcade::LapinWrapper *>(data);
+  if (sym == BKS_UP)
+    wrapper->_game->eventListener(Arcade::Event(Arcade::Event::AKEY_UP));
+  else if (sym == BKS_DOWN)
+    wrapper->_game->eventListener(Arcade::Event(Arcade::Event::AKEY_DOWN));
+  else if (sym == BKS_LEFT)
+    wrapper->_game->eventListener(Arcade::Event(Arcade::Event::AKEY_LEFT));
+  else if (sym == BKS_RIGHT)
+    wrapper->_game->eventListener(Arcade::Event(Arcade::Event::AKEY_RIGHT));
   return (GO_ON);
 }
 
@@ -179,6 +188,7 @@ bool	Arcade::LapinWrapper::setPixel(unsigned int x, unsigned int y,
   pos.x = x;
   pos.y = y;
   Arcade::LapinHelper::setPixel(_game_pix, pos, colors[color % 9]);
+  return true;
 }
 
 void	Arcade::LapinWrapper::getColors(t_color colors[9]) const
@@ -205,6 +215,7 @@ void	Arcade::LapinWrapper::setText(std::string const& to_print, unsigned int y,
   t_color		colors[9];
   size_t		writing_size;
 
+  static_cast<void>(fontSize);
   writing_size = (to_print.size() * 18) + to_print.size();
   text_pos.y = y;
   text_pos.x = 5;

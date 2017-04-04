@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 14:01:45 2017 Arnaud WURMEL
-// Last update Mon Apr  3 22:56:19 2017 Arnaud WURMEL
+// Last update Tue Apr  4 15:05:13 2017 Arnaud WURMEL
 //
 
 #include "TextField.hpp"
@@ -59,7 +59,8 @@ void	Arcade::TextField::addChar(char to_append)
 
 void	Arcade::TextField::removeLastChar()
 {
-  _text.pop_back();
+  if (_text.size() > 0)
+    _text.pop_back();
 }
 
 Arcade::TextField::~TextField()
