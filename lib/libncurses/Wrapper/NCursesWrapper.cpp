@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Tue Apr  4 01:48:46 2017 Victorien Fischer
+// Last update Tue Apr  4 19:56:19 2017 Victorien Fischer
 //
 
 #include <thread>
@@ -58,7 +58,7 @@ void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int h
   int	key;
 
   deleteWindow();
-  createWindow(width, height);
+  createWindow(width / 18, height / 18);
   game->setUpGraphics(this);
   while (_window)
     {
@@ -91,8 +91,16 @@ void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int h
     }
 }
 
-bool	Arcade::NCursesWrapper::setPixel(unsigned int x, unsigned int y, unsigned int p)
+bool	Arcade::NCursesWrapper::setPixel(unsigned int x, unsigned int y, unsigned int color)
 {
+  short	id_pair;
+
+  id_pair = createPair(color + 8, color + 8);
+  if (x >= getDrawableWidth() || y >= getDrawableHeight())
+    return (false);
+  attron(COLOR_PAIR(id_pair));
+  mvwprintw(_window, x, y, "x");
+  attroff(COLOR_PAIR(id_pair));
   return (true);
 }
 
@@ -121,7 +129,7 @@ void	Arcade::NCursesWrapper::setText(std::string const &to_print,
     x = (_row / 2) - 50;
   else if (mode == Arcade::ElementPosition::LEFT_CENTER)
     x = (_row / 2) - (to_print.length() + 50);
-  wmove(_window, (y / 20), x);
+  wmove(_window, (y / 18), x);
   wattron(_window, COLOR_PAIR(id_pair));
   wprintw(_window, to_print.c_str());
   wattroff(_window, COLOR_PAIR(id_pair));
