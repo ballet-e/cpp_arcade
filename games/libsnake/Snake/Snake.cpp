@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Mon Apr  3 22:57:09 2017 Arnaud WURMEL
+// Last update Tue Apr  4 13:12:45 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -249,25 +249,20 @@ void	Arcade::Snake::render()
       else
 	_graphic_library->setText(std::string("Game Over"), _graphic_library->getDrawableHeight() / 2, Arcade::ElementPosition::CENTER, 25);
     }
+  _frame = 1;
 }
 
 bool	Arcade::Snake::shouldRender()
 {
   if (!_playing || _end)
     return true;
-  if ((20 - (_score / 10)) > 0)
+  if ((30 - (_score / 10)) > 0)
     {
-      if (_frame % (20 - (_score / 10)) <= 0)
-	{
-	  _frame = 1;
-	  return true;
-	}
+      if (_frame % 30 == 0)
+	return true;
     }
   else
-    {
-      _frame += 1;
-      return true;
-    }
+    return true;
   _frame += 1;
   return false;
 }

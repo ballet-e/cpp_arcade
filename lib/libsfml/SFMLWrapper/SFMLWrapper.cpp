@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Tue Apr  4 13:38:55 2017 Arnaud WURMEL
+// Last update Tue Apr  4 13:11:11 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -189,8 +189,8 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
     }
   createWindow(width, height);
   _image.create(600, 600);
-  _window->setFramerateLimit(60);
   game->setUpGraphics(this);
+  _window->setFramerateLimit(60);
   while (_window->isOpen())
     {
       if (_window->pollEvent(e))
@@ -224,7 +224,7 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
 	    renderGame();
 	  _window->display();
 	}
-      //      std::this_thread::sleep_for(std::chrono::milliseconds(2));
+      std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
 }
 
