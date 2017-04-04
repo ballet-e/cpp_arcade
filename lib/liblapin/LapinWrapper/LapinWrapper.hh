@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 22:01:33 2017 Arnaud WURMEL
-// Last update Tue Apr  4 12:55:26 2017 Arnaud WURMEL
+// Last update Tue Apr  4 15:59:18 2017 Arnaud WURMEL
 //
 
 #ifndef LAPINWRAPPER_HH_
@@ -37,10 +37,12 @@ namespace Arcade
 			Arcade::Colors const& backgroundColor = Arcade::Colors::ABLACK);
     unsigned int	getDrawableHeight() const;
     unsigned int	getDrawableWidth() const;
+    void	drawTitle();
 
   private:
     bool	createWindow(unsigned int, unsigned int);
     t_bunny_pixelarray	*createPixelArray(unsigned int, unsigned int);
+    void	getColors(t_color[9]) const;
 
   public:
     std::string const&	getLibraryPath() const;
@@ -49,16 +51,13 @@ namespace Arcade
 
   public:
     Arcade::StartScreen	_screen;
+    Arcade::IGame	*_game;
     t_bunny_window	*_window;
     t_bunny_pixelarray	*_root;
+    t_bunny_pixelarray	*_game_pix;
 
   private:
     t_bunny_pixelarray	*_font;
-
-  private:
-    std::string		_library_path;
-    std::string		_game_path;
-    std::string		_pseudo;
   };
 }
 
