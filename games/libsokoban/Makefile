@@ -5,7 +5,7 @@
 ## Login   <victorien.fischer@epitech.eu>
 ## 
 ## Started on  Wed Apr  5 13:03:25 2017 Victorien Fischer
-## Last update Wed Apr  5 13:27:15 2017 Victorien Fischer
+## Last update Thu Apr  6 01:03:36 2017 Victorien Fischer
 ##
 
 CC		=	g++
@@ -19,7 +19,10 @@ COMMON_PATH	=	../../Common/
 SRCS		=	$(SRCS_PATH)mandatory.cpp			\
 			$(COMMON_PATH)Event/Event.cpp			\
 			$(COMMON_PATH)ScoreManager/ScoreManager.cpp	\
-			Sokoban/Sokoban.cpp
+			Sokoban/Sokoban.cpp				\
+			Sokoban/Box.cpp					\
+			Sokoban/Wall.cpp				\
+			Sokoban/Storage.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 

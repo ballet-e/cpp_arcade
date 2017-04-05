@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Apr  5 13:11:26 2017 Victorien Fischer
-// Last update Wed Apr  5 13:14:59 2017 Victorien Fischer
+// Last update Wed Apr  5 18:59:51 2017 Victorien Fischer
 //
 
 #include "IGame.hh"
@@ -24,12 +24,4 @@ extern "C" Arcade::Sokoban	*getLibrary()
 
 extern "C" void	Play(void)
 {
-  Arcade::Sokoban	sokoban;
-  arcade::CommandType	cmd;
-
-  while (true)
-    {
-      std::cin.read(reinterpret_cast<char *>(&cmd), sizeof(arcade::CommandType));
-      Sokoban.play();
-    }
 }

@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Apr  5 13:19:08 2017 Victorien Fischer
-// Last update Wed Apr  5 13:24:25 2017 Victorien Fischer
+// Last update Thu Apr  6 01:06:47 2017 Victorien Fischer
 //
 
 #ifndef __SOKOBAN_HH__
@@ -33,13 +33,18 @@ namespace Arcade
     LibraryType			getLibraryType() const;
     void			eventListener(Event const &);
     void			render();
+    bool			shouldRender();
     Arcade::IGame::GameState	gameState() const;
+
+  private:
+    void			saveScore() const;
 
   private:
     IGraphic				*_graphic_library;
     std::string				_pseudo;
     unsigned int			_score;
     std::map<std::pair<int, int>, char>	_map;
+    int					_level;
   };
 }
 #endif
