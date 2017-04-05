@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Tue Apr  4 13:12:45 2017 Arnaud WURMEL
+// Last update Wed Apr  5 10:51:03 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -340,8 +340,10 @@ void	Arcade::Snake::whereAmI()
   struct arcade::WhereAmI	*amI;
   std::vector<std::pair<unsigned int, unsigned int> >::const_iterator	it;
   unsigned int	pos;
+  char	*buf;
 
-  amI = static_cast<struct arcade::WhereAmI *>(std::calloc(1, sizeof(struct arcade::WhereAmI) + (sizeof(struct arcade::Position) * _body.size())));
+  buf = new char[sizeof(struct arcade::WhereAmI) + (sizeof(struct arcade::Position) * _body.size())];
+  amI = new (buf) arcade::WhereAmI;
   amI->type = arcade::CommandType::WHERE_AM_I;
   amI->lenght = _body.size();
   it = _body.begin();
@@ -360,10 +362,12 @@ void	Arcade::Snake::whereAmI()
 void	Arcade::Snake::getMap()
 {
   struct arcade::GetMap	*map;
+  char	*buf;
   unsigned int		y;
   unsigned int		x;
 
-  map = static_cast<struct arcade::GetMap *>(std::malloc(sizeof(struct arcade::GetMap) + (sizeof(arcade::TileType) * MAP_HEIGHT * MAP_WIDTH)));
+  buf = new char[sizeof(struct arcade::GetMap) + (sizeof(arcade::TileType) * MAP_HEIGHT * MAP_WIDTH)];
+  map = new (buf) arcade::GetMap;
   if (map != NULL)
     {
       map->width = MAP_WIDTH;
