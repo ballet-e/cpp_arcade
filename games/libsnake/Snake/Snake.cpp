@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Wed Apr  5 20:21:10 2017 Erwan BALLET
+// Last update Wed Apr  5 20:27:13 2017 Erwan BALLET
 //
 
 #include <iostream>
@@ -256,20 +256,10 @@ bool	Arcade::Snake::shouldRender()
 {
   if (!_playing || _end)
     return true;
-<<<<<<< HEAD
-  if ((60 - (_score / 10)) > 0)
-    {
-      if (_frame % (60 - (_score / 10)) <= 0)
-	{
-	  _frame = 1;
-	  return true;
-	}
-=======
   if ((30 - (_score / 10)) > 0)
     {
       if (_frame % 30 == 0)
 	return true;
->>>>>>> bbf2ca8bfe0e647ac3691f2a59913199d8ba6b46
     }
   else
     return true;
