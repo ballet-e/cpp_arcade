@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Tue Apr  4 13:38:55 2017 Arnaud WURMEL
+// Last update Tue Apr  4 19:35:10 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -92,7 +92,7 @@ bool	Arcade::SFMLWrapper::keyboardHandler(sf::Event const& e)
     }
   else if (e.key.code == sf::Keyboard::Space)
     _screen.enterChar(' ');
-  else if (e.key.code == sf::Keyboard::Delete || e.key.code == sf::Keyboard::Return)
+  else if (e.key.code == sf::Keyboard::Delete || e.key.code == sf::Keyboard::BackSpace)
     _screen.enterChar(-1);
   return true;
 }
@@ -189,8 +189,8 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
     }
   createWindow(width, height);
   _image.create(600, 600);
-  _window->setFramerateLimit(60);
   game->setUpGraphics(this);
+  _window->setFramerateLimit(60);
   while (_window->isOpen())
     {
       if (_window->pollEvent(e))
@@ -224,7 +224,7 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
 	    renderGame();
 	  _window->display();
 	}
-      //      std::this_thread::sleep_for(std::chrono::milliseconds(2));
+      std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
 }
 

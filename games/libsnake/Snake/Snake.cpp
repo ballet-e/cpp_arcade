@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Tue Apr  4 11:46:09 2017 Erwan BALLET
+// Last update Wed Apr  5 20:21:10 2017 Erwan BALLET
 //
 
 #include <iostream>
@@ -116,7 +116,7 @@ void	Arcade::Snake::showMap()
   unsigned int	y;
   unsigned int	square_size;
 
-  square_size = (_graphic_library->getDrawableHeight() - (2 * MAP_HEIGHT))  / MAP_HEIGHT;
+  square_size = _graphic_library->getDrawableHeight() / MAP_HEIGHT;
   y = 0;
   while (y < MAP_HEIGHT)
     {
@@ -245,16 +245,18 @@ void	Arcade::Snake::render()
       _graphic_library->setText(std::string("Nibbler"), 10, Arcade::ElementPosition::CENTER, 25);
       _graphic_library->setText(std::string("Score: ") + std::to_string(_score), 10, Arcade::ElementPosition::RIGHT);
       if (!_end)
-	showMap();
+      	showMap();
       else
-	_graphic_library->setText(std::string("Game Over"), _graphic_library->getDrawableHeight() / 2, Arcade::ElementPosition::CENTER, 25);
+      	_graphic_library->setText(std::string("Game Over"), _graphic_library->getDrawableHeight() / 2, Arcade::ElementPosition::CENTER, 25);
     }
+  _frame = 1;
 }
 
 bool	Arcade::Snake::shouldRender()
 {
   if (!_playing || _end)
     return true;
+<<<<<<< HEAD
   if ((60 - (_score / 10)) > 0)
     {
       if (_frame % (60 - (_score / 10)) <= 0)
@@ -262,12 +264,15 @@ bool	Arcade::Snake::shouldRender()
 	  _frame = 1;
 	  return true;
 	}
+=======
+  if ((30 - (_score / 10)) > 0)
+    {
+      if (_frame % 30 == 0)
+	return true;
+>>>>>>> bbf2ca8bfe0e647ac3691f2a59913199d8ba6b46
     }
   else
-    {
-      _frame += 1;
-      return true;
-    }
+    return true;
   _frame += 1;
   return false;
 }
@@ -345,8 +350,10 @@ void	Arcade::Snake::whereAmI()
   struct arcade::WhereAmI	*amI;
   std::vector<std::pair<unsigned int, unsigned int> >::const_iterator	it;
   unsigned int	pos;
+  char	*buf;
 
-  amI = static_cast<struct arcade::WhereAmI *>(std::calloc(1, sizeof(struct arcade::WhereAmI) + (sizeof(struct arcade::Position) * _body.size())));
+  buf = new char[sizeof(struct arcade::WhereAmI) + (sizeof(struct arcade::Position) * _body.size())];
+  amI = new (buf) arcade::WhereAmI;
   amI->type = arcade::CommandType::WHERE_AM_I;
   amI->lenght = _body.size();
   it = _body.begin();
@@ -365,10 +372,12 @@ void	Arcade::Snake::whereAmI()
 void	Arcade::Snake::getMap()
 {
   struct arcade::GetMap	*map;
+  char	*buf;
   unsigned int		y;
   unsigned int		x;
 
-  map = static_cast<struct arcade::GetMap *>(std::malloc(sizeof(struct arcade::GetMap) + (sizeof(arcade::TileType) * MAP_HEIGHT * MAP_WIDTH)));
+  buf = new char[sizeof(struct arcade::GetMap) + (sizeof(arcade::TileType) * MAP_HEIGHT * MAP_WIDTH)];
+  map = new (buf) arcade::GetMap;
   if (map != NULL)
     {
       map->width = MAP_WIDTH;

@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Tue Apr  4 12:22:00 2017 Arnaud WURMEL
-// Last update Tue Apr  4 13:22:52 2017 Arnaud WURMEL
+// Last update Tue Apr  4 14:58:56 2017 Arnaud WURMEL
 //
 
 #ifndef LAPINHELPER_HH_
@@ -24,8 +24,10 @@ namespace	Arcade
     static void	setText(const char *, t_bunny_pixelarray *,
 			t_bunny_pixelarray *, t_bunny_position,
 			t_color);
-
-    static t_color	colorFromARGB(char a, char r, char g, char b);
+    static void	drawRectangle(t_bunny_pixelarray *, t_bunny_position,
+			      int, int, t_color);
+    static t_color	colorFromARGB(char r, char g, char b);
+    static void	setPixel(t_bunny_pixelarray *, t_bunny_position, t_color);
   };
 }
 
