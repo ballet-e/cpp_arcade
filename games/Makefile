@@ -5,19 +5,19 @@
 ## Login   <wurmel_a@epitech.net>
 ##
 ## Started on  Fri Mar 10 21:12:00 2017 Arnaud WURMEL
-## Last update Tue Apr  4 11:10:50 2017 Ballet Erwan
+## Last update Wed Apr  5 20:06:43 2017 Erwan BALLET
 ##
 
 all:
 	make -C ./libsnake/
-#	make -C ./libsolarfox/
+	make -C ./libsolarfox/
 
 clean:
 	make -C ./libsnake/ clean
-#	make -C ./libsolarfox/ clean
+	make -C ./libsolarfox/ clean
 
 fclean:
 	make -C ./libsnake/ fclean
-#	make -C ./libsolarfox/ fclean
+	make -C ./libsolarfox/ fclean
 
 re:	fclean all

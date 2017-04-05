@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 //
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Tue Apr  4 11:20:40 2017 Ballet Erwan
+// Last update Wed Apr  5 16:39:26 2017 Erwan BALLET
 //
 
 #ifndef SOLARFOX_HH_
@@ -15,6 +15,8 @@
 # include <utility>
 # include "IGame.hh"
 # include "Event.hh"
+# include "Bullet.hh"
+# include "Enemy.hh"
 
 # define MAP_HEIGHT 20
 # define MAP_WIDTH 20
@@ -25,14 +27,6 @@ namespace	Arcade
 
   class	SolarFox : public Arcade::IGame
   {
-  public:
-    enum	Directions
-      {
-	LEFT,
-	RIGHT,
-	UP,
-	DOWN
-      };
   public:
     SolarFox();
     ~SolarFox();
@@ -62,7 +56,17 @@ namespace	Arcade
     void	playRound();
 
   private:
+    //initGame();
+    
+  private:
+    Enemy		_Enemy[4];
+    Bullet		_Bullet[4];
+    IGraphic		*_graphic_library;
+    bool		_graderMode;
+    bool		_isInit;
+    bool		_validatePosition;
     std::string		_pseudo;
+    Bullet::Directions	_dir;
   };
 }
 
