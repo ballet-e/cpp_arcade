@@ -5,19 +5,21 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:07:36 2017 Victorien Fischer
-// Last update Tue Apr  4 23:43:54 2017 Arnaud WURMEL
+// Last update Wed Apr  5 14:39:55 2017 Arnaud WURMEL
 //
 
 #ifndef __NCURSESWRAPPER_HH__
 # define __NCURSESWRAPPER_HH__
 
-#include <map>
-#include <utility>
-#include <ncurses.h>
-#include "IGraphic.hh"
-#include "IGame.hh"
-#include "ScoreManager.hpp"
-#include "StartScreen.hpp"
+# include <map>
+# include <utility>
+# include <ncurses.h>
+# include <memory>
+# include "IGraphic.hh"
+# include "IGame.hh"
+# include "ScoreManager.hpp"
+# include "StartScreen.hpp"
+# include "Text.hh"
 
 namespace Arcade
 {
@@ -45,10 +47,8 @@ namespace Arcade
     std::string const	&getGamePath() const;
     std::string const	&getPseudo() const;
 
-  private:
-    Arcade::StartScreen	_screen;
-    WINDOW		*_window;
-    std::map<short, std::pair<short, short>>	_colorpair;
+  public:
+    static bool	sortTextVector(std::unique_ptr<Arcade::Text> const&, std::unique_ptr<Arcade::Text> const&);
 
   private:
     void	drawTitle();
@@ -57,6 +57,13 @@ namespace Arcade
     bool	createWindow();
     bool	deleteWindow();
     short	createPair(short, short);
+    void	drawText();
+
+  private:
+    Arcade::StartScreen	_screen;
+    WINDOW		*_window;
+    std::vector<std::unique_ptr<Arcade::Text>>	_text;
+    std::map<short, std::pair<short, short>>	_colorpair;
   };
 }
 

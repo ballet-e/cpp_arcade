@@ -5,27 +5,16 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Tue Apr  4 23:45:40 2017 Arnaud WURMEL
+// Last update Wed Apr  5 19:32:44 2017 Arnaud WURMEL
 //
 
 #include <thread>
+#include <algorithm>
 #include <chrono>
 #include "NCursesWrapper.hh"
 
 Arcade::NCursesWrapper::NCursesWrapper()
 {
-  initscr();
-  cbreak();
-  noecho();
-  start_color();
-  init_color(ABLACK + 8, 0, 0, 0);
-  init_color(AGREEN + 8, 39, 174, 96);
-  init_color(AGREY + 8, 120, 120, 120);
-  init_color(ACYAN + 8, 52, 152, 219);
-  init_color(AYELLOW + 8, 241, 196, 15);
-  init_color(ARED + 8, 231, 76, 60);
-  init_color(APINK + 8, 231, 76, 60);
-  init_color(AWHITE + 8, 255, 255, 255);
   _window = NULL;
 }
 
@@ -82,7 +71,9 @@ void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int h
       if (game->shouldRender())
 	{
 	  wclear(_window);
+	  _text.clear();
 	  game->render();
+	  drawText();
 	  if (game->gameState() == Arcade::IGame::PLAYING)
 	    wrefresh(_window);
 	}
@@ -93,19 +84,61 @@ void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int h
 bool	Arcade::NCursesWrapper::setPixel(unsigned int x, unsigned int y, unsigned int color)
 {
   short	id_pair;
+  int	x_pos;
+  int	y_pos;
 
-  id_pair = createPair(color, color);
+  //  id_pair = createPair(color + 8, color + 8);
   if (x >= getDrawableWidth() || y >= getDrawableHeight())
     return (false);
-  attron(COLOR_PAIR(id_pair));
-  mvwprintw(_window, x, y, "x");
-  attroff(COLOR_PAIR(id_pair));
+  wattron(_window, COLOR_PAIR(1));
+  x_pos = (COLS - (getDrawableWidth() * 2)) / 2;
+  x_pos += (x * 2);
+  y_pos = (LINES - getDrawableHeight()) / 2;
+  y_pos += y;
+  //std::cerr << x_pos << " " << y_pos << std::endl;
+  if (y_pos < LINES && y_pos >= 0 && x_pos < COLS && x_pos >= 0)
+    mvwprintw(_window, y_pos, x_pos, "xx");
+  wattroff(_window, COLOR_PAIR(1));
   return (true);
 }
 
 Arcade::LibraryType	Arcade::NCursesWrapper::getLibraryType() const
 {
   return (Arcade::GRAPHIC);
+}
+
+void	Arcade::NCursesWrapper::drawText()
+{
+  int	i;
+  int	id_pair;
+  unsigned int	line;
+
+  std::sort(_text.begin(), _text.end(), Arcade::NCursesWrapper::sortTextVector);
+  line = 1;
+  i = 0;
+  while (i < _text.size())
+    {
+      id_pair = createPair(_text[i]->getFont(), _text[i]->getBack());
+      if (i > 0)
+	{
+	  if (_text[i]->getY() - _text[i - 1]->getY() >= 40)
+	    line += 1;
+	}
+      wmove(_window, line, _text[i]->getX());
+      wattron(_window, COLOR_PAIR(id_pair));
+      wprintw(_window, _text[i]->getText().c_str());
+      wattroff(_window, COLOR_PAIR(id_pair));
+      ++i;
+      if (i > 0 && i < _text.size() && _text[i]->getY() == _text[i - 1]->getY())
+	line -= 1;
+      line += 1;
+    }
+}
+
+bool	Arcade::NCursesWrapper::sortTextVector(std::unique_ptr<Arcade::Text> const& first,
+					       std::unique_ptr<Arcade::Text> const& second)
+{
+  return first->getY() < second->getY();
 }
 
 void	Arcade::NCursesWrapper::setText(std::string const &to_print,
@@ -115,10 +148,8 @@ void	Arcade::NCursesWrapper::setText(std::string const &to_print,
 					Arcade::Colors const &fontColor,
 					Arcade::Colors const &backgroundColor)
 {
-  int		id_pair;
   unsigned int	x;
 
-  id_pair = createPair(fontColor + 8, backgroundColor + 8);
   x = 1;
   if (mode == Arcade::ElementPosition::CENTER)
     x = (COLS - to_print.size()) / 2;
@@ -128,10 +159,7 @@ void	Arcade::NCursesWrapper::setText(std::string const &to_print,
     x = (COLS / 2) + 2;
   else if (mode == Arcade::ElementPosition::LEFT_CENTER)
     x = (COLS / 2) - (to_print.size() + 2);
-  wmove(_window, (y / 18), x);
-  wattron(_window, COLOR_PAIR(id_pair));
-  wprintw(_window, to_print.c_str());
-  wattroff(_window, COLOR_PAIR(id_pair));
+  _text.push_back(std::unique_ptr<Arcade::Text>(new Arcade::Text(to_print, x, y, fontColor, backgroundColor)));
 }
 
 short		Arcade::NCursesWrapper::createPair(short font,
@@ -157,10 +185,12 @@ short		Arcade::NCursesWrapper::createPair(short font,
 
 unsigned int	Arcade::NCursesWrapper::getDrawableHeight() const
 {
+  return 20;
 }
 
 unsigned int	Arcade::NCursesWrapper::getDrawableWidth() const
 {
+  return 20;
 }
 
 std::string const	&Arcade::NCursesWrapper::getLibraryPath() const
@@ -184,21 +214,35 @@ void	Arcade::NCursesWrapper::drawTitle()
   std::string	lib("Choisir une bibliothèque pour lancer le jeu");
   std::string	game("Choisir un jeu");
   std::string	pseudo("Entrez votre pseudo");
-  
-  mvwprintw(_window, 4, (COLS - name.length())/2, name.c_str());
+
+  setText(name, 0, Arcade::ElementPosition::CENTER);
   if (_screen.getLibraryPath().size() == 0)
-    mvwprintw(_window, 7, (COLS - lib.length())/2, lib.c_str());
+    setText(lib, 50, Arcade::ElementPosition::CENTER);
   else if (_screen.getGamePath().size() == 0)
-    mvwprintw(_window, 7, (COLS - game.length())/2, game.c_str());
+    setText(game, 50, Arcade::ElementPosition::CENTER);
   else
-    mvwprintw(_window, 7, (COLS - pseudo.length())/2, pseudo.c_str());
+    setText(pseudo, 50, Arcade::ElementPosition::CENTER);
 }
 
 bool	Arcade::NCursesWrapper::createWindow()
 {
+  initscr();
+  start_color();
+  cbreak();
+  noecho();
   _window = newwin(0, 0, 0, 0);
   nodelay(_window, TRUE);
   keypad(_window, TRUE);
+  init_pair(1, COLOR_WHITE, COLOR_WHITE);
+  wrefresh(_window);
+  // init_color(ABLACK + 8, 0, 0, 0);
+  // init_color(AGREEN + 8, 39, 174, 96);
+  // init_color(AGREY + 8, 120, 120, 120);
+  // init_color(ACYAN + 8, 52, 152, 219);
+  // init_color(AYELLOW + 8, 241, 196, 15);
+  // init_color(ARED + 8, 231, 76, 60);
+  // init_color(APINK + 8, 231, 76, 60);
+  // init_color(AWHITE + 8, 255, 255, 255);
   return (true);
 }
 
@@ -217,8 +261,10 @@ bool	Arcade::NCursesWrapper::deleteWindow()
 void	Arcade::NCursesWrapper::drawWindow()
 {
   wclear(_window);
+  _text.clear();
   drawTitle();
   _screen.render(this);
+  drawText();
   wrefresh(_window);
 }
 

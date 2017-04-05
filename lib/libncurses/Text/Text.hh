@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Tue Apr  4 23:09:07 2017 Arnaud WURMEL
-// Last update Wed Apr  5 10:34:06 2017 Arnaud WURMEL
+// Last update Wed Apr  5 11:20:22 2017 Arnaud WURMEL
 //
 
 #ifndef TEXT_HH_
@@ -24,6 +24,8 @@ namespace	Arcade
 
   public:
     std::string const&	getText() const;
+    Arcade::Colors const&	getFont() const;
+    Arcade::Colors const&	getBack() const;
     int	getX() const;
     int	getY() const;
 

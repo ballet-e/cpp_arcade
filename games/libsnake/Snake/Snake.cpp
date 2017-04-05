@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Wed Apr  5 10:51:03 2017 Arnaud WURMEL
+// Last update Wed Apr  5 19:09:09 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -116,7 +116,7 @@ void	Arcade::Snake::showMap()
   unsigned int	y;
   unsigned int	square_size;
 
-  square_size = (_graphic_library->getDrawableHeight() - (2 * MAP_HEIGHT))  / MAP_HEIGHT;
+  square_size = _graphic_library->getDrawableHeight() / MAP_HEIGHT;
   y = 0;
   while (y < MAP_HEIGHT)
     {
@@ -245,9 +245,9 @@ void	Arcade::Snake::render()
       _graphic_library->setText(std::string("Nibbler"), 10, Arcade::ElementPosition::CENTER, 25);
       _graphic_library->setText(std::string("Score: ") + std::to_string(_score), 10, Arcade::ElementPosition::RIGHT);
       if (!_end)
-	showMap();
+      	showMap();
       else
-	_graphic_library->setText(std::string("Game Over"), _graphic_library->getDrawableHeight() / 2, Arcade::ElementPosition::CENTER, 25);
+      	_graphic_library->setText(std::string("Game Over"), _graphic_library->getDrawableHeight() / 2, Arcade::ElementPosition::CENTER, 25);
     }
   _frame = 1;
 }
