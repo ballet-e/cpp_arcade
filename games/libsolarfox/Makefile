@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ##
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Tue Apr  4 10:42:18 2017 Ballet Erwan
+## Last update Wed Apr  5 15:56:29 2017 Erwan BALLET
 ##
 
 CC=		g++
@@ -17,7 +17,9 @@ COMMON_PATH=	../../Common/
 SRCS=		$(SRCS_PATH)/mandatory.cpp \
 		$(COMMON_PATH)Event/Event.cpp \
 		$(COMMON_PATH)ScoreManager/ScoreManager.cpp \
-		SolarFox/SolarFox.cpp
+		SolarFox/SolarFox.cpp \
+		SolarFox/Bullet.cpp \
+		SolarFox/Enemy.cpp
 
 OBJS=		$(SRCS:.cpp=.o)
 
