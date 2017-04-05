@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Wed Apr  5 22:36:40 2017 Arnaud WURMEL
+// Last update Thu Apr  6 00:23:43 2017 Arnaud WURMEL
 //
 
 #include <thread>
@@ -45,6 +45,8 @@ void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int h
 {
   int	key;
 
+  static_cast<void>(width);
+  static_cast<void>(height);
   deleteWindow();
   createWindow();
   game->setUpGraphics(this);
@@ -107,7 +109,7 @@ Arcade::LibraryType	Arcade::NCursesWrapper::getLibraryType() const
 
 void	Arcade::NCursesWrapper::drawText()
 {
-  int	i;
+  unsigned int	i;
   int	id_pair;
   unsigned int	line;
 
@@ -150,6 +152,7 @@ void	Arcade::NCursesWrapper::setText(std::string const &to_print,
 {
   unsigned int	x;
 
+  static_cast<void>(fontSize);
   x = 1;
   if (mode == Arcade::ElementPosition::CENTER)
     x = (COLS - to_print.size()) / 2;
