@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 //
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Wed Apr  5 21:58:45 2017 Erwan BALLET
+// Last update Wed Apr  5 23:58:40 2017 Erwan BALLET
 //
 
 #ifndef SOLARFOX_HH_
@@ -61,6 +61,8 @@ namespace	Arcade
     void	showMap();
     void	drawSquare(unsigned int size, unsigned int color,
 			   unsigned int pos_x, unsigned int pos_y);
+    void	mooveEnemy(Enemy En, int i);
+    void	mooveShip();
     
   private:
     Enemy		_Enemy[4];
@@ -69,10 +71,12 @@ namespace	Arcade
     bool		_isInit;
     bool		_validatePosition;
     bool		_end;
+    unsigned int	_frame;
     std::string		_pseudo;
     Bullet::Directions	_dir;
     std::vector<std::vector<unsigned char>>    _map;
-    std::pair<int, int>	ship;
+    std::pair<int, int>	_ship;
+    int			_score;
   };
 }
 

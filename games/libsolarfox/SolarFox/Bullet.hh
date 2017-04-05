@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Wed Apr  5 08:04:00 2017 Erwan BALLET
-// Last update Wed Apr  5 16:40:04 2017 Erwan BALLET
+// Last update Thu Apr  6 00:01:26 2017 Erwan BALLET
 //
 
 #ifndef __BULLET_HH__
@@ -26,7 +26,8 @@ namespace	Arcade
 	LEFT,
 	RIGHT,
 	UP,
-	DOWN
+	DOWN,
+	STOP
       };
   private:
     std::pair<int, int>	_pos;
