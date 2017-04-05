@@ -5,7 +5,7 @@
 // Login   <erwan.ballet@epitech.eu>
 //
 // Started on  Tue Apr  4 11:17:48 2017 Ballet Erwan
-// Last update Wed Apr  5 16:43:29 2017 Erwan BALLET
+// Last update Wed Apr  5 22:07:20 2017 Erwan BALLET
 //
 
 #include <iostream>
@@ -16,12 +16,14 @@
 #include "ScoreManager.hpp"
 #include "IGraphic.hh"
 
-Arcade::SolarFox::SolarFox()
+Arcade::SolarFox::SolarFox() : _map(MAP_HEIGHT)
 {
   _isInit = false;
   _graderMode = true;
   _pseudo = "Player";
 }
+
+Arcade::SolarFox::~SolarFox() {};
 
 void	Arcade::SolarFox::setUpGraphics(Arcade::IGraphic *ref)
 {
@@ -65,14 +67,103 @@ void			Arcade::SolarFox::eventListener(Event const& e)
     }
 }
 
+void	Arcade::SolarFox::initMap()
+{
+  unsigned int  x;
+  unsigned int  y;
+
+  y = 0;
+  while (y < MAP_HEIGHT)
+    {
+      x = 0;
+      while (x < MAP_WIDTH)
+        {
+          if (x == 0 || x + 1 == MAP_WIDTH || y == 0 || y + 1 == MAP_HEIGHT)
+            _map[y].push_back(1);
+          else
+            _map[y].push_back(0);
+          ++x;
+        }
+      ++y;
+    }
+}
+
+void	Arcade::SolarFox::initGame()
+{
+  Arcade::Enemy	Enemy1;
+  Arcade::Enemy	Enemy2;
+  Arcade::Enemy	Enemy3;
+  Arcade::Enemy	Enemy4;
+  
+  _map.clear();
+  Enemy1.setPos(MAP_HEIGHT / 2, 0);
+  Enemy2.setPos(MAP_HEIGHT / 2, MAP_WIDTH);
+  Enemy3.setPos(0, MAP_WIDTH / 2);
+  Enemy4.setPos(MAP_HEIGHT, MAP_WIDTH / 2);
+  this->_Enemy[0] = Enemy1;
+  this->_Enemy[0] = Enemy2;
+  this->_Enemy[0] = Enemy3;
+  this->_Enemy[0] = Enemy4;
+  initMap();
+  _validatePosition = true;
+  _end = false;
+}
+
+void	Arcade::SolarFox::drawSquare(unsigned int size, unsigned int color,
+				     unsigned int pos_x, unsigned int pos_y)
+{
+  unsigned int  x;
+  unsigned int  y;
+
+  y = 0;
+  while (y < size)
+    {
+      x = 0;
+      while (x < size)
+        {
+          if (size != 1 && (y == 0 || y + 1 == size || x == 0 || x + 1 == size))
+            _graphic_library->setPixel(pos_x + x, pos_y + y, 0);
+          else
+            _graphic_library->setPixel(pos_x + x, pos_y + y, color);
+          ++x;
+        }
+      ++y;
+    }
+}
+
+
+void	Arcade::SolarFox::showMap()
+{
+  unsigned int  x;
+  unsigned int  y;
+  unsigned int  square_size;
+
+  square_size = _graphic_library->getDrawableHeight() / MAP_HEIGHT;
+  y = 0;
+  while (y < MAP_HEIGHT)
+    {
+      x = 0;
+      while (x < MAP_WIDTH)
+	{
+          if (_map[y][x] == 0)
+            drawSquare(square_size, Arcade::Colors::ABLACK, x * square_size, y * square_size);
+          else if (_map[y][x] == 1)
+            drawSquare(square_size, Arcade::Colors::ARED, x * square_size, y * square_size);
+          ++x;
+	}
+      ++y;
+    }
+}
+
 void	Arcade::SolarFox::render()
 {
-  //int	i;
+  //  int	i;
   
   _validatePosition = true;
-  /*if (!_isInit)
+  if (!_isInit)
     initGame();
-  while (i < 4)
+  showMap();
+  /* while (i < 4)
     {
       moove_enemy(_Enemy[i]);
       i++;
@@ -83,7 +174,7 @@ void	Arcade::SolarFox::render()
 
 bool	Arcade::SolarFox::shouldRender()
 {
-  return (true);
+  return true;
 }
 
 Arcade::IGame::GameState	Arcade::SolarFox::gameState() const
@@ -91,22 +182,22 @@ Arcade::IGame::GameState	Arcade::SolarFox::gameState() const
   return (Arcade::IGame::ENDED);
 }
 
-void	whereAmI() {}
+void	Arcade::SolarFox::whereAmI() {}
 
-void	getMap() {}
+void	Arcade::SolarFox::getMap() {}
 
-void	goUp() {}
+void	Arcade::SolarFox::goUp() {}
 
-void	goDown() {}
+void	Arcade::SolarFox::goDown() {}
 
-void	goLeft() {}
+void	Arcade::SolarFox::goLeft() {}
 
-void	goRight() {}
+void	Arcade::SolarFox::goRight() {}
 
-void	goForward() {}
+void	Arcade::SolarFox::goForward() {}
 
-void	makeShoot() {}
+void	Arcade::SolarFox::makeShoot() {}
 
-void	illegal() {}
+void	Arcade::SolarFox::illegal() {}
 
-void	playRound() {}
+void	Arcade::SolarFox::playRound() {}

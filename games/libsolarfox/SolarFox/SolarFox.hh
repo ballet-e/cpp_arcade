@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 //
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Wed Apr  5 16:39:26 2017 Erwan BALLET
+// Last update Wed Apr  5 21:58:45 2017 Erwan BALLET
 //
 
 #ifndef SOLARFOX_HH_
@@ -56,17 +56,23 @@ namespace	Arcade
     void	playRound();
 
   private:
-    //initGame();
+    void	initGame();
+    void	initMap();
+    void	showMap();
+    void	drawSquare(unsigned int size, unsigned int color,
+			   unsigned int pos_x, unsigned int pos_y);
     
   private:
     Enemy		_Enemy[4];
-    Bullet		_Bullet[4];
     IGraphic		*_graphic_library;
     bool		_graderMode;
     bool		_isInit;
     bool		_validatePosition;
+    bool		_end;
     std::string		_pseudo;
     Bullet::Directions	_dir;
+    std::vector<std::vector<unsigned char>>    _map;
+    std::pair<int, int>	ship;
   };
 }
 
