@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Wed Apr  5 19:09:09 2017 Arnaud WURMEL
+// Last update Wed Apr  5 22:32:49 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -100,7 +100,7 @@ void	Arcade::Snake::drawSquare(unsigned int size, unsigned int color,
       x = 0;
       while (x < size)
 	{
-	  if (y == 0 || y + 1 == size || x == 0 || x + 1 == size)
+	  if (size != 1 && (y == 0 || y + 1 == size || x == 0 || x + 1 == size))
 	    _graphic_library->setPixel(pos_x + x, pos_y + y, 0);
 	  else
 	    _graphic_library->setPixel(pos_x + x, pos_y + y, color);

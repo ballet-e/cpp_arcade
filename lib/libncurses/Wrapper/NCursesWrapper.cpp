@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Wed Apr  5 19:32:44 2017 Arnaud WURMEL
+// Last update Wed Apr  5 22:36:40 2017 Arnaud WURMEL
 //
 
 #include <thread>
@@ -65,8 +65,6 @@ void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int h
 	    game->eventListener(Event(Arcade::Event::AKEY_LEFT));;
 	  if (key == KEY_RIGHT)
 	    game->eventListener(Event(Arcade::Event::AKEY_RIGHT));;
-	  if (game->gameState() == Arcade::IGame::PLAYING)
-	    wrefresh(_window);
 	}
       if (game->shouldRender())
 	{
@@ -87,18 +85,18 @@ bool	Arcade::NCursesWrapper::setPixel(unsigned int x, unsigned int y, unsigned i
   int	x_pos;
   int	y_pos;
 
-  //  id_pair = createPair(color + 8, color + 8);
+  std::cerr << color << std::endl;
+  id_pair = createPair(color + 8, color + 8);
   if (x >= getDrawableWidth() || y >= getDrawableHeight())
     return (false);
-  wattron(_window, COLOR_PAIR(1));
+  wattron(_window, COLOR_PAIR(id_pair));
   x_pos = (COLS - (getDrawableWidth() * 2)) / 2;
   x_pos += (x * 2);
   y_pos = (LINES - getDrawableHeight()) / 2;
   y_pos += y;
-  //std::cerr << x_pos << " " << y_pos << std::endl;
   if (y_pos < LINES && y_pos >= 0 && x_pos < COLS && x_pos >= 0)
     mvwprintw(_window, y_pos, x_pos, "xx");
-  wattroff(_window, COLOR_PAIR(1));
+  wattroff(_window, COLOR_PAIR(id_pair));
   return (true);
 }
 
@@ -118,7 +116,7 @@ void	Arcade::NCursesWrapper::drawText()
   i = 0;
   while (i < _text.size())
     {
-      id_pair = createPair(_text[i]->getFont(), _text[i]->getBack());
+      id_pair = createPair(_text[i]->getFont() + 8, _text[i]->getBack() + 8);
       if (i > 0)
 	{
 	  if (_text[i]->getY() - _text[i - 1]->getY() >= 40)
@@ -128,6 +126,8 @@ void	Arcade::NCursesWrapper::drawText()
       wattron(_window, COLOR_PAIR(id_pair));
       wprintw(_window, _text[i]->getText().c_str());
       wattroff(_window, COLOR_PAIR(id_pair));
+      refresh();
+      wrefresh(_window);
       ++i;
       if (i > 0 && i < _text.size() && _text[i]->getY() == _text[i - 1]->getY())
 	line -= 1;
@@ -233,16 +233,14 @@ bool	Arcade::NCursesWrapper::createWindow()
   _window = newwin(0, 0, 0, 0);
   nodelay(_window, TRUE);
   keypad(_window, TRUE);
-  init_pair(1, COLOR_WHITE, COLOR_WHITE);
-  wrefresh(_window);
-  // init_color(ABLACK + 8, 0, 0, 0);
-  // init_color(AGREEN + 8, 39, 174, 96);
-  // init_color(AGREY + 8, 120, 120, 120);
-  // init_color(ACYAN + 8, 52, 152, 219);
-  // init_color(AYELLOW + 8, 241, 196, 15);
-  // init_color(ARED + 8, 231, 76, 60);
-  // init_color(APINK + 8, 231, 76, 60);
-  // init_color(AWHITE + 8, 255, 255, 255);
+  init_color(ABLACK + 8, 0, 0, 0);
+  init_color(AGREY + 8, 120, 180, 10);
+  init_color(AGREEN + 8, 39, 174, 96);
+  init_color(ACYAN + 8, 52, 152, 219);
+  init_color(AYELLOW + 8, 241, 196, 15);
+  init_color(ARED + 8, 231, 76, 60);
+  init_color(APINK + 8, 231, 76, 60);
+  init_color(AWHITE + 8, 255, 255, 255);
   return (true);
 }
 
