@@ -5,7 +5,7 @@
 // Login   <erwan.ballet@epitech.eu>
 //
 // Started on  Tue Apr  4 11:17:48 2017 Ballet Erwan
-// Last update Thu Apr  6 00:20:09 2017 Erwan BALLET
+// Last update Thu Apr  6 21:29:03 2017 Erwan BALLET
 //
 
 #include <iostream>
@@ -23,6 +23,7 @@ Arcade::SolarFox::SolarFox() : _map(MAP_HEIGHT)
   _graderMode = true;
   _frame = 0;
   _score = 0;
+  _end = false;
   _dir = Arcade::Bullet::STOP;
   _ship.first = MAP_WIDTH / 2;
   _ship.second = MAP_HEIGHT / 2;
@@ -100,12 +101,28 @@ void	Arcade::SolarFox::initGame()
   Arcade::Enemy	Enemy2;
   Arcade::Enemy	Enemy3;
   Arcade::Enemy	Enemy4;
+  Arcade::Bullet bullet1;
+  Arcade::Bullet bullet2;
+  Arcade::Bullet bullet3;
+  Arcade::Bullet bullet4;
   
   _map.clear();
-  Enemy1.setPos((MAP_HEIGHT - 1) / 2, 0);
-  Enemy2.setPos((MAP_HEIGHT - 1) / 2, MAP_WIDTH - 1);
-  Enemy3.setPos(0, (MAP_WIDTH - 1) / 2);
-  Enemy4.setPos((MAP_HEIGHT - 1), (MAP_WIDTH - 1) / 2);
+  Enemy1.setPos((MAP_WIDTH - 1) / 2, 0);
+  bullet1.setPos(-1, -1);
+  bullet1.setDir(Arcade::Bullet::UP);
+  Enemy1.setBullet(bullet1);
+  Enemy2.setPos((MAP_WIDTH - 1) / 2, MAP_HEIGHT - 1);
+  bullet2.setPos(-1, -1);
+  bullet2.setDir(Arcade::Bullet::DOWN);
+  Enemy2.setBullet(bullet2);
+  Enemy3.setPos(0, (MAP_HEIGHT - 1) / 2);
+  bullet3.setPos(-1, -1);
+  bullet3.setDir(Arcade::Bullet::RIGHT);
+  Enemy3.setBullet(bullet3);
+  Enemy4.setPos((MAP_WIDTH - 1), (MAP_HEIGHT - 1) / 2);
+  bullet4.setPos(-1, -1);
+  bullet4.setDir(Arcade::Bullet::LEFT);
+  Enemy4.setBullet(bullet4);
   this->_Enemy[0] = Enemy1;
   this->_Enemy[1] = Enemy2;
   this->_Enemy[2] = Enemy3;
@@ -166,6 +183,9 @@ void	Arcade::SolarFox::showMap()
     {
       drawSquare(square_size, Arcade::Colors::ARED, _Enemy[i].getPos().first * square_size,
 		 _Enemy[i].getPos().second * square_size);
+      drawSquare(square_size, Arcade::Colors::AYELLOW,
+		 _Enemy[i].getBullet().getPos().first * square_size,
+		 _Enemy[i].getBullet().getPos().second * square_size);
       i += 1;
     }
   drawSquare(square_size, Arcade::Colors::AWHITE, _ship.first * square_size,
@@ -176,7 +196,7 @@ void	Arcade::SolarFox::mooveEnemy(Arcade::Enemy En, int i)
 {
   int	rd;
 
-  if (_frame % 6 == 0)
+  if (_enemyMoove % 6 == 0)
     {
       rd = rand() % 2;
       if (En.getPos().first == 0 || En.getPos().first == 19)
@@ -202,10 +222,10 @@ void	Arcade::SolarFox::mooveEnemy(Arcade::Enemy En, int i)
 	    _Enemy[i].setPos(En.getPos().first + 1, En.getPos().second);
 	}
       if (i == 3)
-	_frame = 1;
+	_enemyMoove = 1;
     }
   if (i == 3)
-    _frame += 1;
+    _enemyMoove += 1;
 }
 
 void	Arcade::SolarFox::mooveShip()
@@ -220,19 +240,79 @@ void	Arcade::SolarFox::mooveShip()
     _ship.first += 1;
 }
 
+int	Arcade::SolarFox::bulletEnd(Arcade::Bullet bullet)
+{
+  if ((bullet.getDir() == Arcade::Bullet::UP && bullet.getPos().second != MAP_HEIGHT - 2)
+      || (bullet.getDir() == Arcade::Bullet::DOWN && bullet.getPos().second != 1)
+      || (bullet.getDir() == Arcade::Bullet::LEFT && bullet.getPos().first != 1)
+      || (bullet.getDir() == Arcade::Bullet::RIGHT
+	  && bullet.getPos().first != MAP_WIDTH - 2))
+    return 0;
+  return 1;
+}
+
+void	Arcade::SolarFox::enemyShoot(int i)
+{
+  Arcade::Bullet	bullet;
+
+  bullet = _Enemy[i].getBullet();
+  if (bullet.getPos().first == -1)
+    {
+      if (_Enemy[i].getPos().first == 0)
+	_Enemy[i].setBulletPos(1, _Enemy[i].getPos().second);
+      else if (_Enemy[i].getPos().first == MAP_WIDTH - 1)
+	_Enemy[i].setBulletPos(MAP_WIDTH - 2, _Enemy[i].getPos().second);
+      else if (_Enemy[i].getPos().second == 0)
+	_Enemy[i].setBulletPos(_Enemy[i].getPos().first , 1);
+      else if (_Enemy[i].getPos().second == MAP_HEIGHT - 1)
+	_Enemy[i].setBulletPos(_Enemy[i].getPos().first, MAP_HEIGHT - 2);
+    }
+  else if (bulletEnd(bullet) == 0)
+    {
+      if (bullet.getDir() == Arcade::Bullet::UP)
+	_Enemy[i].setBulletPos(bullet.getPos().first, bullet.getPos().second + 1);
+      else if (bullet.getDir() == Arcade::Bullet::DOWN)
+	_Enemy[i].setBulletPos(bullet.getPos().first, bullet.getPos().second - 1);
+      else if (bullet.getDir() == Arcade::Bullet::LEFT)
+	_Enemy[i].setBulletPos(bullet.getPos().first - 1, bullet.getPos().second);
+      else if (bullet.getDir() == Arcade::Bullet::RIGHT)
+	_Enemy[i].setBulletPos(bullet.getPos().first + 1, bullet.getPos().second);
+    }
+  else
+    {
+      _Enemy[i].setBulletPos(-1, -1);
+    }
+}
+
+void	Arcade::SolarFox::amIDead()
+{
+  int	i;
+
+  i = 0;
+  while (i < 4)
+    {
+      if (_ship.first == _Enemy[i].getBullet().getPos().first &&
+	  _ship.second == _Enemy[i].getBullet().getPos().second)
+	_end = true;
+      i += 1;
+    }
+}
+
 void	Arcade::SolarFox::render()
 {
   int	i;
   
   i = 0;
-  mooveShip();
   _validatePosition = true;
   if (!_isInit)
     initGame();
+  amIDead();
+  mooveShip();
   showMap();
   while (i < 4)
     {
       mooveEnemy(_Enemy[i], i);
+      enemyShoot(i);
       i++;
     }
   if (_graderMode == false)
@@ -242,18 +322,32 @@ void	Arcade::SolarFox::render()
       _graphic_library->setText(std::string("Score: ") + std::to_string(_score), 10, Arcade::ElementPosition::RIGHT);
     }
   _dir = Arcade::Bullet::STOP;
-  /*if (_playing)
-    moveSolarFox(); */
+  _frame = 1;
 }
 
 bool	Arcade::SolarFox::shouldRender()
 {
-  return true;
+  if (_frame % 5 == 0)
+    return true;
+  _frame += 1;
+  return false;
 }
 
 Arcade::IGame::GameState	Arcade::SolarFox::gameState() const
 {
+  if (_end == true)
+    return (Arcade::IGame::ENDED);
   return (Arcade::IGame::PLAYING);
+}
+
+unsigned int	Arcade::SolarFox::getMapWidth() const
+{
+  return (MAP_WIDTH);
+}
+
+unsigned int	Arcade::SolarFox::getMapHeight() const
+{
+  return (MAP_HEIGHT);
 }
 
 void	Arcade::SolarFox::whereAmI() {}

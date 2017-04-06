@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Wed Apr  5 07:56:01 2017 Erwan BALLET
-// Last update Wed Apr  5 16:52:19 2017 Erwan BALLET
+// Last update Thu Apr  6 16:53:49 2017 Erwan BALLET
 //
 
 #ifndef __ENEMY_HH__
@@ -34,6 +34,7 @@ namespace	Arcade
     void			setPos(int x, int y);
     Bullet const&		getBullet() const;
     void			setBullet(Bullet const& bullet);
+    void			setBulletPos(int x, int y);
   };
 }
 

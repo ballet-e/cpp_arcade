@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 //
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Wed Apr  5 23:58:40 2017 Erwan BALLET
+// Last update Thu Apr  6 21:15:32 2017 Erwan BALLET
 //
 
 #ifndef SOLARFOX_HH_
@@ -39,6 +39,8 @@ namespace	Arcade
     void	render();
     bool	shouldRender();
     Arcade::IGame::GameState	gameState() const;
+    unsigned int		getMapWidth() const;
+    unsigned int		getMapHeight() const;
 
     /*
     ** Koalinette protocol
@@ -62,7 +64,10 @@ namespace	Arcade
     void	drawSquare(unsigned int size, unsigned int color,
 			   unsigned int pos_x, unsigned int pos_y);
     void	mooveEnemy(Enemy En, int i);
+    void	enemyShoot(int i);
     void	mooveShip();
+    int		bulletEnd(Arcade::Bullet bullet);
+    void	amIDead();
     
   private:
     Enemy		_Enemy[4];
@@ -77,6 +82,7 @@ namespace	Arcade
     std::vector<std::vector<unsigned char>>    _map;
     std::pair<int, int>	_ship;
     int			_score;
+    int			_enemyMoove;
   };
 }
 

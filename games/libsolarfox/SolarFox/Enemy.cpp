@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Wed Apr  5 11:07:23 2017 Erwan BALLET
-// Last update Wed Apr  5 16:51:44 2017 Erwan BALLET
+// Last update Thu Apr  6 16:55:17 2017 Erwan BALLET
 //
 
 # include <vector>
@@ -42,4 +42,9 @@ Arcade::Bullet const&		Arcade::Enemy::getBullet() const
 void				Arcade::Enemy::setBullet(Arcade::Bullet const& bullet)
 {
   this->_bullet = bullet;
+}
+
+void				Arcade::Enemy::setBulletPos(int x, int y)
+{
+  this->_bullet.setPos(x, y);
 }
