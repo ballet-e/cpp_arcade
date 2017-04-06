@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Thu Apr  6 00:23:43 2017 Arnaud WURMEL
+// Last update Thu Apr  6 14:50:02 2017 Victorien Fischer
 //
 
 #include <thread>
@@ -180,9 +180,14 @@ short		Arcade::NCursesWrapper::createPair(short font,
 	return (it->first);
       it++;
     }
+  if (id >= COLOR_PAIRS)
+    id = 1;
   init_pair(id, font, back);
-  _colorpair.insert(std::pair<short, std::pair<short, short>>
-		    (id, std::pair<short, short>(font, back)));
+  if (_colorpair.find(id) == _colorpair.end())
+    _colorpair.insert(std::pair<short, std::pair<short, short>>
+		      (id, std::pair<short, short>(font, back)));
+  else
+    _colorpair[id] = std::pair<short, short>(font, back);
   return (id);
 }
 
@@ -231,19 +236,20 @@ bool	Arcade::NCursesWrapper::createWindow()
 {
   initscr();
   start_color();
+  curs_set(0);
   cbreak();
   noecho();
   _window = newwin(0, 0, 0, 0);
   nodelay(_window, TRUE);
   keypad(_window, TRUE);
   init_color(ABLACK + 8, 0, 0, 0);
-  init_color(AGREY + 8, 120, 180, 10);
-  init_color(AGREEN + 8, 39, 174, 96);
-  init_color(ACYAN + 8, 52, 152, 219);
-  init_color(AYELLOW + 8, 241, 196, 15);
-  init_color(ARED + 8, 231, 76, 60);
-  init_color(APINK + 8, 231, 76, 60);
-  init_color(AWHITE + 8, 255, 255, 255);
+  init_color(AGREY + 8, 471, 471, 471);
+  init_color(AGREEN + 8, 153, 682, 377);
+  init_color(ACYAN + 8, 204, 596, 859);
+  init_color(AYELLOW + 8, 945, 769, 59);
+  init_color(ARED + 8, 906, 298, 235);
+  init_color(APINK + 8, 557, 267, 678);
+  init_color(AWHITE + 8, 1000, 1000, 1000);
   return (true);
 }
 
@@ -263,6 +269,7 @@ void	Arcade::NCursesWrapper::drawWindow()
 {
   wclear(_window);
   _text.clear();
+  wbkgd(_window, COLOR_BLACK);
   drawTitle();
   _screen.render(this);
   drawText();
