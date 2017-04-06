@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Thu Apr  6 15:56:58 2017 Arnaud WURMEL
+// Last update Thu Apr  6 16:16:43 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -59,6 +59,7 @@ void	Arcade::Snake::initMap()
   _body.push_back(std::make_pair(MAP_WIDTH / 2, MAP_HEIGHT / 2));
   _body.push_back(std::make_pair((MAP_WIDTH / 2) - 1, MAP_HEIGHT / 2));
   _body.push_back(std::make_pair((MAP_WIDTH / 2) - 2, MAP_HEIGHT / 2));
+  _body.push_back(std::make_pair((MAP_WIDTH / 2) - 3, MAP_HEIGHT / 2));
 }
 
 void	Arcade::Snake::generateFood()

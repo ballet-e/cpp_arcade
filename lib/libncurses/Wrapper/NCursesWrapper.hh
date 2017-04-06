@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:07:36 2017 Victorien Fischer
-// Last update Wed Apr  5 14:39:55 2017 Arnaud WURMEL
+// Last update Thu Apr  6 16:04:00 2017 Arnaud WURMEL
 //
 
 #ifndef __NCURSESWRAPPER_HH__
@@ -60,6 +60,7 @@ namespace Arcade
     void	drawText();
 
   private:
+    Arcade::IGame	*_game;
     Arcade::StartScreen	_screen;
     WINDOW		*_window;
     std::vector<std::unique_ptr<Arcade::Text>>	_text;

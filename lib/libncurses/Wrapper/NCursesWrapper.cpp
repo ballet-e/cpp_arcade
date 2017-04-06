@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Thu Apr  6 14:50:02 2017 Victorien Fischer
+// Last update Thu Apr  6 16:04:13 2017 Arnaud WURMEL
 //
 
 #include <thread>
@@ -16,6 +16,7 @@
 Arcade::NCursesWrapper::NCursesWrapper()
 {
   _window = NULL;
+  _game = NULL;
 }
 
 bool	Arcade::NCursesWrapper::renderWindowStart()
@@ -47,6 +48,7 @@ void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int h
 
   static_cast<void>(width);
   static_cast<void>(height);
+  _game = game;
   deleteWindow();
   createWindow();
   game->setUpGraphics(this);
@@ -193,12 +195,12 @@ short		Arcade::NCursesWrapper::createPair(short font,
 
 unsigned int	Arcade::NCursesWrapper::getDrawableHeight() const
 {
-  return 20;
+  return _game->getMapHeight();
 }
 
 unsigned int	Arcade::NCursesWrapper::getDrawableWidth() const
 {
-  return 20;
+  return _game->getMapWidth();
 }
 
 std::string const	&Arcade::NCursesWrapper::getLibraryPath() const
