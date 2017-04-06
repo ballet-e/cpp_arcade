@@ -5,11 +5,13 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Thu Apr  6 00:51:48 2017 Victorien Fischer
-// Last update Thu Apr  6 00:58:09 2017 Victorien Fischer
+// Last update Thu Apr  6 16:42:24 2017 Victorien Fischer
 //
 
 #ifndef __OBSTACLE_HH__
 # define __OBSTACLE_HH__
+
+#include "IGraphic.hh"
 
 namespace Arcade
 {
@@ -24,10 +26,11 @@ namespace Arcade
       };
 
   public:
-    virtual ~Obstacle();
+    virtual ~Obstacle() {}
 
   public:
     virtual Arcade::Obstacle::Type	getType() const = 0;
+    virtual Arcade::Colors		getColor() const = 0;
   };
 }
 

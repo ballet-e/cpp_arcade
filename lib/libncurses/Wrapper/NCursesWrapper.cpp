@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Thu Apr  6 16:04:13 2017 Arnaud WURMEL
+// Last update Thu Apr  6 19:01:48 2017 Arnaud WURMEL
 //
 
 #include <thread>
@@ -252,6 +252,7 @@ bool	Arcade::NCursesWrapper::createWindow()
   init_color(ARED + 8, 906, 298, 235);
   init_color(APINK + 8, 557, 267, 678);
   init_color(AWHITE + 8, 1000, 1000, 1000);
+  init_color(ABLUE + 8, 161, 501, 725);
   return (true);
 }
 
