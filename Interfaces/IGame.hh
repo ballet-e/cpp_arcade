@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 10:47:40 2017 Arnaud WURMEL
-// Last update Thu Apr  6 15:49:51 2017 Arnaud WURMEL
+// Last update Thu Apr  6 18:46:30 2017 Arnaud WURMEL
 //
 
 #ifndef IGAME_HH_
@@ -24,7 +24,7 @@ namespace	Arcade
   public:
     enum	GameState
       {
-	PLAYING,
+	PLAYING = 0,
 	PAUSED,
 	ENDED
       };
