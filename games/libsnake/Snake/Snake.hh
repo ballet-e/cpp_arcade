@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Fri Mar 24 15:40:44 2017 Arnaud WURMEL
+// Last update Thu Apr  6 15:56:21 2017 Arnaud WURMEL
 //
 
 #ifndef SNAKE_HH_
@@ -45,6 +45,8 @@ namespace	Arcade
     void	render();
     bool	shouldRender();
     Arcade::IGame::GameState	gameState() const;
+    unsigned int	getMapWidth() const;
+    unsigned int	getMapHeight() const;
 
     /*
     ** Koalinette protocol

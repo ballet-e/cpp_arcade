@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Wed Apr  5 22:24:09 2017 Erwan BALLET
+// Last update Thu Apr  6 15:56:58 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -325,6 +325,16 @@ Arcade::IGame::GameState	Arcade::Snake::gameState() const
 void	Arcade::Snake::setUpPseudo(std::string const& pseudo)
 {
   _pseudo = pseudo;
+}
+
+unsigned int	Arcade::Snake::getMapWidth() const
+{
+  return (MAP_WIDTH);
+}
+
+unsigned int	Arcade::Snake::getMapHeight() const
+{
+  return (MAP_HEIGHT);
 }
 
 Arcade::Snake::~Snake() {}

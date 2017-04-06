@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 10:47:40 2017 Arnaud WURMEL
-// Last update Wed Mar 15 11:10:02 2017 Arnaud WURMEL
+// Last update Thu Apr  6 15:49:51 2017 Arnaud WURMEL
 //
 
 #ifndef IGAME_HH_
@@ -35,6 +35,8 @@ namespace	Arcade
     virtual void	render() = 0;
     virtual bool	shouldRender() = 0;
     virtual GameState	gameState() const = 0;
+    virtual unsigned int	getMapWidth() const = 0;
+    virtual unsigned int	getMapHeight() const = 0;
     virtual ~IGame() {}
   };
 }
