@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Thu Apr  6 00:58:26 2017 Victorien Fischer
-// Last update Thu Apr  6 01:02:06 2017 Victorien Fischer
+// Last update Thu Apr  6 15:00:43 2017 Victorien Fischer
 //
 
 #ifndef __BOX_HH__
@@ -23,6 +23,7 @@ namespace Arcade
 
   public:
     Arcade::Obstacle::Type	getType() const;
+    Arcade::Colors		getColor() const;
   };
 }
 

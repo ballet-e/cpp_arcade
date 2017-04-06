@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Thu Apr  6 01:00:04 2017 Victorien Fischer
-// Last update Thu Apr  6 01:02:59 2017 Victorien Fischer
+// Last update Thu Apr  6 15:03:29 2017 Victorien Fischer
 //
 
 #include "Storage.hh"
@@ -19,4 +19,9 @@ Arcade::Storage::~Storage()
 Arcade::Obstacle::Type	Arcade::Storage::getType() const
 {
   return (Arcade::Obstacle::STORAGE);
+}
+
+Arcade::Colors		Arcade::Storage::getColor() const
+{
+  return (Arcade::Colors::ACYAN);
 }

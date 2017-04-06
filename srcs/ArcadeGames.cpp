@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:00 2017 Arnaud WURMEL
-// Last update Mon Apr  3 19:24:28 2017 Arnaud WURMEL
+// Last update Thu Apr  6 16:57:25 2017 Victorien Fischer
 //
 
 #include <sys/types.h>
@@ -19,7 +19,7 @@ Arcade::ArcadeGames::ArcadeGames(Arcade::IGraphic *graphic, Arcade::IGame *game)
   _game = game;
   _graphic = graphic;
   if (!_graphic && !_game)
-    throw LoadingError("Library not respecting format");
+    throw LoadingError("Library does not respect the correct format");
 }
 
 void	Arcade::ArcadeGames::runGame()
@@ -44,10 +44,10 @@ Arcade::ILibrary	*Arcade::ArcadeGames::loadLibrary(std::string const& path) cons
   Arcade::Loader	loader;
 
   if (loader.loadLib(path.c_str()) == false) {
-    throw LoadingError(std::string("Can't load librairie : ") + path);  
+    throw LoadingError(std::string("Can't load librairy : ") + path);  
   }
   if ((lib = loader.getLibrary()) == NULL)
-    throw LoadingError("Failed to retrieve librairie's instance");
+    throw LoadingError("Failed to retrieve librairy's instance");
   return (lib);
 }
 
@@ -67,7 +67,7 @@ bool	Arcade::ArcadeGames::getGraphicLibrary(bool use_default)
   lib = loadLibrary("./lib/" + path);
   std::cout << "Path : " << path << std::endl;
   if (lib->getLibraryType() != Arcade::GRAPHIC)
-    throw LoadingError("Wrong library type expected game");
+    throw LoadingError("Wrong library type. Expected game");
   if (_graphic)
     delete _graphic;
   _graphic = dynamic_cast<Arcade::IGraphic *>(lib);
@@ -84,7 +84,7 @@ std::string	Arcade::ArcadeGames::getFirstLibraryIn(const char *dir_path) const
   dir = opendir(dir_path);
   if (!dir)
     {
-      std::cerr << "Can't load libraries directory" << std::endl;
+      std::cerr << "Can't open libraries' directory" << std::endl;
       throw std::exception();
     }
   while ((dent = readdir(dir)))
@@ -103,7 +103,7 @@ bool	Arcade::ArcadeGames::getGameLibrary()
     return false;
   game = loadLibrary("./games/" + _graphic->getGamePath());
   if (game->getLibraryType() != Arcade::GAME)
-    throw LoadingError("Wrong library type expected game");
+    throw LoadingError("Wrong library type. Expected game");
   _game = dynamic_cast<IGame *>(game);
   _game->setUpPseudo(_graphic->getPseudo());
   return (getGraphicLibrary());
