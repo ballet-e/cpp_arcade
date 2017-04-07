@@ -5,12 +5,13 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Thu Apr  6 13:20:54 2017 Victorien Fischer
-// Last update Thu Apr  6 15:05:18 2017 Victorien Fischer
+// Last update Fri Apr  7 02:07:45 2017 Victorien Fischer
 //
 
 #ifndef __CASE_HH__
 # define __CASE_HH__
 
+#include "Floor.hh"
 #include "Obstacle.hh"
 
 namespace Arcade
@@ -18,7 +19,7 @@ namespace Arcade
   class	Case
   {
   public:
-    Case(int, int, Arcade::Obstacle *);
+    Case(int x = 0, int y = 0, Arcade::Obstacle *obs = NULL, Arcade::Floor *flr = NULL);
     Case(Case const &);
     ~Case();
 
@@ -27,12 +28,15 @@ namespace Arcade
     int				getY() const;
     Arcade::Colors		getColor() const;
     Arcade::Obstacle		*getObstacle() const;
+    Arcade::Floor		*getFloor() const;
     void			setObstacle(Arcade::Obstacle *);
+    void			setFloor(Arcade::Floor *);
     
   private:
     int			_x;
     int			_y;
     Arcade::Obstacle	*_obs;
+    Arcade::Floor	*_flr;
   };
 }
 

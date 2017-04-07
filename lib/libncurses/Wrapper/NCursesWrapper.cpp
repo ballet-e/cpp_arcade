@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Thu Apr  6 19:01:48 2017 Arnaud WURMEL
+// Last update Fri Apr  7 01:21:34 2017 Victorien Fischer
 //
 
 #include <thread>
@@ -89,7 +89,6 @@ bool	Arcade::NCursesWrapper::setPixel(unsigned int x, unsigned int y, unsigned i
   int	x_pos;
   int	y_pos;
 
-  std::cerr << color << std::endl;
   id_pair = createPair(color + 8, color + 8);
   if (x >= getDrawableWidth() || y >= getDrawableHeight())
     return (false);

@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Apr  5 13:19:08 2017 Victorien Fischer
-// Last update Thu Apr  6 16:35:05 2017 Victorien Fischer
+// Last update Fri Apr  7 02:57:11 2017 Victorien Fischer
 //
 
 #ifndef __SOKOBAN_HH__
@@ -13,12 +13,14 @@
 
 #include <vector>
 #include <memory>
+#include "Box.hh"
 #include "Case.hh"
+#include "Wall.hh"
 #include "IGame.hh"
 #include "Event.hh"
-
-# define MAP_HEIGHT	20
-# define MAP_WIDTH	20
+#include "Player.hh"
+#include "Storage.hh"
+#include "MapManager.hh"
 
 namespace Arcade
 {
@@ -41,21 +43,30 @@ namespace Arcade
 
   private:
     void			saveScore() const;
-    void			drawCase(Arcade::Case) const;
+    void			drawCase(Arcade::Case *) const;
     void			showMap() const;
+
+  private:
+    void			checkMap();
+    void			checkEnd();
+    Arcade::Case		*getPlayerCase();
+    Arcade::Case		*getPositionCase(int, int);
+    bool			canPush(Arcade::Case *, Arcade::Event const &);
 
   private:
     IGraphic				*_graphic_library;
     std::string				_pseudo;
-    unsigned int			_score;
-    std::vector<Arcade::Case>		_map;
-    int					_level;
+    std::vector<Arcade::Case *>		_map;
+    Arcade::MapManager			_mapManager;
+    unsigned int			_push;
+    std::string				_errorMsg;
 
   private:
     bool				_shouldRender;
     bool				_playing;
     bool				_gameover;
     bool				_success;
+    bool				_error;
   };
 }
 #endif

@@ -5,7 +5,7 @@
 ## Login   <victorien.fischer@epitech.eu>
 ## 
 ## Started on  Wed Apr  5 13:03:25 2017 Victorien Fischer
-## Last update Thu Apr  6 15:41:24 2017 Victorien Fischer
+## Last update Fri Apr  7 00:25:28 2017 Victorien Fischer
 ##
 
 CC		=	g++
@@ -23,7 +23,9 @@ SRCS		=	$(SRCS_PATH)mandatory.cpp			\
 			Sokoban/Case.cpp				\
 			Sokoban/Box.cpp					\
 			Sokoban/Wall.cpp				\
-			Sokoban/Storage.cpp
+			Sokoban/Player.cpp				\
+			Sokoban/Storage.cpp				\
+			Sokoban/MapManager.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 

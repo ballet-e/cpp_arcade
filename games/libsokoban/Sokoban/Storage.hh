@@ -5,25 +5,28 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Thu Apr  6 00:58:26 2017 Victorien Fischer
-// Last update Thu Apr  6 15:01:14 2017 Victorien Fischer
+// Last update Fri Apr  7 02:33:06 2017 Victorien Fischer
 //
 
 #ifndef __STORAGE_HH__
 # define __STORAGE_HH__
 
-#include "Obstacle.hh"
+#include "Floor.hh"
 
 namespace Arcade
 {
-  class Storage	: public Obstacle
+  class Storage	: public Floor
   {
   public:
     Storage();
     virtual ~Storage();
 
   public:
-    Arcade::Obstacle::Type	getType() const;
+    Arcade::Floor::Type		getType() const;
     Arcade::Colors		getColor() const;
+
+  private:
+    bool			_box;
   };
 }
 

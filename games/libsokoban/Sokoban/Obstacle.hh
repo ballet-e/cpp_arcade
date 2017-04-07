@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Thu Apr  6 00:51:48 2017 Victorien Fischer
-// Last update Thu Apr  6 16:42:24 2017 Victorien Fischer
+// Last update Fri Apr  7 02:10:15 2017 Victorien Fischer
 //
 
 #ifndef __OBSTACLE_HH__
@@ -20,9 +20,9 @@ namespace Arcade
   public:
     enum Type
       {
-	WALL,
 	BOX,
-	STORAGE
+	WALL,
+	PLAYER
       };
 
   public:
