@@ -5,11 +5,12 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Thu Apr  6 20:49:16 2017 Victorien Fischer
-// Last update Fri Apr  7 02:45:35 2017 Victorien Fischer
+// Last update Sat Apr  8 01:20:54 2017 Victorien Fischer
 //
 
 #include <fstream>
 #include <sstream>
+#include <iostream>
 #include "Box.hh"
 #include "Wall.hh"
 #include "Player.hh"
@@ -103,9 +104,9 @@ std::vector<Arcade::Case *>	Arcade::MapManager::retrieveMap(std::string const &f
   std::string			buffer;
   std::string::iterator		it;
   std::vector<Arcade::Case *>	res;
-  Arcade::Case			*tmp;
   int				x;
   int				y;
+  int				tab;
 
   x = 0;
   y = 0;
@@ -125,9 +126,13 @@ std::vector<Arcade::Case *>	Arcade::MapManager::retrieveMap(std::string const &f
 	    }
 	  else
 	    {
-	      tmp = getCase((*it), x, y);
-	      if (tmp)
-		res.push_back(tmp);
+	      if ((*it) == '\t')
+		{
+		  tab = 7;
+		  while (tab-- != 0)
+		    res.push_back(getCase((*it), x++, y));
+		}
+	      res.push_back(getCase((*it), x, y));
 	      x += 1;
 	    }
 	  it++;
