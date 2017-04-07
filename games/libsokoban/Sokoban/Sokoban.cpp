@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Apr  5 19:05:51 2017 Victorien Fischer
-// Last update Fri Apr  7 09:48:28 2017 Victorien Fischer
+// Last update Fri Apr  7 10:09:19 2017 Victorien Fischer
 //
 
 #include "Sokoban.hh"
@@ -114,7 +114,6 @@ void					Arcade::Sokoban::checkEnd()
 */
 void	Arcade::Sokoban::render()
 {
-  _graphic_library->setText(std::string("Timer: "), 10, Arcade::ElementPosition::LEFT);
   _graphic_library->setText(std::string("Sokoban"), 10, Arcade::ElementPosition::CENTER, 25);
   _graphic_library->setText(std::string("Pushed: ") + std::to_string(_push), 10, Arcade::ElementPosition::RIGHT);
   if (_playing)
