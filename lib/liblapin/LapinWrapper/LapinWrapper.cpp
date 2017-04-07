@@ -5,9 +5,11 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 22:07:33 2017 Arnaud WURMEL
-// Last update Fri Apr  7 22:20:04 2017 Arnaud WURMEL
+// Last update Fri Apr  7 23:55:54 2017 Arnaud WURMEL
 //
 
+#include <map>
+#include <utility>
 #include "LapinHelper.hh"
 #include "LapinWrapper.hh"
 
@@ -39,20 +41,33 @@ static t_bunny_response	keyGame(t_bunny_event_state sta,
 				void *data)
 {
   Arcade::LapinWrapper	*wrapper;
+  std::map<unsigned int, Arcade::Event::EventType>	keyMapping;
+  std::map<unsigned int, Arcade::ExitStatus>	libMapping;
 
+  keyMapping.insert(std::make_pair(BKS_UP, Arcade::Event::AKEY_UP));
+  keyMapping.insert(std::make_pair(BKS_DOWN, Arcade::Event::AKEY_DOWN));
+  keyMapping.insert(std::make_pair(BKS_LEFT, Arcade::Event::AKEY_LEFT));
+  keyMapping.insert(std::make_pair(BKS_RIGHT, Arcade::Event::AKEY_RIGHT));
+  libMapping.insert(std::make_pair(BKS_2, Arcade::ExitStatus::PrevLib));
+  libMapping.insert(std::make_pair(BKS_3, Arcade::ExitStatus::NextLib));
+  libMapping.insert(std::make_pair(BKS_4, Arcade::ExitStatus::PrevGame));
+  libMapping.insert(std::make_pair(BKS_5, Arcade::ExitStatus::NextGame));
+  libMapping.insert(std::make_pair(BKS_9, Arcade::ExitStatus::BackMenu));
   if (sta == GO_UP)
     return (GO_ON);
-  if (sym == BKS_ESCAPE)
-    return (EXIT_ON_SUCCESS);
   wrapper = static_cast<Arcade::LapinWrapper *>(data);
-  if (sym == BKS_UP)
-    wrapper->_game->eventListener(Arcade::Event(Arcade::Event::AKEY_UP));
-  else if (sym == BKS_DOWN)
-    wrapper->_game->eventListener(Arcade::Event(Arcade::Event::AKEY_DOWN));
-  else if (sym == BKS_LEFT)
-    wrapper->_game->eventListener(Arcade::Event(Arcade::Event::AKEY_LEFT));
-  else if (sym == BKS_RIGHT)
-    wrapper->_game->eventListener(Arcade::Event(Arcade::Event::AKEY_RIGHT));
+  if (sym == BKS_ESCAPE)
+    {
+      wrapper->setExitStatus(Arcade::ExitStatus::Exit);
+      return (EXIT_ON_SUCCESS);
+    }
+  if (libMapping.find(sym) != libMapping.end())
+    {
+      wrapper->setExitStatus(libMapping[sym]);
+      return EXIT_ON_SUCCESS;
+    }
+  if (keyMapping.find(sym) != keyMapping.end())
+    wrapper->_game->eventListener(Arcade::Event(keyMapping[sym]));
   return (GO_ON);
 }
 
@@ -163,8 +178,9 @@ void	Arcade::LapinWrapper::drawTitle()
   setText(text, 120, Arcade::ElementPosition::CENTER, 15, AWHITE);
 }
 
-Arcade::ExitStatus	Arcade::LapinWrapper::renderWindowGame(unsigned int width, unsigned int height,
-					       Arcade::IGame *game)
+Arcade::ExitStatus	Arcade::LapinWrapper::renderWindowGame(unsigned int width,
+							       unsigned int height,
+							       Arcade::IGame *game)
 {
   if (createWindow(width, height) == false ||
       (_game_pix = bunny_new_pixelarray(600, 600)) == NULL)
@@ -176,7 +192,7 @@ Arcade::ExitStatus	Arcade::LapinWrapper::renderWindowGame(unsigned int width, un
   bunny_loop(_window, 60, this);
   bunny_stop(_window);
   _window = NULL;
-  return Arcade::ExitStatus::Exit;
+  return _status;
 }
 
 bool	Arcade::LapinWrapper::setPixel(unsigned int x, unsigned int y,
@@ -276,6 +292,11 @@ std::string const&	Arcade::LapinWrapper::getPseudo() const
 Arcade::LibraryType	Arcade::LapinWrapper::getLibraryType() const
 {
   return (Arcade::LibraryType::GRAPHIC);
+}
+
+void	Arcade::LapinWrapper::setExitStatus(Arcade::ExitStatus const& status)
+{
+  _status = status;
 }
 
 Arcade::LapinWrapper::~LapinWrapper() {}

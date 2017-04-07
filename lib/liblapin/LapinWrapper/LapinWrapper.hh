@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 22:01:33 2017 Arnaud WURMEL
-// Last update Fri Apr  7 22:19:33 2017 Arnaud WURMEL
+// Last update Fri Apr  7 23:42:25 2017 Arnaud WURMEL
 //
 
 #ifndef LAPINWRAPPER_HH_
@@ -39,6 +39,9 @@ namespace Arcade
     unsigned int	getDrawableWidth() const;
     void	drawTitle();
 
+  public:
+    void	setExitStatus(Arcade::ExitStatus const&);
+    
   private:
     bool	createWindow(unsigned int, unsigned int);
     t_bunny_pixelarray	*createPixelArray(unsigned int, unsigned int);
@@ -58,6 +61,7 @@ namespace Arcade
 
   private:
     t_bunny_pixelarray	*_font;
+    Arcade::ExitStatus	_status;
   };
 }
 

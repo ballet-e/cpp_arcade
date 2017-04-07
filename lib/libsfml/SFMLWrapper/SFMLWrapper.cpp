@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Fri Apr  7 23:15:25 2017 Arnaud WURMEL
+// Last update Sat Apr  8 00:43:11 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -303,5 +303,9 @@ unsigned int	Arcade::SFMLWrapper::getDrawableWidth() const
 
 Arcade::SFMLWrapper::~SFMLWrapper()
 {
-
+  if (_window)
+    {
+      _window->close();
+      delete _window;
+    }
 }

@@ -5,12 +5,16 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:22 2017 Arnaud WURMEL
-// Last update Fri Apr  7 22:44:24 2017 Arnaud WURMEL
+// Last update Sat Apr  8 00:39:00 2017 Arnaud WURMEL
 //
 
 #ifndef ARCADEGAMES_HPP_
 # define ARCADEGAMES_HPP_
 
+# include <vector>
+# include <map>
+# include <functional>
+# include <utility>
 # include "IGraphic.hh"
 # include "IGame.hh"
 # include "Errors/Error.hh"
@@ -20,7 +24,7 @@ namespace	Arcade
   class	ArcadeGames
   {
   public:
-    ArcadeGames(Arcade::IGraphic *graphic, Arcade::IGame *game);
+    ArcadeGames(Arcade::IGraphic *graphic, Arcade::IGame *game, std::string const&);
     ~ArcadeGames();
 
   public:
@@ -28,16 +32,26 @@ namespace	Arcade
     bool	getMissingLibrary();
 
   private:
+    std::vector<std::string>	getLibraryForDirectory(std::string const&) const;
     std::string	getFirstLibraryIn(const char *) const;
-    bool	getGraphicLibrary(bool use_default = false);
+    bool	getGraphicLibrary(bool use_default = false, std::string path = "");
     bool	getGameLibrary();
     Arcade::ILibrary	*loadLibrary(std::string const&) const;
+    bool	handleExitStatus(Arcade::ExitStatus const&);
+
+  private:
+    bool	loadNextLib();
+    bool	loadPrevLib();
+    bool	loadNextGame();
+    bool	loadPrevGame();
+    bool	backToMenu();
 
   private:
     std::string	_game_path;
     std::string _lib_path;
     IGraphic	*_graphic;
     IGame	*_game;
+    std::map<Arcade::ExitStatus, std::function<bool ()>>	_callback;
   };
 }
 
