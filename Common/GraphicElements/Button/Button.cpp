@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Mar 12 14:50:35 2017 Arnaud WURMEL
-// Last update Mon Apr  3 22:57:25 2017 Arnaud WURMEL
+// Last update Fri Apr  7 08:51:05 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -36,7 +36,10 @@ std::string const&	Arcade::Button::getTitle() const
 
 void	Arcade::Button::renderObject(Arcade::IGraphic *graphic, bool isHighlighted) const
 {
+  size_t		check;
   std::string		to_print;
+  std::string		lib("lib_arcade_");
+  std::string		ext(".so");
   Arcade::Colors	backgroundColor;
   Arcade::Colors	frontColor;
 
@@ -50,6 +53,12 @@ void	Arcade::Button::renderObject(Arcade::IGraphic *graphic, bool isHighlighted)
     }
   if (isEnabled() == false)
     frontColor = Arcade::Colors::AGREY;
+  if ((check = to_print.find(lib)) != std::string::npos)
+    to_print = to_print.substr(check + lib.size());
+  if ((check = to_print.find(ext)) != std::string::npos)
+    to_print = to_print.substr(0, to_print.size() - ext.size());
+  if (to_print[0] >= 'a' && to_print[0] <= 'z')
+    to_print[0] -= 32;
   graphic->setText(to_print, _y, _pos, 15, frontColor, backgroundColor);
 }
 
