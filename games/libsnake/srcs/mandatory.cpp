@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 21:03:40 2017 Arnaud WURMEL
-// Last update Tue Apr  4 13:07:55 2017 Arnaud WURMEL
+// Last update Fri Apr  7 09:23:32 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -47,7 +47,6 @@ extern "C" void	Play(void)
   while (true)
     {
       std::cin.read(reinterpret_cast<char *>(&cmd), sizeof(arcade::CommandType));
-      //      std::cerr << "Cmd: " <<  cmd << std::endl;
       if (cmd == arcade::CommandType::WHERE_AM_I)
 	snake.whereAmI();
       else if (cmd == arcade::CommandType::GET_MAP)

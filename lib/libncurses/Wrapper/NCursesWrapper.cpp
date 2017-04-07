@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Fri Apr  7 01:21:34 2017 Victorien Fischer
+// Last update Fri Apr  7 09:53:47 2017 Arnaud WURMEL
 //
 
 #include <thread>
@@ -33,12 +33,14 @@ bool	Arcade::NCursesWrapper::renderWindowStart()
 	  if (keyboardHandler(key))
 	    drawWindow();
 	  if (_screen.getGamePath().size() > 0 &&
-	      _screen.getLibraryPath().size() > 0)
+	      _screen.getLibraryPath().size() > 0 &&
+	      _screen.getPseudo().size() > 0)
 	    deleteWindow();
 	}
       std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
-  return (_screen.getLibraryPath().size() && _screen.getGamePath().size());
+  return (_screen.getLibraryPath().size() && _screen.getGamePath().size() &&
+	  _screen.getPseudo().size());
 }
 
 void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int height,
@@ -291,6 +293,10 @@ bool	Arcade::NCursesWrapper::keyboardHandler(int e)
     _screen.upKey();
   if (e == KEY_DOWN)
     _screen.downKey();
+  if ((e >= 'a' && e <= 'z') || e == ' ')
+    _screen.enterChar(e);
+  if (e == 263 || e == 330)
+    _screen.enterChar(-1);
   return (true);
 }
 
