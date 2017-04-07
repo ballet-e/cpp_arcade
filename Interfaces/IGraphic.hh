@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 11:29:38 2017 Arnaud WURMEL
-// Last update Tue Apr  4 13:17:06 2017 Arnaud WURMEL
+// Last update Fri Apr  7 20:56:03 2017 Arnaud WURMEL
 //
 
 #ifndef IGRAPHIC_HH_
@@ -17,6 +17,14 @@
 
 namespace Arcade
 {
+  enum	ExitStatus
+    {
+      Exit = 0,
+      NextLib,
+      PrevLib,
+      NextGame,
+      PrevGame
+    };
   enum	Colors
     {
       ABLACK = 0,
@@ -42,7 +50,7 @@ namespace Arcade
   public:
     virtual ~IGraphic() {}
     virtual bool	renderWindowStart() = 0;
-    virtual void	renderWindowGame(unsigned int, unsigned int, IGame *) = 0;
+    virtual Arcade::ExitStatus	renderWindowGame(unsigned int, unsigned int, IGame *) = 0;
     virtual bool	setPixel(unsigned int x, unsigned int y, unsigned int color) = 0;
     virtual void	setText(std::string const&, unsigned int y,
 				Arcade::ElementPosition const&,
