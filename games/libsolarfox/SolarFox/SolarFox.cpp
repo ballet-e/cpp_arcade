@@ -5,7 +5,7 @@
 // Login   <erwan.ballet@epitech.eu>
 //
 // Started on  Tue Apr  4 11:17:48 2017 Ballet Erwan
-// Last update Thu Apr  6 21:29:03 2017 Erwan BALLET
+// Last update Fri Apr  7 23:01:29 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -105,7 +105,13 @@ void	Arcade::SolarFox::initGame()
   Arcade::Bullet bullet2;
   Arcade::Bullet bullet3;
   Arcade::Bullet bullet4;
-  
+
+  _frame = 0;
+  _score = 0;
+  _end = false;
+  _dir = Arcade::Bullet::STOP;
+  _ship.first = MAP_WIDTH / 2;
+  _ship.second = MAP_HEIGHT / 2;
   _map.clear();
   Enemy1.setPos((MAP_WIDTH - 1) / 2, 0);
   bullet1.setPos(-1, -1);

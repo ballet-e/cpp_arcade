@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:07:36 2017 Victorien Fischer
-// Last update Thu Apr  6 16:04:00 2017 Arnaud WURMEL
+// Last update Fri Apr  7 22:18:20 2017 Arnaud WURMEL
 //
 
 #ifndef __NCURSESWRAPPER_HH__
@@ -31,7 +31,7 @@ namespace Arcade
 
   public:
     bool	renderWindowStart();
-    void	renderWindowGame(unsigned int, unsigned int, IGame *);
+    Arcade::ExitStatus	renderWindowGame(unsigned int, unsigned int, IGame *);
     bool	setPixel(unsigned int, unsigned int, unsigned int);
     LibraryType	getLibraryType() const;
     void	setText(std::string const &to_print, unsigned int y,

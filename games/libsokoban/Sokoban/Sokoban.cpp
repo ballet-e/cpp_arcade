@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Apr  5 19:05:51 2017 Victorien Fischer
-// Last update Fri Apr  7 10:09:19 2017 Victorien Fischer
+// Last update Fri Apr  7 23:22:16 2017 Arnaud WURMEL
 //
 
 #include "Sokoban.hh"
@@ -15,20 +15,25 @@
 
 Arcade::Sokoban::Sokoban() : _mapManager()
 {
-  _push = 0;
   _pseudo = "Player";
+  initGame();
+  std::cout << getMapWidth() << std::endl;
+  std::cout << getMapHeight() << std::endl;
+}
+
+void	Arcade::Sokoban::initGame()
+{
+  _push = 0;
   _shouldRender = true;
   _success = false;
   _gameover = false;
   _error = false;
   _errorMsg = "";
-  _map = _mapManager.retrieveMap("map");
+  _map = _mapManager.retrieveMap("Ressources/Sokoban/map");
   checkMap();
   _playing = !_error;
   if (_playing)
     checkEnd();
-  std::cout << getMapWidth() << std::endl;
-  std::cout << getMapHeight() << std::endl;
 }
 
 /*

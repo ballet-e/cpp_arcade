@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 22:07:33 2017 Arnaud WURMEL
-// Last update Tue Apr  4 19:36:16 2017 Arnaud WURMEL
+// Last update Fri Apr  7 22:20:04 2017 Arnaud WURMEL
 //
 
 #include "LapinHelper.hh"
@@ -163,12 +163,12 @@ void	Arcade::LapinWrapper::drawTitle()
   setText(text, 120, Arcade::ElementPosition::CENTER, 15, AWHITE);
 }
 
-void	Arcade::LapinWrapper::renderWindowGame(unsigned int width, unsigned int height,
+Arcade::ExitStatus	Arcade::LapinWrapper::renderWindowGame(unsigned int width, unsigned int height,
 					       Arcade::IGame *game)
 {
   if (createWindow(width, height) == false ||
       (_game_pix = bunny_new_pixelarray(600, 600)) == NULL)
-    return ;
+    return Arcade::ExitStatus::Exit;
   _game = game;
   _game->setUpGraphics(this);
   bunny_set_key_response(&keyGame);
@@ -176,6 +176,7 @@ void	Arcade::LapinWrapper::renderWindowGame(unsigned int width, unsigned int hei
   bunny_loop(_window, 60, this);
   bunny_stop(_window);
   _window = NULL;
+  return Arcade::ExitStatus::Exit;
 }
 
 bool	Arcade::LapinWrapper::setPixel(unsigned int x, unsigned int y,

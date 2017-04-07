@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Fri Apr  7 09:53:47 2017 Arnaud WURMEL
+// Last update Fri Apr  7 22:18:55 2017 Arnaud WURMEL
 //
 
 #include <thread>
@@ -43,8 +43,8 @@ bool	Arcade::NCursesWrapper::renderWindowStart()
 	  _screen.getPseudo().size());
 }
 
-void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int height,
-						 IGame *game)
+Arcade::ExitStatus	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int height,
+								 IGame *game)
 {
   int	key;
 
@@ -61,7 +61,7 @@ void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int h
 	  if (key == 27)
 	    {
 	      deleteWindow();
-	      return ;
+	      return Arcade::ExitStatus::Exit;
 	    }
 	  if (key == KEY_UP)
 	    game->eventListener(Event(Arcade::Event::AKEY_UP));;
@@ -83,6 +83,7 @@ void	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int h
 	}
       std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
+  return Arcade::ExitStatus::Exit;
 }
 
 bool	Arcade::NCursesWrapper::setPixel(unsigned int x, unsigned int y, unsigned int color)

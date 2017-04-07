@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Mon Apr  3 22:55:38 2017 Arnaud WURMEL
+// Last update Fri Apr  7 23:09:00 2017 Arnaud WURMEL
 //
 
 #ifndef SFMLWRAPPER_HH_
@@ -13,6 +13,7 @@
 
 # include <SFML/Window.hpp>
 # include <SFML/Graphics.hpp>
+# include <map>
 # include <vector>
 # include "IGraphic.hh"
 # include "IGame.hh"
@@ -28,7 +29,7 @@ namespace Arcade
     ~SFMLWrapper();
   public:
     bool	renderWindowStart();
-    void	renderWindowGame(unsigned int, unsigned int, IGame*);
+    Arcade::ExitStatus	renderWindowGame(unsigned int, unsigned int, IGame*);
     bool	setPixel(unsigned int, unsigned int, unsigned int);
     LibraryType	getLibraryType() const;
     void	setText(std::string const&to_print, unsigned int y,
@@ -57,7 +58,8 @@ namespace Arcade
   private:
     sf::RenderWindow		*_window;
     sf::Image			_image;
-    Arcade::StartScreen		_screen; 
+    Arcade::StartScreen		_screen;
+    std::map<unsigned int, Arcade::ExitStatus>	_mapping;
   };
 }
 

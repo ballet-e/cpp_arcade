@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Thu Apr  6 21:30:35 2017 Victorien Fischer
+// Last update Fri Apr  7 23:16:46 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -16,8 +16,6 @@
 
 Arcade::Snake::Snake() : _map(MAP_HEIGHT)
 {
-  _score = 0;
-  _frame = 0;
   _isInit = false;
   _graderMode = true;
   _pseudo = "Player";
@@ -26,7 +24,11 @@ Arcade::Snake::Snake() : _map(MAP_HEIGHT)
 
 void	Arcade::Snake::initGame()
 {
+  _score = 0;
+  _frame = 0;
   _map.clear();
+  _body.clear();
+  _food.clear();
   initMap();
   _validatePosition = true;
   _hasEat = false;

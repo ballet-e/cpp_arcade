@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Thu Apr  6 15:56:21 2017 Arnaud WURMEL
+// Last update Fri Apr  7 23:00:03 2017 Arnaud WURMEL
 //
 
 #ifndef SNAKE_HH_
@@ -47,6 +47,7 @@ namespace	Arcade
     Arcade::IGame::GameState	gameState() const;
     unsigned int	getMapWidth() const;
     unsigned int	getMapHeight() const;
+    void	initGame();
 
     /*
     ** Koalinette protocol
@@ -66,7 +67,6 @@ namespace	Arcade
   private:
     void	showMap();
     void	initMap();
-    void	initGame();
     void	drawSquare(unsigned int, unsigned int, unsigned int, unsigned int);
     void	moveSnake();
     void	generateFood();

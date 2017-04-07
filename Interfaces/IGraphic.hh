@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 11:29:38 2017 Arnaud WURMEL
-// Last update Fri Apr  7 20:56:03 2017 Arnaud WURMEL
+// Last update Fri Apr  7 23:07:29 2017 Arnaud WURMEL
 //
 
 #ifndef IGRAPHIC_HH_
@@ -23,7 +23,8 @@ namespace Arcade
       NextLib,
       PrevLib,
       NextGame,
-      PrevGame
+      PrevGame,
+      BackMenu
     };
   enum	Colors
     {

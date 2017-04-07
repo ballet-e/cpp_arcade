@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:00 2017 Arnaud WURMEL
-// Last update Thu Apr  6 16:57:25 2017 Victorien Fischer
+// Last update Fri Apr  7 22:48:40 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -16,6 +16,8 @@
 
 Arcade::ArcadeGames::ArcadeGames(Arcade::IGraphic *graphic, Arcade::IGame *game)
 {
+  _game_path = "";
+  _lib_path = "";
   _game = game;
   _graphic = graphic;
   if (!_graphic && !_game)
@@ -24,9 +26,15 @@ Arcade::ArcadeGames::ArcadeGames(Arcade::IGraphic *graphic, Arcade::IGame *game)
 
 void	Arcade::ArcadeGames::runGame()
 {
+  Arcade::ExitStatus	e;
+
   if (!_game || !_graphic)
     throw LoadingError("Missing library");
-  _graphic->renderWindowGame(1200, 900, _game);
+  e = _graphic->renderWindowGame(1200, 900, _game);
+  if (e != Arcade::ExitStatus::Exit)
+    {
+      std::cout << "Should do something" << std::endl;
+    }
 }
 
 bool	Arcade::ArcadeGames::getMissingLibrary()
@@ -71,6 +79,7 @@ bool	Arcade::ArcadeGames::getGraphicLibrary(bool use_default)
   if (_graphic)
     delete _graphic;
   _graphic = dynamic_cast<Arcade::IGraphic *>(lib);
+  _lib_path = path;
   if (path.size() == 0)
     return false;
   return true;

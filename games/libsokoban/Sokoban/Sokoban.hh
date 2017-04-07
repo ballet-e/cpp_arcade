@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Apr  5 13:19:08 2017 Victorien Fischer
-// Last update Fri Apr  7 09:28:30 2017 Victorien Fischer
+// Last update Fri Apr  7 23:19:28 2017 Arnaud WURMEL
 //
 
 #ifndef __SOKOBAN_HH__
@@ -40,6 +40,7 @@ namespace Arcade
     Arcade::IGame::GameState	gameState() const;
     unsigned int		getMapWidth() const;
     unsigned int		getMapHeight() const;
+    void			initGame();
 
   private:
     void			saveScore() const;

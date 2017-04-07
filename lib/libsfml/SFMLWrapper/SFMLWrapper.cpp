@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Thu Apr  6 19:01:53 2017 Arnaud WURMEL
+// Last update Fri Apr  7 23:15:25 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -13,6 +13,7 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <utility>
 #include <exception>
 #include "SFMLWrapper.hh"
 #include "StartScreen.hpp"
@@ -20,6 +21,11 @@
 Arcade::SFMLWrapper::SFMLWrapper()
 {
   _window = NULL;
+  _mapping.insert(std::make_pair(2, Arcade::ExitStatus::PrevLib));
+  _mapping.insert(std::make_pair(3, Arcade::ExitStatus::NextLib));
+  _mapping.insert(std::make_pair(4, Arcade::ExitStatus::PrevGame));
+  _mapping.insert(std::make_pair(5, Arcade::ExitStatus::NextGame));
+  _mapping.insert(std::make_pair(9, Arcade::ExitStatus::BackMenu));
 }
 
 void	Arcade::SFMLWrapper::drawTitle()
@@ -178,7 +184,7 @@ void	Arcade::SFMLWrapper::renderGame()
   _window->draw(sprite);
 }
 
-void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int height, IGame* game)
+Arcade::ExitStatus	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int height, IGame* game)
 {
   sf::Event	e;
 
@@ -195,12 +201,16 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
     {
       if (_window->pollEvent(e))
 	{
+	  if (_mapping.find((e.key.code - sf::Keyboard::Num0)) != _mapping.end())
+	    return (_mapping[(e.key.code - sf::Keyboard::Num0)]);
+	  if (e.key.code == sf::Keyboard::Num8)
+	    game->initGame();
 	  if (e.type == sf::Event::Closed ||
 	      (e.type == sf::Event::KeyPressed &&
 	       e.key.code == sf::Keyboard::Escape))
 	    {
 	      _window->close();
-	      return ;
+	      return (Arcade::ExitStatus::Exit);
 	    }
 	  if (e.type == sf::Event::KeyPressed)
 	    {
@@ -226,6 +236,7 @@ void	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, unsigned int heig
 	}
       std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
+  return (Arcade::ExitStatus::Exit);
 }
 
 void	Arcade::SFMLWrapper::getColor(sf::Color colors[9]) const

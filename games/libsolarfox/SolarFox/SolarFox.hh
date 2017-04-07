@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 //
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Thu Apr  6 21:15:32 2017 Erwan BALLET
+// Last update Fri Apr  7 23:02:09 2017 Arnaud WURMEL
 //
 
 #ifndef SOLARFOX_HH_
@@ -41,6 +41,7 @@ namespace	Arcade
     Arcade::IGame::GameState	gameState() const;
     unsigned int		getMapWidth() const;
     unsigned int		getMapHeight() const;
+    void	initGame();
 
     /*
     ** Koalinette protocol
@@ -58,7 +59,6 @@ namespace	Arcade
     void	playRound();
 
   private:
-    void	initGame();
     void	initMap();
     void	showMap();
     void	drawSquare(unsigned int size, unsigned int color,

@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:22 2017 Arnaud WURMEL
-// Last update Mon Mar 13 12:25:48 2017 Arnaud WURMEL
+// Last update Fri Apr  7 22:44:24 2017 Arnaud WURMEL
 //
 
 #ifndef ARCADEGAMES_HPP_
@@ -34,6 +34,8 @@ namespace	Arcade
     Arcade::ILibrary	*loadLibrary(std::string const&) const;
 
   private:
+    std::string	_game_path;
+    std::string _lib_path;
     IGraphic	*_graphic;
     IGame	*_game;
   };

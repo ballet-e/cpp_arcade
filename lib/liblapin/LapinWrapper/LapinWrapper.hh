@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 22:01:33 2017 Arnaud WURMEL
-// Last update Tue Apr  4 15:59:18 2017 Arnaud WURMEL
+// Last update Fri Apr  7 22:19:33 2017 Arnaud WURMEL
 //
 
 #ifndef LAPINWRAPPER_HH_
@@ -27,7 +27,7 @@ namespace Arcade
 
   public:
     bool	renderWindowStart();
-    void	renderWindowGame(unsigned int, unsigned int, IGame*);
+    Arcade::ExitStatus	renderWindowGame(unsigned int, unsigned int, IGame*);
     bool	setPixel(unsigned int, unsigned int, unsigned int);
     LibraryType	getLibraryType() const;
     void	setText(std::string const&to_print, unsigned int y,
