@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 18:29:41 2017 Arnaud WURMEL
-// Last update Thu Apr  6 19:14:05 2017 Arnaud WURMEL
+// Last update Thu Apr  6 21:29:50 2017 Arnaud WURMEL
 //
 
 #ifndef MAPLOADER_HH_
@@ -24,7 +24,10 @@ namespace Arcade
 
   struct	Map
   {
-    CellType	type;
+    Map(CellType type) : _type(type)
+    {}
+
+    CellType	_type;
   };
 
   class	MapLoader
@@ -34,13 +37,12 @@ namespace Arcade
     ~MapLoader();
 
   public:
-    std::vector<std::unique_ptr<Map>> const&	getMap();
+    std::vector<std::vector<std::shared_ptr<Map>>> const&	getMap();
+    void	deleteMap();
 
   private:
     void	loadFile();
 
-  private:
-    std::vector<std::unique_ptr<Map>>	_map;
   };
 }
 

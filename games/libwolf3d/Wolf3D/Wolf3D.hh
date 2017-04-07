@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 16:33:46 2017 Arnaud WURMEL
-// Last update Thu Apr  6 19:10:07 2017 Arnaud WURMEL
+// Last update Thu Apr  6 21:25:31 2017 Arnaud WURMEL
 //
 
 #ifndef WOLF3D_HH_
@@ -13,13 +13,15 @@
 
 # define SCREEN_WIDTH 100
 # define SCREEN_HEIGHT 40
-
-# include <iostream>
-# include "IGame.hh"
-# include "Event.hh"
-
 # define MAP_WIDTH 20
 # define MAP_HEIGHT 20
+
+# include <iostream>
+# include <vector>
+# include <memory>
+# include "IGame.hh"
+# include "Event.hh"
+# include "MapLoader.hh"
 
 namespace	Arcade
 {
@@ -47,6 +49,8 @@ namespace	Arcade
   private:
     Arcade::IGraphic	*_graphic;
     std::string		_pseudo;
+    Arcade::MapLoader	_loader;
+    std::vector<std::vector<std::shared_ptr<Arcade::Map>>>	_map;
   };
 }
 
