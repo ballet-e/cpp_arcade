@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Sat Apr  8 01:45:34 2017 Arnaud WURMEL
+// Last update Sat Apr  8 01:55:29 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -23,7 +23,7 @@ Arcade::SFMLWrapper::SFMLWrapper()
   _window = NULL;
   _mapping.insert(std::make_pair(sf::Keyboard::Num2, Arcade::ExitStatus::PrevLib));
   _mapping.insert(std::make_pair(sf::Keyboard::Num3, Arcade::ExitStatus::NextLib));
-  _mapping.insert(std::make_pair(sf::Keyboard::Num4, Arcade::ExitStatus::PrevGame));
+  _mapping.insert(std::make_pair(sf::Keyboard::Quote, Arcade::ExitStatus::PrevGame));
   _mapping.insert(std::make_pair(sf::Keyboard::Num5, Arcade::ExitStatus::NextGame));
   _mapping.insert(std::make_pair(sf::Keyboard::Num9, Arcade::ExitStatus::BackMenu));
 }
