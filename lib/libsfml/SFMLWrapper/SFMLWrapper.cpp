@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Sat Apr  8 00:43:11 2017 Arnaud WURMEL
+// Last update Sat Apr  8 01:24:10 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -21,11 +21,11 @@
 Arcade::SFMLWrapper::SFMLWrapper()
 {
   _window = NULL;
-  _mapping.insert(std::make_pair(2, Arcade::ExitStatus::PrevLib));
-  _mapping.insert(std::make_pair(3, Arcade::ExitStatus::NextLib));
-  _mapping.insert(std::make_pair(4, Arcade::ExitStatus::PrevGame));
-  _mapping.insert(std::make_pair(5, Arcade::ExitStatus::NextGame));
-  _mapping.insert(std::make_pair(9, Arcade::ExitStatus::BackMenu));
+  _mapping.insert(std::make_pair(sf::Keyboard::Num2, Arcade::ExitStatus::PrevLib));
+  _mapping.insert(std::make_pair(sf::Keyboard::Num3, Arcade::ExitStatus::NextLib));
+  _mapping.insert(std::make_pair(sf::Keyboard::Num4, Arcade::ExitStatus::PrevGame));
+  _mapping.insert(std::make_pair(sf::Keyboard::Num5, Arcade::ExitStatus::NextGame));
+  _mapping.insert(std::make_pair(sf::Keyboard::Num9, Arcade::ExitStatus::BackMenu));
 }
 
 void	Arcade::SFMLWrapper::drawTitle()
@@ -201,8 +201,8 @@ Arcade::ExitStatus	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, uns
     {
       if (_window->pollEvent(e))
 	{
-	  if (_mapping.find((e.key.code - sf::Keyboard::Num0)) != _mapping.end())
-	    return (_mapping[(e.key.code - sf::Keyboard::Num0)]);
+	  if (_mapping.find(e.key.code) != _mapping.end())
+	    return (_mapping[e.key.code]);
 	  if (e.key.code == sf::Keyboard::Num8)
 	    game->initGame();
 	  if (e.type == sf::Event::Closed ||

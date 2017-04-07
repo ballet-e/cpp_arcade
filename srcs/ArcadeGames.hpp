@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:22 2017 Arnaud WURMEL
-// Last update Sat Apr  8 00:39:00 2017 Arnaud WURMEL
+// Last update Sat Apr  8 01:09:14 2017 Arnaud WURMEL
 //
 
 #ifndef ARCADEGAMES_HPP_
@@ -32,6 +32,7 @@ namespace	Arcade
     bool	getMissingLibrary();
 
   private:
+    bool	setUpGames(std::string const&);
     std::vector<std::string>	getLibraryForDirectory(std::string const&) const;
     std::string	getFirstLibraryIn(const char *) const;
     bool	getGraphicLibrary(bool use_default = false, std::string path = "");
@@ -49,6 +50,7 @@ namespace	Arcade
   private:
     std::string	_game_path;
     std::string _lib_path;
+    std::string	_pseudo;
     IGraphic	*_graphic;
     IGame	*_game;
     std::map<Arcade::ExitStatus, std::function<bool ()>>	_callback;

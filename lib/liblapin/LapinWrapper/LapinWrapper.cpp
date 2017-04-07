@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 22:07:33 2017 Arnaud WURMEL
-// Last update Fri Apr  7 23:55:54 2017 Arnaud WURMEL
+// Last update Sat Apr  8 01:28:53 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -50,7 +50,7 @@ static t_bunny_response	keyGame(t_bunny_event_state sta,
   keyMapping.insert(std::make_pair(BKS_RIGHT, Arcade::Event::AKEY_RIGHT));
   libMapping.insert(std::make_pair(BKS_2, Arcade::ExitStatus::PrevLib));
   libMapping.insert(std::make_pair(BKS_3, Arcade::ExitStatus::NextLib));
-  libMapping.insert(std::make_pair(BKS_4, Arcade::ExitStatus::PrevGame));
+  libMapping.insert(std::make_pair(51, Arcade::ExitStatus::PrevGame));
   libMapping.insert(std::make_pair(BKS_5, Arcade::ExitStatus::NextGame));
   libMapping.insert(std::make_pair(BKS_9, Arcade::ExitStatus::BackMenu));
   if (sta == GO_UP)

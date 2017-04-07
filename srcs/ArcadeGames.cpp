@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:00 2017 Arnaud WURMEL
-// Last update Sat Apr  8 00:41:31 2017 Arnaud WURMEL
+// Last update Sat Apr  8 01:18:22 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -20,6 +20,7 @@ Arcade::ArcadeGames::ArcadeGames(Arcade::IGraphic *graphic, Arcade::IGame *game,
 {
   _game_path = "";
   _lib_path = "";
+  _pseudo = "";
   _game = game;
   _graphic = graphic;
   if (graphic)
@@ -28,10 +29,10 @@ Arcade::ArcadeGames::ArcadeGames(Arcade::IGraphic *graphic, Arcade::IGame *game,
     _game_path = path;
   if (!_graphic && !_game)
     throw LoadingError("Library does not respect the correct format");
-  _callback.insert(std::make_pair(Arcade::ExitStatus::PrevLib, std::bind(&Arcade::ArcadeGames::loadPrevLib, this)));
   _callback.insert(std::make_pair(Arcade::ExitStatus::NextLib, std::bind(&Arcade::ArcadeGames::loadNextLib, this)));
+  _callback.insert(std::make_pair(Arcade::ExitStatus::PrevLib, std::bind(&Arcade::ArcadeGames::loadPrevLib, this)));
+  _callback.insert(std::make_pair(Arcade::ExitStatus::NextGame, std::bind(&Arcade::ArcadeGames::loadNextGame, this)));
   _callback.insert(std::make_pair(Arcade::ExitStatus::PrevGame, std::bind(&Arcade::ArcadeGames::loadPrevGame, this)));
-  _callback.insert(std::make_pair(Arcade::ExitStatus::NextGame, std::bind(&Arcade::ArcadeGames::loadPrevLib, this)));
   _callback.insert(std::make_pair(Arcade::ExitStatus::BackMenu, std::bind(&Arcade::ArcadeGames::backToMenu, this)));
 }
 
@@ -46,7 +47,8 @@ void	Arcade::ArcadeGames::runGame()
     {
       if (handleExitStatus(e) == false)
 	return ;
-      getMissingLibrary();
+      if (getMissingLibrary() == false)
+	return ;
       runGame();
     }
 }
@@ -93,7 +95,7 @@ bool	Arcade::ArcadeGames::getGraphicLibrary(bool use_default, std::string path)
     throw LoadingError("Wrong library type. Expected game");
   if (_graphic)
     delete _graphic;
-  _graphic = dynamic_cast<Arcade::IGraphic *>(lib);
+  _graphic = static_cast<Arcade::IGraphic *>(lib);
   _lib_path = path;
   if (path.size() == 0)
     return false;
@@ -119,18 +121,27 @@ std::string	Arcade::ArcadeGames::getFirstLibraryIn(const char *dir_path) const
   return (std::string(""));
 }
 
-bool	Arcade::ArcadeGames::getGameLibrary()
+bool	Arcade::ArcadeGames::setUpGames(std::string const& path)
 {
   ILibrary	*game;
 
-  if (_graphic->renderWindowStart() == false)
-    return false;
-  game = loadLibrary("./games/" + _graphic->getGamePath());
+  game = loadLibrary("./games/" + path);
   if (game->getLibraryType() != Arcade::GAME)
     throw LoadingError("Wrong library type. Expected game");
-  _game = dynamic_cast<IGame *>(game);
-  _game_path = _graphic->getGamePath();
-  _game->setUpPseudo(_graphic->getPseudo());
+  if (_game)
+    delete _game;
+  _game = static_cast<IGame *>(game);
+  _game_path = path;
+  _game->setUpPseudo(_pseudo);
+  return true;
+}
+
+bool	Arcade::ArcadeGames::getGameLibrary()
+{
+  if (_graphic->renderWindowStart() == false)
+    return false;
+  _pseudo = _graphic->getPseudo();
+  setUpGames(_graphic->getGamePath());
   return (getGraphicLibrary());
 }
 
@@ -161,6 +172,7 @@ Arcade::ArcadeGames::getLibraryForDirectory(std::string const& directory) const
 
 bool	Arcade::ArcadeGames::handleExitStatus(Arcade::ExitStatus const& status)
 {
+  std::cout << status << std::endl;
   if (_callback.find(status) != _callback.end())
     return _callback[status]();
   else
@@ -198,24 +210,6 @@ bool	Arcade::ArcadeGames::loadPrevLib()
   while (idx < libs.size())
     {
       if (libs[idx].compare(_lib_path) == 0)
-	return getGraphicLibrary(false, libs[(idx + 1) % libs.size()]);
-      ++idx;
-    }
-  return false;
-}
-
-bool	Arcade::ArcadeGames::loadNextGame()
-{
-  std::vector<std::string>	libs;
-  unsigned int	idx;
-
-  libs = getLibraryForDirectory("./lib/");
-  if (libs.size() == 0)
-    return false;
-  idx = 0;
-  while (idx < libs.size())
-    {
-      if (libs[idx].compare(_lib_path) == 0)
 	{
 	  if (idx > 0)
 	    return getGraphicLibrary(false, libs[(idx - 1) % libs.size()]);
@@ -227,9 +221,46 @@ bool	Arcade::ArcadeGames::loadNextGame()
   return false;
 }
 
+bool	Arcade::ArcadeGames::loadNextGame()
+{
+  std::vector<std::string>	libs;
+  unsigned int	idx;
+
+  libs = getLibraryForDirectory("./games/");
+  if (libs.size() == 0)
+    return false;
+  idx = 0;
+  while (idx < libs.size())
+    {
+      if (libs[idx].compare(_game_path) == 0)
+	return setUpGames(libs[(idx + 1) % libs.size()]);
+      ++idx;
+    }
+  return false;
+}
+
 bool	Arcade::ArcadeGames::loadPrevGame()
 {
+  std::vector<std::string>	libs;
+  unsigned int	idx;
 
+  libs = getLibraryForDirectory("./games/");
+  if (libs.size() == 0)
+    return false;
+  idx = 0;
+  while (idx < libs.size())
+    {
+      std::cout << libs[idx] << " " << _game_path << std::endl;
+      if (libs[idx].compare(_game_path) == 0)
+	{
+	  if (idx > 0)
+	    return setUpGames(libs[(idx - 1) % libs.size()]);
+	  else
+	    return setUpGames(libs[libs.size() - 1]);
+	}
+      ++idx;
+    }
+  return false;
 }
 
 bool	Arcade::ArcadeGames::backToMenu()
