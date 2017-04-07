@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Apr  5 19:05:51 2017 Victorien Fischer
-// Last update Fri Apr  7 03:07:04 2017 Victorien Fischer
+// Last update Fri Apr  7 09:48:28 2017 Victorien Fischer
 //
 
 #include "Sokoban.hh"
@@ -27,6 +27,8 @@ Arcade::Sokoban::Sokoban() : _mapManager()
   _playing = !_error;
   if (_playing)
     checkEnd();
+  std::cout << getMapWidth() << std::endl;
+  std::cout << getMapHeight() << std::endl;
 }
 
 /*
@@ -272,18 +274,12 @@ Arcade::IGame::GameState	Arcade::Sokoban::gameState() const
 
 unsigned int			Arcade::Sokoban::getMapWidth() const
 {
-  int				v;
-
-  v = _mapManager.getWidth();
-  return (((v / 10) + (v % 10 != 0)) * 10);
+  return (20);
 }
 
 unsigned int			Arcade::Sokoban::getMapHeight() const
 {
-  int				v;
-
-  v = _mapManager.getHeight();
-  return (((v / 10) + (v % 10 != 0)) * 10);
+  return (20);
 }
 
 Arcade::Case			*Arcade::Sokoban::getPositionCase(int x, int y)

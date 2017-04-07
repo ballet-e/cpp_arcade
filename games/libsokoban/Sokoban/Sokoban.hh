@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Apr  5 13:19:08 2017 Victorien Fischer
-// Last update Fri Apr  7 02:57:11 2017 Victorien Fischer
+// Last update Fri Apr  7 09:28:30 2017 Victorien Fischer
 //
 
 #ifndef __SOKOBAN_HH__
@@ -60,6 +60,8 @@ namespace Arcade
     Arcade::MapManager			_mapManager;
     unsigned int			_push;
     std::string				_errorMsg;
+    int					_width;
+    int					_height;
 
   private:
     bool				_shouldRender;

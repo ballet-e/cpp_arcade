@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Mar 12 14:50:35 2017 Arnaud WURMEL
-// Last update Fri Apr  7 08:51:05 2017 Victorien Fischer
+// Last update Fri Apr  7 09:54:00 2017 Victorien Fischer
 //
 
 #include <iostream>
@@ -45,7 +45,7 @@ void	Arcade::Button::renderObject(Arcade::IGraphic *graphic, bool isHighlighted)
 
   backgroundColor = Arcade::Colors::ABLACK;
   frontColor = Arcade::Colors::AWHITE;
-  to_print = (this->isSelected() ? "* " : "") + _title;
+  to_print = _title;
   if (isHighlighted || this->isSelected())
     {
       backgroundColor = Arcade::Colors::AWHITE;
@@ -59,6 +59,7 @@ void	Arcade::Button::renderObject(Arcade::IGraphic *graphic, bool isHighlighted)
     to_print = to_print.substr(0, to_print.size() - ext.size());
   if (to_print[0] >= 'a' && to_print[0] <= 'z')
     to_print[0] -= 32;
+  to_print = (this->isSelected() ? "* " : "") + to_print + (this->isSelected() ? " *" : "");
   graphic->setText(to_print, _y, _pos, 15, frontColor, backgroundColor);
 }
 
