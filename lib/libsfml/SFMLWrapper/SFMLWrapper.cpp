@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Sat Apr  8 01:24:10 2017 Arnaud WURMEL
+// Last update Sat Apr  8 01:45:34 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -201,10 +201,6 @@ Arcade::ExitStatus	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, uns
     {
       if (_window->pollEvent(e))
 	{
-	  if (_mapping.find(e.key.code) != _mapping.end())
-	    return (_mapping[e.key.code]);
-	  if (e.key.code == sf::Keyboard::Num8)
-	    game->initGame();
 	  if (e.type == sf::Event::Closed ||
 	      (e.type == sf::Event::KeyPressed &&
 	       e.key.code == sf::Keyboard::Escape))
@@ -214,6 +210,15 @@ Arcade::ExitStatus	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, uns
 	    }
 	  if (e.type == sf::Event::KeyPressed)
 	    {
+	      if (_mapping.find(e.key.code) != _mapping.end())
+		{
+		  _window->close();
+		  delete _window;
+		  _window = NULL;
+		  return (_mapping[e.key.code]);
+		}
+	      if (e.key.code == sf::Keyboard::Num8)
+		game->initGame();
 	      if (e.key.code == sf::Keyboard::Up)
 		game->eventListener(Event(Arcade::Event::AKEY_UP));
 	      else if (e.key.code == sf::Keyboard::Down)

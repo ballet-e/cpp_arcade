@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:00 2017 Arnaud WURMEL
-// Last update Sat Apr  8 01:18:22 2017 Arnaud WURMEL
+// Last update Sat Apr  8 01:40:48 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -45,6 +45,7 @@ void	Arcade::ArcadeGames::runGame()
   e = _graphic->renderWindowGame(1200, 900, _game);
   if (e != Arcade::ExitStatus::Exit)
     {
+      std::cout << "Here" << std::endl;
       if (handleExitStatus(e) == false)
 	return ;
       if (getMissingLibrary() == false)

@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Apr  3 22:07:33 2017 Arnaud WURMEL
-// Last update Sat Apr  8 01:28:53 2017 Arnaud WURMEL
+// Last update Sat Apr  8 01:47:17 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -61,6 +61,8 @@ static t_bunny_response	keyGame(t_bunny_event_state sta,
       wrapper->setExitStatus(Arcade::ExitStatus::Exit);
       return (EXIT_ON_SUCCESS);
     }
+  if (sym == BKS_8)
+    wrapper->_game->initGame();
   if (libMapping.find(sym) != libMapping.end())
     {
       wrapper->setExitStatus(libMapping[sym]);
@@ -185,6 +187,7 @@ Arcade::ExitStatus	Arcade::LapinWrapper::renderWindowGame(unsigned int width,
   if (createWindow(width, height) == false ||
       (_game_pix = bunny_new_pixelarray(600, 600)) == NULL)
     return Arcade::ExitStatus::Exit;
+  _status = Arcade::ExitStatus::Exit;
   _game = game;
   _game->setUpGraphics(this);
   bunny_set_key_response(&keyGame);
