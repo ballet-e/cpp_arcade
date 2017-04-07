@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:07:36 2017 Victorien Fischer
-// Last update Fri Apr  7 22:18:20 2017 Arnaud WURMEL
+// Last update Fri Apr  7 23:38:02 2017 Arnaud WURMEL
 //
 
 #ifndef __NCURSESWRAPPER_HH__
@@ -19,6 +19,7 @@
 # include "IGame.hh"
 # include "ScoreManager.hpp"
 # include "StartScreen.hpp"
+# include "Event.hh"
 # include "Text.hh"
 
 namespace Arcade
@@ -65,6 +66,8 @@ namespace Arcade
     WINDOW		*_window;
     std::vector<std::unique_ptr<Arcade::Text>>	_text;
     std::map<short, std::pair<short, short>>	_colorpair;
+    std::map<char, Arcade::ExitStatus>	_mapping;
+    std::map<unsigned int, Arcade::Event::EventType>	_keyEvent;
   };
 }
 

@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Fri Apr  7 22:18:55 2017 Arnaud WURMEL
+// Last update Fri Apr  7 23:36:58 2017 Arnaud WURMEL
 //
 
 #include <thread>
@@ -17,6 +17,15 @@ Arcade::NCursesWrapper::NCursesWrapper()
 {
   _window = NULL;
   _game = NULL;
+  _mapping.insert(std::make_pair('o', Arcade::ExitStatus::PrevLib));
+  _mapping.insert(std::make_pair('p', Arcade::ExitStatus::NextLib));
+  _mapping.insert(std::make_pair('u', Arcade::ExitStatus::PrevGame));
+  _mapping.insert(std::make_pair('i', Arcade::ExitStatus::NextGame));
+  _mapping.insert(std::make_pair('m', Arcade::ExitStatus::BackMenu));
+  _keyEvent.insert(std::make_pair(KEY_UP, Arcade::Event::AKEY_UP));
+  _keyEvent.insert(std::make_pair(KEY_DOWN, Arcade::Event::AKEY_DOWN));
+  _keyEvent.insert(std::make_pair(KEY_LEFT, Arcade::Event::AKEY_LEFT));
+  _keyEvent.insert(std::make_pair(KEY_RIGHT, Arcade::Event::AKEY_RIGHT));
 }
 
 bool	Arcade::NCursesWrapper::renderWindowStart()
@@ -43,7 +52,8 @@ bool	Arcade::NCursesWrapper::renderWindowStart()
 	  _screen.getPseudo().size());
 }
 
-Arcade::ExitStatus	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, unsigned int height,
+Arcade::ExitStatus	Arcade::NCursesWrapper::renderWindowGame(unsigned int width,
+								 unsigned int height,
 								 IGame *game)
 {
   int	key;
@@ -63,14 +73,15 @@ Arcade::ExitStatus	Arcade::NCursesWrapper::renderWindowGame(unsigned int width, 
 	      deleteWindow();
 	      return Arcade::ExitStatus::Exit;
 	    }
-	  if (key == KEY_UP)
-	    game->eventListener(Event(Arcade::Event::AKEY_UP));;
-	  if (key == KEY_DOWN)
-	    game->eventListener(Event(Arcade::Event::AKEY_DOWN));;
-	  if (key == KEY_LEFT)
-	    game->eventListener(Event(Arcade::Event::AKEY_LEFT));;
-	  if (key == KEY_RIGHT)
-	    game->eventListener(Event(Arcade::Event::AKEY_RIGHT));;
+	  if (_mapping.find(key) != _mapping.end())
+	    {
+	      deleteWindow();
+	      return _mapping[key];
+	    }
+	  if (key == 'r')
+	    game->initGame();
+	  if (_keyEvent.find(key) != _keyEvent.end())
+	    game->eventListener(Event(_keyEvent[key]));
 	}
       if (game->shouldRender())
 	{
