@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:00 2017 Arnaud WURMEL
-// Last update Sat Apr  8 15:11:37 2017 Arnaud WURMEL
+// Last update Sat Apr  8 15:42:52 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -109,10 +109,7 @@ std::string	Arcade::ArcadeGames::getFirstLibraryIn(const char *dir_path) const
 
   dir = opendir(dir_path);
   if (!dir)
-    {
-      std::cerr << "Can't open libraries' directory" << std::endl;
-      throw std::exception();
-    }
+    throw Arcade::LoadingError("Can't open libraries directory");
   while ((dent = readdir(dir)))
     {
       if (dent->d_type == DT_REG && std::string(dent->d_name).find(".so") != std::string::npos)
@@ -154,10 +151,7 @@ Arcade::ArcadeGames::getLibraryForDirectory(std::string const& directory) const
 
   dir = opendir(directory.c_str());
   if (!dir)
-    {
-      std::cerr << "Can't open libraries' directory" << std::endl;
-      throw std::exception();
-    }
+    throw Arcade::LoadingError("Can't open libraries directory");
   while ((dent = readdir(dir)))
     {
       if (dent->d_type == DT_REG &&
