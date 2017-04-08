@@ -5,13 +5,13 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 16:33:46 2017 Arnaud WURMEL
-// Last update Sat Apr  8 18:22:45 2017 Arnaud WURMEL
+// Last update Sat Apr  8 20:33:26 2017 Arnaud WURMEL
 //
 
 #ifndef WOLF3D_HH_
 # define WOLF3D_HH_
 
-# define SCREEN_WIDTH 70
+# define SCREEN_WIDTH 95
 # define SCREEN_HEIGHT 40
 # define MAP_WIDTH 20
 # define MAP_HEIGHT 20
@@ -59,6 +59,10 @@ namespace	Arcade
     void	backward();
     void	rotateLeft();
     void	rotateRight();
+    void	drawSquare(unsigned int, unsigned int,
+			   Arcade::Position const&,
+			   unsigned int);
+    
   private:
     void	initGame();
     double	getWallSize(double);

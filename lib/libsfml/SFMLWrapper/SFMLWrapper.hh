@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:34:07 2017 Arnaud WURMEL
-// Last update Fri Apr  7 23:09:00 2017 Arnaud WURMEL
+// Last update Sat Apr  8 19:36:18 2017 Arnaud WURMEL
 //
 
 #ifndef SFMLWRAPPER_HH_
@@ -53,9 +53,10 @@ namespace Arcade
     void	drawTitle();
     void	drawWindow();
     bool	keyboardHandler(sf::Event const&);
-    void	getColor(sf::Color[8]) const;
+    void	getColor();
 
   private:
+    sf::Color	_colors[9];
     sf::RenderWindow		*_window;
     sf::Image			_image;
     Arcade::StartScreen		_screen;

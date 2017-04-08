@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Sat Apr  8 01:55:29 2017 Arnaud WURMEL
+// Last update Sat Apr  8 19:37:06 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -21,6 +21,7 @@
 Arcade::SFMLWrapper::SFMLWrapper()
 {
   _window = NULL;
+  getColor();
   _mapping.insert(std::make_pair(sf::Keyboard::Num2, Arcade::ExitStatus::PrevLib));
   _mapping.insert(std::make_pair(sf::Keyboard::Num3, Arcade::ExitStatus::NextLib));
   _mapping.insert(std::make_pair(sf::Keyboard::Quote, Arcade::ExitStatus::PrevGame));
@@ -143,13 +144,10 @@ bool	Arcade::SFMLWrapper::createWindow(unsigned int width, unsigned int height)
 bool	Arcade::SFMLWrapper::setPixel(unsigned int x, unsigned int y,
 				      unsigned int color)
 {
-  sf::Color	colors[8];
-
-  getColor(colors);
   if (x >= _image.getSize().x ||
       y >= _image.getSize().x)
     return false;
-  _image.setPixel(x, y, colors[color % 9]);
+  _image.setPixel(x, y, _colors[color % 9]);
   return true;
 }
 
@@ -244,17 +242,17 @@ Arcade::ExitStatus	Arcade::SFMLWrapper::renderWindowGame(unsigned int width, uns
   return (Arcade::ExitStatus::Exit);
 }
 
-void	Arcade::SFMLWrapper::getColor(sf::Color colors[9]) const
+void	Arcade::SFMLWrapper::getColor()
 {
-  colors[ABLACK] = sf::Color::Black;
-  colors[AGREEN] = sf::Color(39, 174, 96);
-  colors[AGREY] = sf::Color(120, 120, 120);
-  colors[ACYAN] = sf::Color(52, 152, 219);
-  colors[AYELLOW] = sf::Color(241, 196, 15);
-  colors[ARED] = sf::Color(231, 76, 60);
-  colors[APINK] = sf::Color(142, 68, 173);
-  colors[AWHITE] = sf::Color(255, 255, 255);
-  colors[ABLUE] = sf::Color(41, 128, 185);
+  _colors[ABLACK] = sf::Color::Black;
+  _colors[AGREEN] = sf::Color(39, 174, 96);
+  _colors[AGREY] = sf::Color(120, 120, 120);
+  _colors[ACYAN] = sf::Color(52, 152, 219);
+  _colors[AYELLOW] = sf::Color(241, 196, 15);
+  _colors[ARED] = sf::Color(231, 76, 60);
+  _colors[APINK] = sf::Color(142, 68, 173);
+  _colors[AWHITE] = sf::Color(255, 255, 255);
+  _colors[ABLUE] = sf::Color(41, 128, 185);
 }
 
 void	Arcade::SFMLWrapper::setText(std::string const& to_print,
@@ -266,7 +264,6 @@ void	Arcade::SFMLWrapper::setText(std::string const& to_print,
 {
   sf::Text	text;
   sf::Font	font;
-  sf::Color	colors[9];
   unsigned int	x;
 
   if (!font.loadFromFile("Ressources/font.ttf"))
@@ -276,7 +273,6 @@ void	Arcade::SFMLWrapper::setText(std::string const& to_print,
   text.setString(to_print);
   text.setCharacterSize(fontSize);
   x = 5;
-  getColor(colors);
   if (mode == Arcade::ElementPosition::CENTER)
     x = (_window->getView().getSize().x / 2 - (text.getLocalBounds().width / 2));
   else if (mode == Arcade::ElementPosition::RIGHT)
@@ -286,11 +282,11 @@ void	Arcade::SFMLWrapper::setText(std::string const& to_print,
   else if (mode == LEFT_CENTER)
     x = ((_window->getView().getSize().x / 2) - (text.getLocalBounds().width + 50));
   text.setPosition(x, y);
-  text.setColor(colors[fontColor]);
+  text.setColor(_colors[fontColor]);
   sf::FloatRect backgroundRect = text.getLocalBounds();
   sf::RectangleShape background(sf::Vector2f(backgroundRect.width + 4, backgroundRect.height + 4));
 
-  background.setFillColor(colors[backgroundColor]);
+  background.setFillColor(_colors[backgroundColor]);
   background.setPosition(x - 2, y);
   _window->draw(background);
   _window->draw(text);

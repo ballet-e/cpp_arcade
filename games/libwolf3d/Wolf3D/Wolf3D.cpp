@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 16:37:34 2017 Arnaud WURMEL
-// Last update Sat Apr  8 18:22:41 2017 Arnaud WURMEL
+// Last update Sat Apr  8 20:35:28 2017 Arnaud WURMEL
 //
 
 #include <math.h>
@@ -14,7 +14,6 @@
 Arcade::Wolf3D::Wolf3D()
 {
   initGame();
-  _render = true;
   _keyBinding.insert(std::make_pair(Arcade::Event::EventType::AKEY_UP, std::bind(&Arcade::Wolf3D::forward, this)));
   _keyBinding.insert(std::make_pair(Arcade::Event::EventType::AKEY_DOWN, std::bind(&Arcade::Wolf3D::backward, this)));
   _keyBinding.insert(std::make_pair(Arcade::Event::EventType::AKEY_LEFT, std::bind(&Arcade::Wolf3D::rotateLeft, this)));
@@ -28,12 +27,14 @@ void	Arcade::Wolf3D::initGame()
   if (_map.size() > 0)
     _p.pos = _loader.getPlayerPosition();
   _p.angle = 0.0;
+  _render = true;
   _map_width = _loader.getMapWidth();
   _map_height = _loader.getMapHeight();
 }
 
 void	Arcade::Wolf3D::setUpGraphics(Arcade::IGraphic *graphic)
 {
+  _render = true;
   _graphic = graphic;
 }
 
@@ -42,9 +43,28 @@ void	Arcade::Wolf3D::setUpPseudo(std::string const& pseudo)
   _pseudo = pseudo;
 }
 
+void	Arcade::Wolf3D::drawSquare(unsigned int x, unsigned int y,
+				   Arcade::Position const& size,
+				   unsigned int color)
+{
+  Arcade::Position	idx;
+
+  idx.y = 0;
+  while (idx.y < size.y)
+    {
+      idx.x = 0;
+      while (idx.x < size.x)
+	{
+	  _graphic->setPixel(x + idx.x, y + idx.y, color);
+	  ++idx.x;
+	}
+      ++idx.y;
+    }
+}
+
 void	Arcade::Wolf3D::render()
 {
-  int	size_wall;
+  double	size_wall;
   unsigned int	i;
   unsigned int	k;
   double	k_wall;
@@ -57,13 +77,19 @@ void	Arcade::Wolf3D::render()
       size_wall = (_graphic->getDrawableHeight() / (2 * k_wall));
       while (k < (_graphic->getDrawableHeight() / 2) - size_wall)
 	{
-	  _graphic->setPixel(i, k, ACYAN);
+	  _graphic->setPixel(i, k, Arcade::Colors::ACYAN);
 	  ++k;
 	}
       while (k < (_graphic->getDrawableHeight() / 2) + size_wall)
-	_graphic->setPixel(i, k++, AWHITE);
+	{
+	  _graphic->setPixel(i, k, Arcade::Colors::AWHITE);
+	  ++k;
+	}
       while (k < _graphic->getDrawableHeight())
-	_graphic->setPixel(i, k++, AGREY);
+	{
+	  _graphic->setPixel(i, k, Arcade::Colors::AGREY);
+	  ++k;
+	}
       ++i;
     }
 }
@@ -123,7 +149,7 @@ double	Arcade::Wolf3D::getWallSize(double pos)
       k = k + 0.025;
       x = _p.pos.x + k * d_x;
       y = _p.pos.y + k * d_y;
-      if (x >= _map_width || y >= _map_height)
+      if (x >= _map_width || y >= _map_height || x < 0 || y < 0)
 	return k;
       if (x < _map_width && y < _map_height &&
 	  _map[static_cast<int>(x) + (static_cast<int>(y) * _map_width)]->_type != FREE)
@@ -166,7 +192,7 @@ void	Arcade::Wolf3D::rotateLeft()
 {
   double	tmp;
 
-  _p.angle += 0.010;
+  _p.angle += 0.015;
   tmp = _p.angle;
   if (tmp < 0)
     tmp = -tmp;
@@ -178,7 +204,7 @@ void	Arcade::Wolf3D::rotateRight()
 {
   double	tmp;
 
-  _p.angle -= 0.010;
+  _p.angle -= 0.015;
   tmp = _p.angle;
   if (tmp < 0)
     tmp = -tmp;
