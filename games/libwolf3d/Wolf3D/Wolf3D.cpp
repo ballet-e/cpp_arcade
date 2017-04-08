@@ -5,20 +5,22 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 16:37:34 2017 Arnaud WURMEL
-// Last update Thu Apr  6 21:25:12 2017 Arnaud WURMEL
+// Last update Sat Apr  8 16:50:19 2017 Arnaud WURMEL
 //
 
 #include "Wolf3D.hh"
 
 Arcade::Wolf3D::Wolf3D()
 {
-
+  initGame();
 }
 
 void	Arcade::Wolf3D::initGame()
 {
   _loader.deleteMap();
   _map = _loader.getMap();
+  if (_map.size() > 0)
+    _player_pos = _loader.getPlayerPosition();
 }
 
 void	Arcade::Wolf3D::setUpGraphics(Arcade::IGraphic *graphic)
@@ -66,4 +68,8 @@ Arcade::LibraryType	Arcade::Wolf3D::getLibraryType() const
   return (Arcade::GAME);
 }
 
-Arcade::Wolf3D::~Wolf3D() {}
+Arcade::Wolf3D::~Wolf3D()
+{
+  _loader.deleteMap();
+  _map.clear();
+}

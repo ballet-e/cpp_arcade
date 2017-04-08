@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 16:33:46 2017 Arnaud WURMEL
-// Last update Thu Apr  6 21:25:31 2017 Arnaud WURMEL
+// Last update Sat Apr  8 16:47:36 2017 Arnaud WURMEL
 //
 
 #ifndef WOLF3D_HH_
@@ -50,7 +50,8 @@ namespace	Arcade
     Arcade::IGraphic	*_graphic;
     std::string		_pseudo;
     Arcade::MapLoader	_loader;
-    std::vector<std::vector<std::shared_ptr<Arcade::Map>>>	_map;
+    std::vector<std::shared_ptr<Arcade::Map>>	_map;
+    Arcade::Position	_player_pos;
   };
 }
 

@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 18:29:41 2017 Arnaud WURMEL
-// Last update Thu Apr  6 21:29:50 2017 Arnaud WURMEL
+// Last update Sat Apr  8 16:44:59 2017 Arnaud WURMEL
 //
 
 #ifndef MAPLOADER_HH_
@@ -19,7 +19,14 @@ namespace Arcade
   enum	CellType
     {
       FREE = 0,
-      WALL
+      WALL,
+      PLAYER
+    };
+
+    struct	Position
+    {
+      unsigned int	x;
+      unsigned int	y;
     };
 
   struct	Map
@@ -37,12 +44,19 @@ namespace Arcade
     ~MapLoader();
 
   public:
-    std::vector<std::vector<std::shared_ptr<Map>>> const&	getMap();
+    std::vector<std::shared_ptr<Map>> const&	getMap();
+    Position const&	getPlayerPosition();
     void	deleteMap();
 
   private:
     void	loadFile();
+    bool	foundPosition();
 
+  private:
+    std::vector<std::shared_ptr<Map>>	_map;
+    Arcade::Position	_p;
+    unsigned int	_width;
+    unsigned int	_height;
   };
 }
 

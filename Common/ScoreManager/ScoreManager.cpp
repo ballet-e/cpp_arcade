@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Tue Mar 14 20:23:24 2017 Arnaud WURMEL
-// Last update Wed Mar 15 17:25:38 2017 Arnaud WURMEL
+// Last update Sat Apr  8 15:59:51 2017 Arnaud WURMEL
 //
 
 #include <cstring>
@@ -24,10 +24,7 @@ bool	Arcade::ScoreManager::loadScoreForGame(std::string const& gameName)
   Arcade::ScoreManager::ScoreRow	scoreRow;
 
   if (openFile(gameName, false) == false)
-    {
-      std::cerr << "Can't open file for : " << gameName << std::endl;
-      return false;
-    }
+    return false;
   _scoreList.clear();
   _file.read(reinterpret_cast<char *>(&fileHeader), sizeof(Arcade::ScoreManager::FileHeader));
   if (checkFileHeader(fileHeader, gameName) == false)
