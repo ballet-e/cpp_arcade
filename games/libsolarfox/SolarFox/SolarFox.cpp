@@ -5,11 +5,12 @@
 // Login   <erwan.ballet@epitech.eu>
 //
 // Started on  Tue Apr  4 11:17:48 2017 Ballet Erwan
-// Last update Sat Apr  8 16:28:51 2017 Erwan BALLET
+// Last update Sat Apr  8 21:49:00 2017 Erwan BALLET
 //
 
 #include <iostream>
 #include <cstdlib>
+#include <string.h>
 #include "Bullet.hh"
 #include "Enemy.hh"
 #include "Protocol.hpp"
@@ -31,6 +32,7 @@ Arcade::SolarFox::SolarFox() : _map(MAP_HEIGHT)
   _ship.first = MAP_WIDTH / 2;
   _ship.second = MAP_HEIGHT / 2;
   _pseudo = "Player";
+  initGame();
 }
 
 Arcade::SolarFox::~SolarFox() {};
@@ -395,7 +397,6 @@ void	Arcade::SolarFox::render()
   didIGetPoints();
   mooveShip();
   amIDead();
-  showMap();
   while (i < 4)
     {
       mooveEnemy(_Enemy[i], i);
@@ -404,6 +405,7 @@ void	Arcade::SolarFox::render()
     }
   if (_graderMode == false)
     {
+      showMap();
       _graphic_library->setText(std::string("Niveau: ") + std::to_string(_lv), 10, Arcade::ElementPosition::LEFT);                                                                 
       _graphic_library->setText(std::string("SolarFox"), 10, Arcade::ElementPosition::CENTER, 25);
       _graphic_library->setText(std::string("Score: ") + std::to_string(_score), 10, Arcade::ElementPosition::RIGHT);
@@ -436,17 +438,93 @@ unsigned int	Arcade::SolarFox::getMapHeight() const
   return (MAP_HEIGHT);
 }
 
-void	Arcade::SolarFox::whereAmI() {}
+void	Arcade::SolarFox::whereAmI()
+{
+  struct arcade::WhereAmI	*amI;
+  char				*buf;
 
-void	Arcade::SolarFox::getMap() {}
+  buf = new char[sizeof(struct arcade::WhereAmI) +
+		 (sizeof(struct arcade::Position))];
+  amI = new (buf) arcade::WhereAmI;
+  amI->type = arcade::CommandType::WHERE_AM_I;
+  amI->lenght = 1;
+  amI->position[0].x = _ship.first;
+  amI->position[0].y = _ship.second;
+  std::cout.write(reinterpret_cast<char *>(amI), sizeof(struct arcade::WhereAmI) +
+  		  (sizeof(struct arcade::Position)));
+  delete[] buf;
+}
 
-void	Arcade::SolarFox::goUp() {}
+void	Arcade::SolarFox::getMap()
+{
+  struct arcade::GetMap *map;
+  char			*buf;
+  std::pair<unsigned int, unsigned int>	pos;
 
-void	Arcade::SolarFox::goDown() {}
+  buf = new char[sizeof(struct arcade::GetMap) +
+		 (sizeof(arcade::TileType) * MAP_HEIGHT * MAP_WIDTH)];
+  map = new (buf) arcade::GetMap;
+  if (map)
+    {
+      map->width = MAP_WIDTH;
+      map->height = MAP_HEIGHT;
+      map->type = arcade::CommandType::GET_MAP;
+      pos.second = 0;
+      while (pos.second < MAP_HEIGHT)
+      	{
+      	  pos.first = 0;
+      	  while (pos.first < MAP_WIDTH)
+      	    {
+      	      if (_map[pos.second][pos.first] == 0)
+                map->tile[pos.first + (pos.second * MAP_WIDTH)] = arcade::TileType::EMPTY;
+      	      else
+      		map->tile[pos.first + (pos.second * MAP_WIDTH)] = arcade::TileType::BLOCK;
+      	      pos.first += 1;
+      	    }
+      	  pos.second += 1;
+      	}
+      pos.first = 0;
+      while (pos.first < 4)
+      	{
+      	  map->tile[_Enemy[pos.first].getPos().first
+      		    + (_Enemy[pos.first].getPos().second * MAP_WIDTH)]
+      	    = arcade::TileType::EVIL_DUDE;
+      	  if (_Enemy[pos.first].getBullet().getPos().first >= 0 &&
+      	      _Enemy[pos.first].getBullet().getPos().second >= 0 &&
+      	      _Enemy[pos.first].getBullet().getPos().second < MAP_HEIGHT &&
+      	      _Enemy[pos.first].getBullet().getPos().first < MAP_WIDTH)
+      	    {
+      	      map->tile[_Enemy[pos.first].getBullet().getPos().first
+      			+ (_Enemy[pos.first].getBullet().getPos().second * MAP_WIDTH)]
+      							      = arcade::TileType::EVIL_SHOOT;
+      	    }
+      	  pos.first += 1;
+      	}
+      std::cout.write(reinterpret_cast<char *>(map), sizeof(struct arcade::GetMap) +
+       		      (sizeof(arcade::TileType) * MAP_HEIGHT * MAP_WIDTH));
+      delete[] buf;
+    }
+}
 
-void	Arcade::SolarFox::goLeft() {}
+void	Arcade::SolarFox::goUp()
+{
+  eventListener(Arcade::Event(Arcade::Event::AKEY_UP));
+}
 
-void	Arcade::SolarFox::goRight() {}
+void	Arcade::SolarFox::goDown()
+{
+  eventListener(Arcade::Event(Arcade::Event::AKEY_DOWN));
+}
+
+void	Arcade::SolarFox::goLeft()
+{
+  eventListener(Arcade::Event(Arcade::Event::AKEY_LEFT));
+}
+
+void	Arcade::SolarFox::goRight()
+{
+  eventListener(Arcade::Event(Arcade::Event::AKEY_RIGHT));
+}
 
 void	Arcade::SolarFox::goForward() {}
 
@@ -454,4 +532,7 @@ void	Arcade::SolarFox::makeShoot() {}
 
 void	Arcade::SolarFox::illegal() {}
 
-void	Arcade::SolarFox::playRound() {}
+void	Arcade::SolarFox::playRound()
+{
+  render();
+}
