@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 22:36:02 2017 Arnaud WURMEL
-// Last update Sat Apr  8 19:37:06 2017 Arnaud WURMEL
+// Last update Sat Apr  8 20:54:43 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -47,14 +47,14 @@ void	Arcade::SFMLWrapper::drawTitle()
   else
     text.setFont(font);
   text.setCharacterSize(50);
-  text.setColor(sf::Color::Blue);
+  text.setFillColor(sf::Color::Blue);
   it = to_disp.begin();
   while (it != to_disp.end())
     {
       text.setString("Arcade");
       text.setPosition((600 - (text.getLocalBounds().width / 2)) + ((it - to_disp.begin()) * 52), 10);
       text.setString(*it);
-      text.setColor(tab[(it - to_disp.begin()) % 5]);
+      text.setFillColor(tab[(it - to_disp.begin()) % 5]);
       _window->draw(text);
       ++it;
     }
@@ -65,7 +65,7 @@ void	Arcade::SFMLWrapper::drawTitle()
   else
     text.setString("Entrez votre pseudo");
   text.setCharacterSize(15);
-  text.setColor(sf::Color::White);
+  text.setFillColor(sf::Color::White);
   text.setPosition(600 - (text.getLocalBounds().width / 2), 120);
   _window->draw(text);
 }
@@ -282,7 +282,7 @@ void	Arcade::SFMLWrapper::setText(std::string const& to_print,
   else if (mode == LEFT_CENTER)
     x = ((_window->getView().getSize().x / 2) - (text.getLocalBounds().width + 50));
   text.setPosition(x, y);
-  text.setColor(_colors[fontColor]);
+  text.setFillColor(_colors[fontColor]);
   sf::FloatRect backgroundRect = text.getLocalBounds();
   sf::RectangleShape background(sf::Vector2f(backgroundRect.width + 4, backgroundRect.height + 4));
 
