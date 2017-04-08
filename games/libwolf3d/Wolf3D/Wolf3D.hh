@@ -5,21 +5,27 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 16:33:46 2017 Arnaud WURMEL
-// Last update Sat Apr  8 16:47:36 2017 Arnaud WURMEL
+// Last update Sat Apr  8 18:22:45 2017 Arnaud WURMEL
 //
 
 #ifndef WOLF3D_HH_
 # define WOLF3D_HH_
 
-# define SCREEN_WIDTH 100
+# define SCREEN_WIDTH 70
 # define SCREEN_HEIGHT 40
 # define MAP_WIDTH 20
 # define MAP_HEIGHT 20
+# define P 1
+# define D 0.5
 
 # include <iostream>
 # include <vector>
+# include <functional>
+# include <utility>
+# include <map>
 # include <memory>
 # include "IGame.hh"
+# include "IGraphic.hh"
 # include "Event.hh"
 # include "MapLoader.hh"
 
@@ -27,6 +33,12 @@ namespace	Arcade
 {
   class	Wolf3D : public Arcade::IGame
   {
+  public:
+    struct	Player
+    {
+      Position	pos;
+      double	angle;
+    };
   public:
     Wolf3D();
     ~Wolf3D();
@@ -43,15 +55,26 @@ namespace	Arcade
     unsigned int	getMapHeight() const;
 
   private:
+    void	forward();
+    void	backward();
+    void	rotateLeft();
+    void	rotateRight();
+  private:
     void	initGame();
-    double	getWallSize();
+    double	getWallSize(double);
 
   private:
     Arcade::IGraphic	*_graphic;
     std::string		_pseudo;
     Arcade::MapLoader	_loader;
+
+  private:
+    bool		_render;
+    unsigned int	_map_width;
+    unsigned int	_map_height;
     std::vector<std::shared_ptr<Arcade::Map>>	_map;
-    Arcade::Position	_player_pos;
+    std::map<Arcade::Event::EventType, std::function<void ()>>	_keyBinding;
+    Player	_p;
   };
 }
 
