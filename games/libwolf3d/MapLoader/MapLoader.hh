@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 18:29:41 2017 Arnaud WURMEL
-// Last update Sat Apr  8 16:44:59 2017 Arnaud WURMEL
+// Last update Sat Apr  8 17:03:10 2017 Arnaud WURMEL
 //
 
 #ifndef MAPLOADER_HH_
@@ -25,8 +25,8 @@ namespace Arcade
 
     struct	Position
     {
-      unsigned int	x;
-      unsigned int	y;
+      double	x;
+      double	y;
     };
 
   struct	Map
@@ -45,8 +45,12 @@ namespace Arcade
 
   public:
     std::vector<std::shared_ptr<Map>> const&	getMap();
-    Position const&	getPlayerPosition();
+    Position const&	getPlayerPosition() const;
     void	deleteMap();
+
+  public:
+    unsigned int	getMapHeight() const;
+    unsigned int	getMapWidth() const;
 
   private:
     void	loadFile();

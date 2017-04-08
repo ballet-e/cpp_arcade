@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 18:29:28 2017 Arnaud WURMEL
-// Last update Sat Apr  8 16:46:17 2017 Arnaud WURMEL
+// Last update Sat Apr  8 17:03:55 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -57,9 +57,19 @@ bool	Arcade::MapLoader::foundPosition()
   return false;
 }
 
-Arcade::Position const&	Arcade::MapLoader::getPlayerPosition()
+Arcade::Position const&	Arcade::MapLoader::getPlayerPosition() const
 {
   return _p;
+}
+
+unsigned int	Arcade::MapLoader::getMapWidth() const
+{
+  return _width;
+}
+
+unsigned int	Arcade::MapLoader::getMapHeight() const
+{
+  return _height;
 }
 
 void	Arcade::MapLoader::loadFile()
