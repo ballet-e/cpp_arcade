@@ -5,7 +5,7 @@
 // Login   <erwan.ballet@epitech.eu>
 //
 // Started on  Tue Apr  4 11:17:48 2017 Ballet Erwan
-// Last update Sat Apr  8 15:51:35 2017 Erwan BALLET
+// Last update Sat Apr  8 16:28:51 2017 Erwan BALLET
 //
 
 #include <iostream>
@@ -26,6 +26,7 @@ Arcade::SolarFox::SolarFox() : _map(MAP_HEIGHT)
   _lv = 1;
   _score = 0;
   _end = false;
+  _scoreSet = false;
   _dir = Arcade::Bullet::LEFT;
   _ship.first = MAP_WIDTH / 2;
   _ship.second = MAP_HEIGHT / 2;
@@ -48,6 +49,13 @@ Arcade::LibraryType	Arcade::SolarFox::getLibraryType() const
 void			Arcade::SolarFox::setUpPseudo(std::string const& pseudo)
 {
   _pseudo = pseudo;
+}
+
+void			Arcade::SolarFox::saveScore() const
+{
+  Arcade::ScoreManager	scoreManager;
+
+  scoreManager.addScoreForGame("solar_fox", _pseudo, _score);
 }
 
 void			Arcade::SolarFox::eventListener(Event const& e)
@@ -310,6 +318,11 @@ void	Arcade::SolarFox::amIDead()
 	_end = true;
       i += 1;
     }
+  if (_end == true && _scoreSet == false)
+    {
+      _scoreSet = true;
+      saveScore();
+    }
 }
 
 void	Arcade::SolarFox::setPoints()
@@ -341,9 +354,9 @@ void	Arcade::SolarFox::setPoints()
   _points = true;
 }
 
-void	Arcade::SolarFox::didIGetPoints()
+void		Arcade::SolarFox::didIGetPoints()
 {
-  int	i;
+  unsigned int	i;
 
   i = 0;
   if (_pointTab.size() == 0)

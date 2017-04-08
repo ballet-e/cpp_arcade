@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 //
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Sat Apr  8 15:50:46 2017 Erwan BALLET
+// Last update Sat Apr  8 16:25:26 2017 Erwan BALLET
 //
 
 #ifndef SOLARFOX_HH_
@@ -70,6 +70,7 @@ namespace	Arcade
     void	amIDead();
     void	setPoints();
     void	didIGetPoints();
+    void	saveScore() const;
     
   private:
     Enemy		_Enemy[4];
@@ -79,6 +80,7 @@ namespace	Arcade
     bool		_validatePosition;
     bool		_end;
     unsigned int	_frame;
+    bool		_scoreSet;
     std::string		_pseudo;
     Bullet::Directions	_dir;
     std::vector<std::vector<unsigned char>>	_map;;
