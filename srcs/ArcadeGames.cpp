@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sat Mar 11 23:33:00 2017 Arnaud WURMEL
-// Last update Sat Apr  8 01:40:48 2017 Arnaud WURMEL
+// Last update Sat Apr  8 15:11:37 2017 Arnaud WURMEL
 //
 
 #include <sys/types.h>
@@ -45,7 +45,6 @@ void	Arcade::ArcadeGames::runGame()
   e = _graphic->renderWindowGame(1200, 900, _game);
   if (e != Arcade::ExitStatus::Exit)
     {
-      std::cout << "Here" << std::endl;
       if (handleExitStatus(e) == false)
 	return ;
       if (getMissingLibrary() == false)
@@ -173,7 +172,6 @@ Arcade::ArcadeGames::getLibraryForDirectory(std::string const& directory) const
 
 bool	Arcade::ArcadeGames::handleExitStatus(Arcade::ExitStatus const& status)
 {
-  std::cout << status << std::endl;
   if (_callback.find(status) != _callback.end())
     return _callback[status]();
   else
@@ -251,7 +249,6 @@ bool	Arcade::ArcadeGames::loadPrevGame()
   idx = 0;
   while (idx < libs.size())
     {
-      std::cout << libs[idx] << " " << _game_path << std::endl;
       if (libs[idx].compare(_game_path) == 0)
 	{
 	  if (idx > 0)
@@ -266,7 +263,12 @@ bool	Arcade::ArcadeGames::loadPrevGame()
 
 bool	Arcade::ArcadeGames::backToMenu()
 {
-
+  if (_game)
+    {
+      delete _game;
+      _game = NULL;
+    }
+  return true;
 }
 
 Arcade::ArcadeGames::~ArcadeGames()
