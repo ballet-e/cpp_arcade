@@ -5,7 +5,11 @@
 ## Login   <wurmel_a@epitech.net>
 ##
 ## Started on  Fri Mar 10 21:12:00 2017 Arnaud WURMEL
+<<<<<<< HEAD
 ## Last update Sat Apr  8 17:42:03 2017 Arnaud WURMEL
+=======
+## Last update Sat Apr  8 16:38:57 2017 Erwan BALLET
+>>>>>>> bc6b8fc0407dab0764c068cc47911773335af89a
 ##
 
 all:
