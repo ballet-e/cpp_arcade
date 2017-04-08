@@ -5,7 +5,7 @@
 // Login   <erwan.ballet@epitech.eu>
 //
 // Started on  Tue Apr  4 11:17:48 2017 Ballet Erwan
-// Last update Fri Apr  7 23:01:29 2017 Arnaud WURMEL
+// Last update Sat Apr  8 15:51:35 2017 Erwan BALLET
 //
 
 #include <iostream>
@@ -20,11 +20,13 @@
 Arcade::SolarFox::SolarFox() : _map(MAP_HEIGHT)
 {
   _isInit = false;
+  _points = false;
   _graderMode = true;
   _frame = 0;
+  _lv = 1;
   _score = 0;
   _end = false;
-  _dir = Arcade::Bullet::STOP;
+  _dir = Arcade::Bullet::LEFT;
   _ship.first = MAP_WIDTH / 2;
   _ship.second = MAP_HEIGHT / 2;
   _pseudo = "Player";
@@ -109,7 +111,6 @@ void	Arcade::SolarFox::initGame()
   _frame = 0;
   _score = 0;
   _end = false;
-  _dir = Arcade::Bullet::STOP;
   _ship.first = MAP_WIDTH / 2;
   _ship.second = MAP_HEIGHT / 2;
   _map.clear();
@@ -185,6 +186,13 @@ void	Arcade::SolarFox::showMap()
       ++y;
     }
   i = 0;
+  while (i < _pointTab.size())
+    {
+      drawSquare(square_size, Arcade::Colors::ACYAN, _pointTab[i].first * square_size,
+		 _pointTab[i].second * square_size);
+      i += 1;
+    }
+  i = 0;
   while (i < 4)
     {
       drawSquare(square_size, Arcade::Colors::ARED, _Enemy[i].getPos().first * square_size,
@@ -204,7 +212,7 @@ void	Arcade::SolarFox::mooveEnemy(Arcade::Enemy En, int i)
 
   if (_enemyMoove % 6 == 0)
     {
-      rd = rand() % 2;
+      rd = std::rand() % 2;
       if (En.getPos().first == 0 || En.getPos().first == 19)
 	{
 	  if (En.getPos().second == 1)
@@ -304,6 +312,62 @@ void	Arcade::SolarFox::amIDead()
     }
 }
 
+void	Arcade::SolarFox::setPoints()
+{
+  std::vector<std::pair<unsigned int, unsigned int>>	points;
+  std::pair<int, int>					pos;
+  int							i;
+
+  pos.second = 2;
+  while (pos.second < MAP_HEIGHT - 3)
+    {
+      pos.first = 2;
+      while (pos.first < MAP_WIDTH - 3)
+	{
+	  if (pos.first != _ship.first && pos.second != _ship.second)
+	    points.push_back(pos);
+	  pos.first += 1;
+	}
+      pos.second += 1;
+    }
+  i = 0;
+  while (i < 20)
+    {
+      pos.first = std::rand() % points.size();
+      _pointTab.push_back(points[pos.first]);
+      points.erase(points.begin() + pos.first);
+      i += 1;
+    }
+  _points = true;
+}
+
+void	Arcade::SolarFox::didIGetPoints()
+{
+  int	i;
+
+  i = 0;
+  if (_pointTab.size() == 0)
+    {
+      _score += 10000;
+      _lv += 1;
+      _ship.first = MAP_WIDTH / 2;
+      _ship.second = MAP_HEIGHT / 2;
+      _dir = Arcade::Bullet::LEFT;
+      _points = false;
+      return ;
+    }
+  while (i < _pointTab.size())
+    {
+      if (_pointTab[i].first == _ship.first && _pointTab[i].second == _ship.second)
+	{
+	  _score += 1000;
+	  _pointTab.erase(_pointTab.begin() + i);
+	  return ;
+	}
+      i += 1;
+    }
+}
+
 void	Arcade::SolarFox::render()
 {
   int	i;
@@ -312,8 +376,12 @@ void	Arcade::SolarFox::render()
   _validatePosition = true;
   if (!_isInit)
     initGame();
+  if (!_points)
+    setPoints();
   amIDead();
+  didIGetPoints();
   mooveShip();
+  amIDead();
   showMap();
   while (i < 4)
     {
@@ -323,17 +391,16 @@ void	Arcade::SolarFox::render()
     }
   if (_graderMode == false)
     {
-      _graphic_library->setText(std::string("Niveau: ") + std::to_string(_score / 10), 10, Arcade::ElementPosition::LEFT);                                                                 
+      _graphic_library->setText(std::string("Niveau: ") + std::to_string(_lv), 10, Arcade::ElementPosition::LEFT);                                                                 
       _graphic_library->setText(std::string("SolarFox"), 10, Arcade::ElementPosition::CENTER, 25);
       _graphic_library->setText(std::string("Score: ") + std::to_string(_score), 10, Arcade::ElementPosition::RIGHT);
     }
-  _dir = Arcade::Bullet::STOP;
   _frame = 1;
 }
 
 bool	Arcade::SolarFox::shouldRender()
 {
-  if (_frame % 5 == 0)
+  if (_frame % 10 == 0)
     return true;
   _frame += 1;
   return false;
@@ -342,8 +409,8 @@ bool	Arcade::SolarFox::shouldRender()
 Arcade::IGame::GameState	Arcade::SolarFox::gameState() const
 {
   if (_end == true)
-    return (Arcade::IGame::ENDED);
-  return (Arcade::IGame::PLAYING);
+    return (Arcade::IGame::GameState::ENDED);
+  return (Arcade::IGame::GameState::PLAYING);
 }
 
 unsigned int	Arcade::SolarFox::getMapWidth() const
