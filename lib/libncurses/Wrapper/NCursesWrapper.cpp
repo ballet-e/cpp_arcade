@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Mar 29 22:19:52 2017 Victorien Fischer
-// Last update Fri Apr  7 23:36:58 2017 Arnaud WURMEL
+// Last update Sat Apr  8 15:31:12 2017 Arnaud WURMEL
 //
 
 #include <thread>
@@ -89,8 +89,7 @@ Arcade::ExitStatus	Arcade::NCursesWrapper::renderWindowGame(unsigned int width,
 	  _text.clear();
 	  game->render();
 	  drawText();
-	  if (game->gameState() == Arcade::IGame::PLAYING)
-	    wrefresh(_window);
+	  wrefresh(_window);
 	}
       std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
@@ -103,6 +102,8 @@ bool	Arcade::NCursesWrapper::setPixel(unsigned int x, unsigned int y, unsigned i
   int	x_pos;
   int	y_pos;
 
+  if (_game->gameState() == Arcade::IGame::GameState::ENDED)
+    return false;
   id_pair = createPair(color + 8, color + 8);
   if (x >= getDrawableWidth() || y >= getDrawableHeight())
     return (false);
