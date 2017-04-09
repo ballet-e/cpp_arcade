@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 14:20:11 2017 Erwan BALLET
-// Last update Sun Apr  9 18:59:03 2017 Erwan BALLET
+// Last update Sun Apr  9 19:08:55 2017 Erwan BALLET
 //
 
 #include "IA.hh"
@@ -123,6 +123,7 @@ void				Arcade::IA::mooveIA(std::vector<std::shared_ptr<Arcade::Map>> map, unsig
   bool					stayIn;
   int					rd;
 
+  newPos = _pos;
   if (_pos.first != 0 || _inc[_dir].first >= 0)
     newPos.first = _pos.first + _inc[_dir].first;
   if (_pos.second != 0 || _inc[_dir].second >= 0)
@@ -146,7 +147,12 @@ void				Arcade::IA::mooveIA(std::vector<std::shared_ptr<Arcade::Map>> map, unsig
 	      && map[newPos.first + newPos.second * width]->_type != WALL)
 	    stayIn = false;
 	  else
-	    allDir.erase(allDir.begin() + rd);
+	    {
+	      if (allDir.size() != 0)
+		allDir.erase(allDir.begin() + rd);
+	      else
+		stayIn = false;
+	    }
 	}
       if (allDir.size() > 0)
 	{
