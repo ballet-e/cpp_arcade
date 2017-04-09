@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 13:53:39 2017 Erwan BALLET
-// Last update Sun Apr  9 16:02:59 2017 Erwan BALLET
+// Last update Sun Apr  9 19:21:12 2017 Arnaud WURMEL
 //
 
 #ifndef IA_HH_
@@ -14,6 +14,9 @@
 # include <utility>
 # include <memory>
 # include <vector>
+# include <map>
+# include <utility>
+# include "MapLoader.hh"
 
 namespace	Arcade
 {
@@ -26,7 +29,7 @@ namespace	Arcade
 	DOWN,
 	LEFT,
 	RIGHT
-      }
+      };
     
     enum State
       {
@@ -39,8 +42,8 @@ namespace	Arcade
     ~IA();
 
   public:
-    const state&		getState() const;
-    void			setState(const state&);
+    const State&		getState() const;
+    void			setState(const State&);
     const std::pair<int, int>&	getPos() const;
     void			setPos(int, int);
     void			mooveIA(std::vector<std::shared_ptr<Arcade::Map>>, unsigned int, unsigned int);
@@ -60,8 +63,8 @@ namespace	Arcade
     std::map<Arcade::IA::Directions,
 	     Arcade::IA::Directions (Arcade::IA::*)()>	_changeDir;
     std::map<Arcade::IA::Directions, std::pair<int, int>>	_inc;
-    std::map<Arcade::IA::Directions, bool (Arcade::IA::*)()>	_findWay;
-  }
+    std::map<Arcade::IA::Directions, bool (Arcade::IA::*)(std::vector<std::shared_ptr<Arcade::Map>>, unsigned int, unsigned int)>	_findWay;
+  };
 }
 
 #endif /* !IA_HH_ */
