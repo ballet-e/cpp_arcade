@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 13:53:39 2017 Erwan BALLET
-// Last update Sun Apr  9 19:12:09 2017 Erwan BALLET
+// Last update Sun Apr  9 20:29:38 2017 Erwan BALLET
 //
 
 #ifndef IA_HH_
@@ -64,6 +64,7 @@ namespace	Arcade
 	     Arcade::IA::Directions (Arcade::IA::*)()>	_changeDir;
     std::map<Arcade::IA::Directions, std::pair<int, int>>	_inc;
     std::map<Arcade::IA::Directions, bool (Arcade::IA::*)(std::vector<std::shared_ptr<Arcade::Map>>, unsigned int, unsigned int)>	_findWay;
+    unsigned int	_isState;
   };
 }
 

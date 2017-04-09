@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 14:20:11 2017 Erwan BALLET
-// Last update Sun Apr  9 22:18:12 2017 Arnaud WURMEL
+// Last update Sun Apr  9 20:34:33 2017 Erwan BALLET
 //
 
 #include <iostream>
@@ -44,8 +44,8 @@ const Arcade::IA::State&	Arcade::IA::getState() const
 void		Arcade::IA::setState(const Arcade::IA::State& state)
 {
   _state = state;
-  if (state == Arcade::IA::AFRAID)
-    _dir = (this->*_changeDir[_dir])();
+  if (state == Arcade::IA::AFRAID || state == Arcade::IA::DEAD)
+    _isState = 60;
 }
 
 std::pair<int, int>		Arcade::IA::getPos() const
@@ -123,24 +123,41 @@ void				Arcade::IA::mooveIA(std::vector<std::shared_ptr<Arcade::Map>> map, unsig
   bool					stayIn;
   int					rd;
 
-  allDir.push_back(Arcade::IA::UP);
-  allDir.push_back(Arcade::IA::DOWN);
-  allDir.push_back(Arcade::IA::LEFT);
-  allDir.push_back(Arcade::IA::RIGHT);
-  stayIn = true;
-  while (allDir.size() > 0 && stayIn)
+  if (_state == Arcade::IA::DEAD)
     {
-      rd = std::rand() % allDir.size();
-      unsigned int idx = (_pos.first + _inc[allDir[rd]].first) + ((_pos.second + _inc[allDir[rd]].second) * width);
-      if (_pos.first + _inc[allDir[rd]].first < width
-	  && _pos.second + _inc[allDir[rd]].second < height
-	  && map[idx]->_type != Arcade::CellType::WALL)
-	{
-	  stayIn = false;
-	  _pos.first += _inc[allDir[rd]].first;
-	  _pos.second += _inc[allDir[rd]].second;
-	}
+      if (_isState > 0)
+	_isState -= 1;
       else
-	allDir.erase(allDir.begin() + rd);
+	_state = Arcade::IA::LIVE;
+    }
+  else
+    {
+      if (_state == Arcade::IA::AFRAID)
+	{
+	  if (_isState > 0)
+	    _isState -= 1;
+	  else
+	    _state = Arcade::IA::LIVE;
+	}
+      allDir.push_back(Arcade::IA::UP);
+      allDir.push_back(Arcade::IA::DOWN);
+      allDir.push_back(Arcade::IA::LEFT);
+      allDir.push_back(Arcade::IA::RIGHT);
+      stayIn = true;
+      while (allDir.size() > 0 && stayIn)
+	{
+	  rd = std::rand() % allDir.size();
+	  unsigned int idx = (_pos.first + _inc[allDir[rd]].first) + ((_pos.second + _inc[allDir[rd]].second) * width);
+	  if (_pos.first + _inc[allDir[rd]].first < width
+	      && _pos.second + _inc[allDir[rd]].second < height
+	      && map[idx]->_type != Arcade::CellType::WALL)
+	    {
+	      stayIn = false;
+	      _pos.first += _inc[allDir[rd]].first;
+	      _pos.second += _inc[allDir[rd]].second;
+	    }
+	  else
+	    allDir.erase(allDir.begin() + rd);
+	}
     }
 }
