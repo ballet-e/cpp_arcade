@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Apr  9 15:51:30 2017 Arnaud WURMEL
-// Last update Sun Apr  9 22:26:12 2017 Arnaud WURMEL
+// Last update Sun Apr  9 22:31:48 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -131,7 +131,10 @@ void	Arcade::Pacman::printIA(unsigned int size)
   it = _ia.begin();
   while (it != _ia.end())
     {
-      drawSquare((*it)->getPos().first * size, (*it)->getPos().second * size, size, Arcade::Colors::ARED);
+      if ((*it)->getState() == Arcade::IA::State::LIVE)
+	drawSquare((*it)->getPos().first * size, (*it)->getPos().second * size, size, Arcade::Colors::ARED);
+      else if ((*it)->getState() == Arcade::IA::State::AFRAID)
+	drawSquare((*it)->getPos().first * size, (*it)->getPos().second * size, size, Arcade::Colors::ABLUE);
       ++it;
     }
 }
