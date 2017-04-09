@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 13:29:12 2017 Erwan BALLET
-// Last update Sun Apr  9 18:43:36 2017 Arnaud WURMEL
+// Last update Sun Apr  9 19:51:06 2017 Arnaud WURMEL
 //
 
 #ifndef PACMAN_HH_
@@ -17,6 +17,7 @@
 # include "IGraphic.hh"
 # include "Event.hh"
 # include "MapLoader.hh"
+# include "IA.hh"
 
 namespace	Arcade
 {
@@ -55,16 +56,16 @@ namespace	Arcade
     void	eat();
 
   public:
-    // void	whereAmI();
-    // void	getMap();
+    void	whereAmI();
+    void	getMap();
     void	goUp();
     void	goDown();
     void	goLeft();
     void	goRight();
-    // void	goForward();
-    // void	makeShoot();
-    // void	illegal();
-    // void	playRound();
+    void	goForward();
+    void	makeShoot();
+    void	illegal();
+    void	playRound();
 
   private:
     bool	canLeft() const;
@@ -78,6 +79,7 @@ namespace	Arcade
     bool	_graderMode;
     bool	_end;
     unsigned int	_frame;
+    Arcade::IA	ia;
 
   private:
     Arcade::MapLoader	_loader;

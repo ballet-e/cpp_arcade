@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Fri Mar 10 21:03:40 2017 Arnaud WURMEL
-// Last update Sun Apr  9 19:33:10 2017 Arnaud WURMEL
+// Last update Sun Apr  9 19:40:49 2017 Arnaud WURMEL
 //
 
 #include <map>
@@ -49,26 +49,6 @@ extern "C" void	Play(void)
       std::cin.read(reinterpret_cast<char *>(&cmd), sizeof(arcade::CommandType));
       if (function_ptr.find(cmd) != function_ptr.end())
 	function_ptr[cmd]();
-      // if (cmd == arcade::CommandType::WHERE_AM_I)
-      // 	snake.whereAmI();
-      // else if (cmd == arcade::CommandType::GET_MAP)
-      // 	snake.getMap();
-      // else if (cmd == arcade::CommandType::GO_UP)
-      // 	snake.goUp();
-      // else if (cmd == arcade::CommandType::GO_DOWN)
-      // 	snake.goDown();
-      // else if (cmd == arcade::CommandType::GO_LEFT)
-      // 	snake.goLeft();
-      // else if (cmd == arcade::CommandType::GO_RIGHT)
-      // 	snake.goRight();
-      // else if (cmd == arcade::CommandType::GO_FORWARD)
-      // 	snake.goForward();
-      // else if (cmd == arcade::CommandType::SHOOT)
-      // 	snake.makeShoot();
-      // else if (cmd == arcade::CommandType::ILLEGAL)
-      // 	snake.illegal();
-      // else
-      // 	snake.playRound();
       if (std::cin.eof())
 	break;
     }

@@ -5,13 +5,14 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Apr  9 15:51:30 2017 Arnaud WURMEL
-// Last update Sun Apr  9 18:48:31 2017 Arnaud WURMEL
+// Last update Sun Apr  9 20:02:56 2017 Arnaud WURMEL
 //
 
 #include <iostream>
 #include <map>
 #include <utility>
 #include "Pacman.hh"
+#include "Protocol.hpp"
 
 Arcade::Pacman::Pacman()
 {
@@ -95,6 +96,7 @@ void	Arcade::Pacman::render()
   if (_end)
     return ;
   moveP();
+  ia.mooveIA(_map, _height, _width);
   size = (_graphic_library->getDrawableWidth() / _width);
   idx.y = 0;
   while (idx.y < _height)
@@ -111,6 +113,7 @@ void	Arcade::Pacman::render()
       ++idx.y;
     }
   drawSquare(_p.x * size, _p.y * size, size, Arcade::Colors::AYELLOW);
+  drawSquare(ia.getPos().first * size, ia.getPos().second * size, size, Arcade::Colors::ARED);
 }
 
 void	Arcade::Pacman::moveP()
@@ -177,6 +180,7 @@ void	Arcade::Pacman::initGame()
   _height = _loader.getMapHeight();
   _frame = 0;
   _score = 0;
+  ia.setPos(14, 12);
 }
 
 unsigned int	Arcade::Pacman::getMapWidth() const
@@ -264,7 +268,46 @@ bool	Arcade::Pacman::canDown() const
   return false;
 }
 
+void	Arcade::Pacman::whereAmI()
+{
+  struct arcade::WhereAmI	*amI;
+  char	*buf;
+
+  buf = new char[sizeof(struct arcade::WhereAmI) + sizeof(struct arcade::Position)];
+  amI = new (buf) arcade::WhereAmI;
+  amI->type = arcade::CommandType::WHERE_AM_I;
+  amI->lenght = 1;
+  amI->position[0].x = _p.x;
+  amI->position[0].y = _p.y;
+  std::cout.write(reinterpret_cast<char *>(amI), sizeof(struct arcade::WhereAmI) + (sizeof(struct arcade::Position)));
+  delete buf; 
+}
+
+void	Arcade::Pacman::getMap()
+{
+
+}
+
+void	Arcade::Pacman::goForward()
+{
+
+}
+
+void	Arcade::Pacman::makeShoot()
+{
+
+}
+
+void	Arcade::Pacman::illegal()
+{
+
+}
+
+void	Arcade::Pacman::playRound()
+{
+
+}
+
 Arcade::Pacman::~Pacman()
 {
-  _map.clear();
 }
