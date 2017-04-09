@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 13:29:12 2017 Erwan BALLET
-// Last update Sun Apr  9 18:22:11 2017 Arnaud WURMEL
+// Last update Sun Apr  9 18:43:36 2017 Arnaud WURMEL
 //
 
 #ifndef PACMAN_HH_
@@ -52,6 +52,7 @@ namespace	Arcade
 
   private:
     void	moveP();
+    void	eat();
 
   public:
     // void	whereAmI();
@@ -82,6 +83,7 @@ namespace	Arcade
     Arcade::MapLoader	_loader;
     std::vector<std::shared_ptr<Map>>	_map;
     Direction	_dir;
+    Direction	_validate;
     unsigned int	_width;
     unsigned int	_height;
     unsigned int	_score;

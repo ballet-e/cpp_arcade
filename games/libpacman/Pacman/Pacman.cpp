@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Apr  9 15:51:30 2017 Arnaud WURMEL
-// Last update Sun Apr  9 18:28:38 2017 Arnaud WURMEL
+// Last update Sun Apr  9 18:48:31 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -52,7 +52,12 @@ void	Arcade::Pacman::eventListener(Arcade::Event const& e)
   if (map.find(e.getType()) != map.end())
     {
       if (checker[e.getType()]())
-	_dir = map[e.getType()];
+	{
+	  _dir = map[e.getType()];
+	  _validate = Arcade::Pacman::Direction::None;
+	}
+      else
+	_validate = map[e.getType()];
     }
 }
 
@@ -111,13 +116,38 @@ void	Arcade::Pacman::render()
 void	Arcade::Pacman::moveP()
 {
   std::map<Arcade::Pacman::Direction, std::function<void ()>>	binding;
+  std::map<Arcade::Pacman::Direction, std::function<bool ()>>	checker;
 
   binding.insert(std::make_pair(Arcade::Pacman::Up, std::bind(&Arcade::Pacman::goUp, this)));
   binding.insert(std::make_pair(Arcade::Pacman::Down, std::bind(&Arcade::Pacman::goDown, this)));
   binding.insert(std::make_pair(Arcade::Pacman::Right, std::bind(&Arcade::Pacman::goRight, this)));
   binding.insert(std::make_pair(Arcade::Pacman::Left, std::bind(&Arcade::Pacman::goLeft, this)));
+  checker.insert(std::make_pair(Arcade::Pacman::Up, std::bind(&Arcade::Pacman::canUp, this)));
+  checker.insert(std::make_pair(Arcade::Pacman::Down, std::bind(&Arcade::Pacman::canDown, this)));
+  checker.insert(std::make_pair(Arcade::Pacman::Left, std::bind(&Arcade::Pacman::canLeft, this)));
+  checker.insert(std::make_pair(Arcade::Pacman::Right, std::bind(&Arcade::Pacman::canRight, this)));
+  if (_validate != Arcade::Pacman::None)
+    {
+      if (checker[_validate]())
+	{
+	  _dir = _validate;
+	  _validate = Arcade::Pacman::None;
+	}
+    }
   if (binding.find(_dir) != binding.end())
-    binding[_dir]();
+    {
+      binding[_dir]();
+      eat();
+    }
+}
+
+void	Arcade::Pacman::eat()
+{
+  if (_map[_p.x + (_p.y * _width)]->_type == Arcade::CellType::EAT)
+    {
+      _map[_p.x + (_p.y * _width)]->_type = Arcade::CellType::FREE;
+      _score += 10;
+    }
 }
 
 bool	Arcade::Pacman::shouldRender()
@@ -137,11 +167,11 @@ void	Arcade::Pacman::initGame()
   _map = _loader.getMap("Ressources/pacman/map.pacman");
   if (_map.size() == 0)
     {
-      std::cout << "Map_size :" << _map.size() << std::endl;
       _end = true;
       return ;
     }
   _dir = Arcade::Pacman::Direction::None;
+  _validate = Arcade::Pacman::Direction::None;
   _p = _loader.getPlayerPosition();
   _width = _loader.getMapWidth();
   _height = _loader.getMapHeight();
