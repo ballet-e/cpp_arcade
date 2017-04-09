@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 18:29:41 2017 Arnaud WURMEL
-// Last update Sun Apr  9 15:45:32 2017 Arnaud WURMEL
+// Last update Sun Apr  9 16:02:58 2017 Arnaud WURMEL
 //
 
 #ifndef MAPLOADER_HH_
@@ -46,7 +46,7 @@ namespace Arcade
     ~MapLoader();
 
   public:
-    std::vector<std::shared_ptr<Map>> const&	getMap();
+    std::vector<std::shared_ptr<Map>> const&	getMap(std::string const&);
     Position const&	getPlayerPosition() const;
     void	deleteMap();
 
@@ -55,7 +55,7 @@ namespace Arcade
     unsigned int	getMapWidth() const;
 
   private:
-    void	loadFile();
+    void	loadFile(std::string const&);
     bool	foundPosition();
 
   private:

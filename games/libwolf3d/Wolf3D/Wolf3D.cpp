@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 16:37:34 2017 Arnaud WURMEL
-// Last update Sat Apr  8 20:35:28 2017 Arnaud WURMEL
+// Last update Sun Apr  9 16:03:51 2017 Arnaud WURMEL
 //
 
 #include <math.h>
@@ -23,7 +23,7 @@ Arcade::Wolf3D::Wolf3D()
 void	Arcade::Wolf3D::initGame()
 {
   _loader.deleteMap();
-  _map = _loader.getMap();
+  _map = _loader.getMap("Ressources/Wolf3D/map.wolf");
   if (_map.size() > 0)
     _p.pos = _loader.getPlayerPosition();
   _p.angle = 0.0;

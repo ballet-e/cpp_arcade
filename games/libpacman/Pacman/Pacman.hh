@@ -5,15 +5,18 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 13:29:12 2017 Erwan BALLET
-// Last update Sun Apr  9 13:47:48 2017 Erwan BALLET
+// Last update Sun Apr  9 18:22:11 2017 Arnaud WURMEL
 //
 
 #ifndef PACMAN_HH_
 # define PACMAN_HH_
 
 # include <utility>
+# include <functional>
 # include "IGame.hh"
+# include "IGraphic.hh"
 # include "Event.hh"
+# include "MapLoader.hh"
 
 namespace	Arcade
 {
@@ -21,6 +24,15 @@ namespace	Arcade
 
   class Pacman : public Arcade::IGame
   {
+  public:
+    enum	Direction
+      {
+	None,
+	Up,
+	Down,
+	Left,
+	Right
+      };
   public:
     Pacman();
     ~Pacman();
@@ -30,6 +42,7 @@ namespace	Arcade
     void	setUpPseudo(std::string const&);
     LibraryType	getLibraryType() const;
     void	eventListener(Event const&);
+    void	drawSquare(unsigned int, unsigned int, unsigned int, Arcade::Colors const&);
     void	render();
     bool	shouldRender();
     void	initGame();
@@ -37,20 +50,42 @@ namespace	Arcade
     unsigned int	getMapHeight() const;
     Arcade::IGame::GameState	gameState() const;
 
+  private:
+    void	moveP();
+
   public:
-    void	whereAmI();
-    void	getMap();
+    // void	whereAmI();
+    // void	getMap();
     void	goUp();
     void	goDown();
     void	goLeft();
     void	goRight();
-    void	goForward();
-    void	makeShoot();
-    void	illegal();
-    void	playRound();
+    // void	goForward();
+    // void	makeShoot();
+    // void	illegal();
+    // void	playRound();
 
   private:
+    bool	canLeft() const;
+    bool	canRight() const;
+    bool	canUp() const;
+    bool	canDown() const;
+
+  private:
+    std::string	_pseudo;
     IGraphic	*_graphic_library;
+    bool	_graderMode;
+    bool	_end;
+    unsigned int	_frame;
+
+  private:
+    Arcade::MapLoader	_loader;
+    std::vector<std::shared_ptr<Map>>	_map;
+    Direction	_dir;
+    unsigned int	_width;
+    unsigned int	_height;
+    unsigned int	_score;
+    Position	_p;
   };
 }
 

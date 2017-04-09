@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 18:29:28 2017 Arnaud WURMEL
-// Last update Sun Apr  9 15:48:13 2017 Arnaud WURMEL
+// Last update Sun Apr  9 18:29:45 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -19,13 +19,13 @@ Arcade::MapLoader::MapLoader()
 
 }
 
-std::vector<std::shared_ptr<Arcade::Map>> const&	Arcade::MapLoader::getMap()
+std::vector<std::shared_ptr<Arcade::Map>> const&	Arcade::MapLoader::getMap(std::string const& file_path)
 {
   if (_map.size() > 0)
     return _map;
   _width = 0;
   _height = 0;
-  loadFile();
+  loadFile(file_path);
   if (foundPosition() == false)
     _map.clear();
   return _map;
@@ -74,7 +74,7 @@ unsigned int	Arcade::MapLoader::getMapHeight() const
   return _height;
 }
 
-void	Arcade::MapLoader::loadFile()
+void	Arcade::MapLoader::loadFile(std::string const& file_path)
 {
   std::string	line;
   std::ifstream	f;
@@ -87,7 +87,7 @@ void	Arcade::MapLoader::loadFile()
   cell_type.insert(std::make_pair('3', Arcade::CellType::EAT));
   cell_type.insert(std::make_pair('4', Arcade::CellType::POWER_UP));
   _map.clear();
-  f.open("Ressources/Wolf3D/map.wolf");
+  f.open(file_path);
   if (f.is_open())
     {
       while (std::getline(f, line))
@@ -104,7 +104,6 @@ void	Arcade::MapLoader::loadFile()
 	  _height += 1;
 	}
     }
-  std::cout << "End" << std::endl;
 }
 
 Arcade::MapLoader::~MapLoader() {}
