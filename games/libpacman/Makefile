@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Sun Apr  9 17:43:39 2017 Arnaud WURMEL
+## Last update Sun Apr  9 17:15:58 2017 Erwan BALLET
 ##
 
 CC=		g++
@@ -18,6 +18,7 @@ SRCS=		$(SRCS_PATH)/mandatory.cpp \
 		$(COMMON_PATH)Event/Event.cpp \
 		$(COMMON_PATH)ScoreManager/ScoreManager.cpp \
 		Pacman/Pacman.cpp \
+		Pacman/IA.cpp	\
 		../Common/MapLoader/MapLoader.cpp
 
 OBJS=		$(SRCS:.cpp=.o)
