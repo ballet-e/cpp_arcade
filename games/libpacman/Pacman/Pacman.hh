@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 13:29:12 2017 Erwan BALLET
-// Last update Sun Apr  9 21:03:58 2017 Arnaud WURMEL
+// Last update Sun Apr  9 22:44:58 2017 Arnaud WURMEL
 //
 
 #ifndef PACMAN_HH_
@@ -57,6 +57,7 @@ namespace	Arcade
     void	printIA(unsigned int);
     void	eat();
     void	checkDie();
+    void	checkEnd();
 
   public:
     void	whereAmI();
