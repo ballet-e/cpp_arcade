@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 14:20:11 2017 Erwan BALLET
-// Last update Sun Apr  9 20:08:44 2017 Erwan BALLET
+// Last update Sun Apr  9 22:18:12 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -128,19 +128,17 @@ void				Arcade::IA::mooveIA(std::vector<std::shared_ptr<Arcade::Map>> map, unsig
   allDir.push_back(Arcade::IA::LEFT);
   allDir.push_back(Arcade::IA::RIGHT);
   stayIn = true;
-  std::cout << "plop" << std::endl;
   while (allDir.size() > 0 && stayIn)
     {
       rd = std::rand() % allDir.size();
+      unsigned int idx = (_pos.first + _inc[allDir[rd]].first) + ((_pos.second + _inc[allDir[rd]].second) * width);
       if (_pos.first + _inc[allDir[rd]].first < width
 	  && _pos.second + _inc[allDir[rd]].second < height
-	  && map[_pos.first + _inc[allDir[rd]].first
-		 + (_pos.second +
-		    _inc[allDir[rd]].second) * width]->_type != Arcade::CellType::WALL)
+	  && map[idx]->_type != Arcade::CellType::WALL)
 	{
 	  stayIn = false;
 	  _pos.first += _inc[allDir[rd]].first;
-	  _pos.second += _inc[allDir[rd]].first;
+	  _pos.second += _inc[allDir[rd]].second;
 	}
       else
 	allDir.erase(allDir.begin() + rd);
