@@ -5,25 +5,28 @@
 ## Login   <wurmel_a@epitech.net>
 ##
 ## Started on  Fri Mar 10 21:12:00 2017 Arnaud WURMEL
-## Last update Sat Apr  8 20:53:13 2017 Arnaud WURMEL
+## Last update Sun Apr  9 17:10:53 2017 Victorien Fischer
 ##
 
 all:
 	make -C ./libsnake/
 	make -C ./libsolarfox/
 	make -C ./libsokoban/
+	make -C ./libmaze/
 	make -C ./libwolf3d/
 
 clean:
 	make -C ./libsnake/ clean
 	make -C ./libsolarfox/ clean
 	make -C ./libsokoban/ clean
+	make -C ./libmaze/ clean
 	make -C ./libwolf3d/ clean
 
 fclean:
 	make -C ./libsnake/ fclean
 	make -C ./libsolarfox/ fclean
 	make -C ./libsokoban/ fclean
+	make -C ./libmaze/ fclean
 	make -C ./libwolf3d/ fclean
 
 re:	fclean all
