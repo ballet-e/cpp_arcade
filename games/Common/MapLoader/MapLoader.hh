@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 18:29:41 2017 Arnaud WURMEL
-// Last update Sat Apr  8 17:03:10 2017 Arnaud WURMEL
+// Last update Sun Apr  9 15:34:53 2017 Arnaud WURMEL
 //
 
 #ifndef MAPLOADER_HH_
@@ -20,6 +20,7 @@ namespace Arcade
     {
       FREE = 0,
       WALL,
+      EAT,
       PLAYER
     };
 

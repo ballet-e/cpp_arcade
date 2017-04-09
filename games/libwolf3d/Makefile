@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Sat Apr  8 16:04:46 2017 Arnaud WURMEL
+## Last update Sun Apr  9 15:35:42 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -18,11 +18,11 @@ SRCS=		$(SRCS_PATH)/mandatory.cpp \
 		$(COMMON_PATH)Event/Event.cpp \
 		$(COMMON_PATH)ScoreManager/ScoreManager.cpp \
 		Wolf3D/Wolf3D.cpp \
-		MapLoader/MapLoader.cpp
+		../Common/MapLoader/MapLoader.cpp
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./Wolf3D -I ./MapLoader -I ../../Interfaces/ -I $(COMMON_PATH)Event/ -I $(COMMON_PATH)ScoreManager/ -g
+CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./Wolf3D -I ../Common/MapLoader -I ../../Interfaces/ -I $(COMMON_PATH)Event/ -I $(COMMON_PATH)ScoreManager/ -g
 
 NAME=		lib_arcade_wolf3d.so
 
