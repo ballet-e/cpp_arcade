@@ -5,7 +5,7 @@
 // Login   <erwan.ballet@epitech.eu>
 //
 // Started on  Tue Apr  4 11:17:48 2017 Ballet Erwan
-// Last update Sun Apr  9 12:49:42 2017 Erwan BALLET
+// Last update Sun Apr  9 13:19:17 2017 Erwan BALLET
 //
 
 #include <iostream>
@@ -380,9 +380,6 @@ void	Arcade::SolarFox::setPoints()
 
 void		Arcade::SolarFox::didIGetPoints()
 {
-  unsigned int	i;
-
-  i = 0;
   if (_pointTab.size() == 0)
     {
       _score += 10000;
@@ -393,22 +390,12 @@ void		Arcade::SolarFox::didIGetPoints()
       _points = false;
       return ;
     }
-  while (i < _pointTab.size())
-    {
-      if (_pointTab[i].first == _ship.first && _pointTab[i].second == _ship.second)
-	{
-	  _score += 1000;
-	  _pointTab.erase(_pointTab.begin() + i);
-	  return ;
-	}
-      i += 1;
-    }
 }
 
 void	Arcade::SolarFox::mooveMyShoot()
 {
   std::pair<int, int>	pos;
-  int			i;
+  unsigned int		i;
 
   i = 0;
   if (_travel == 2)
@@ -424,6 +411,18 @@ void	Arcade::SolarFox::mooveMyShoot()
       _myShoot.setPos(pos.first, pos.second);
       _travel += 1;
     }
+  while (i < _pointTab.size())
+    {
+      if (_pointTab[i].first == _myShoot.getPos().first &&
+	  _pointTab[i].second == _myShoot.getPos().second)
+	{
+	  _score += 1000;
+	  _pointTab.erase(_pointTab.begin() + i);
+	  return ;
+	}
+      i += 1;
+    }
+  i = 0;
   while (i < 4)
     {
       if (_Enemy[i].getBullet().getPos().first == _myShoot.getPos().first &&
@@ -583,6 +582,8 @@ void	Arcade::SolarFox::getMap()
       	    }
       	  pos.first += 1;
       	}
+      map->tile[_myShoot.getPos().first +
+		_myShoot.getPos().second * MAP_WIDTH] = arcade::TileType::MY_SHOOT;
       std::cout.write(reinterpret_cast<char *>(map), sizeof(struct arcade::GetMap) +
        		      (sizeof(arcade::TileType) * MAP_HEIGHT * MAP_WIDTH));
       delete[] buf;
