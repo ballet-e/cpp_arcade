@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 13:53:39 2017 Erwan BALLET
-// Last update Sun Apr  9 19:21:12 2017 Arnaud WURMEL
+// Last update Sun Apr  9 17:48:15 2017 Erwan BALLET
 //
 
 #ifndef IA_HH_
@@ -44,7 +44,7 @@ namespace	Arcade
   public:
     const State&		getState() const;
     void			setState(const State&);
-    const std::pair<int, int>&	getPos() const;
+    std::pair<int, int>		getPos() const;
     void			setPos(int, int);
     void			mooveIA(std::vector<std::shared_ptr<Arcade::Map>>, unsigned int, unsigned int);
     Arcade::IA::Directions	invUp();
@@ -58,7 +58,7 @@ namespace	Arcade
 
   private:
     State		_state;
-    std::pair<int, int>	_pos;
+    std::pair<unsigned int, unsigned int>	_pos;
     Directions		_dir;
     std::map<Arcade::IA::Directions,
 	     Arcade::IA::Directions (Arcade::IA::*)()>	_changeDir;
