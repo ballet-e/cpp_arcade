@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Apr  9 15:51:30 2017 Arnaud WURMEL
-// Last update Sun Apr  9 21:25:08 2017 Arnaud WURMEL
+// Last update Sun Apr  9 21:26:37 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -97,7 +97,7 @@ void	Arcade::Pacman::render()
     return ;
   moveP();
   checkDie();
-  //  moveIA();
+  moveIA();
   checkDie();
   if (_graderMode == false)
     {
