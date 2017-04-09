@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 13:53:39 2017 Erwan BALLET
-// Last update Sun Apr  9 17:48:15 2017 Erwan BALLET
+// Last update Sun Apr  9 19:12:09 2017 Erwan BALLET
 //
 
 #ifndef IA_HH_
@@ -38,7 +38,7 @@ namespace	Arcade
 	AFRAID
       };
   public:
-    IA();
+    IA(unsigned int, unsigned int);
     ~IA();
 
   public:

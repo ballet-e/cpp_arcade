@@ -5,15 +5,15 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 14:20:11 2017 Erwan BALLET
-// Last update Sun Apr  9 19:08:55 2017 Erwan BALLET
+// Last update Sun Apr  9 19:11:48 2017 Erwan BALLET
 //
 
 #include "IA.hh"
 
-Arcade::IA::IA() : _state(Arcade::IA::LIVE)
+Arcade::IA::IA(unsigned int x, unsigned int y) : _state(Arcade::IA::LIVE)
 {
-  _pos.first = 0;
-  _pos.second = 0;
+  _pos.first = x;
+  _pos.second = y;
   _dir = Arcade::IA::UP;
   _changeDir[Arcade::IA::UP] = &Arcade::IA::invUp;
   _changeDir[Arcade::IA::DOWN] = &Arcade::IA::invDown;
