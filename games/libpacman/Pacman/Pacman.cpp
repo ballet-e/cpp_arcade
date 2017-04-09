@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Apr  9 15:51:30 2017 Arnaud WURMEL
-// Last update Sun Apr  9 21:26:37 2017 Arnaud WURMEL
+// Last update Sun Apr  9 19:30:43 2017 Erwan BALLET
 //
 
 #include <iostream>
@@ -215,11 +215,11 @@ void	Arcade::Pacman::initGame()
   _score = 0;
   _live = 3;
   _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
-  _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
-  _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
-  _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
-  _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
-  _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
+  // _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
+  // _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
+  // _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
+  // _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
+  // _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
 }
 
 unsigned int	Arcade::Pacman::getMapWidth() const

@@ -5,9 +5,10 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 14:20:11 2017 Erwan BALLET
-// Last update Sun Apr  9 19:11:48 2017 Erwan BALLET
+// Last update Sun Apr  9 20:08:44 2017 Erwan BALLET
 //
 
+#include <iostream>
 #include "IA.hh"
 
 Arcade::IA::IA(unsigned int x, unsigned int y) : _state(Arcade::IA::LIVE)
@@ -118,52 +119,30 @@ bool				Arcade::IA::checkRight(std::vector<std::shared_ptr<Arcade::Map>> map, un
 
 void				Arcade::IA::mooveIA(std::vector<std::shared_ptr<Arcade::Map>> map, unsigned int height, unsigned int width)
 {
-  std::pair<unsigned int, unsigned int>			newPos;
   std::vector<Arcade::IA::Directions>	allDir;
   bool					stayIn;
   int					rd;
 
-  newPos = _pos;
-  if (_pos.first != 0 || _inc[_dir].first >= 0)
-    newPos.first = _pos.first + _inc[_dir].first;
-  if (_pos.second != 0 || _inc[_dir].second >= 0)
-    newPos.second = _pos.second + _inc[_dir].second;
   allDir.push_back(Arcade::IA::UP);
   allDir.push_back(Arcade::IA::DOWN);
   allDir.push_back(Arcade::IA::LEFT);
   allDir.push_back(Arcade::IA::RIGHT);
-  if ((this->*_findWay[_dir])(map, height, width))
+  stayIn = true;
+  std::cout << "plop" << std::endl;
+  while (allDir.size() > 0 && stayIn)
     {
-      stayIn = true;
-      while (stayIn)
+      rd = std::rand() % allDir.size();
+      if (_pos.first + _inc[allDir[rd]].first < width
+	  && _pos.second + _inc[allDir[rd]].second < height
+	  && map[_pos.first + _inc[allDir[rd]].first
+		 + (_pos.second +
+		    _inc[allDir[rd]].second) * width]->_type != Arcade::CellType::WALL)
 	{
-	  if (allDir.size() != 0)
-	    rd = std::rand() % allDir.size();
-	  if (_pos.first != 0 || _inc[allDir[rd]].first >= 0)
-	    newPos.first = _pos.first + _inc[allDir[rd]].first;
-	  if (_pos.second != 0 || _inc[allDir[rd]].second >= 0)
-	    newPos.first = _pos.second + _inc[allDir[rd]].second;
-	  if (newPos.first < width && newPos.second < height
-	      && map[newPos.first + newPos.second * width]->_type != WALL)
-	    stayIn = false;
-	  else
-	    {
-	      if (allDir.size() != 0)
-		allDir.erase(allDir.begin() + rd);
-	      else
-		stayIn = false;
-	    }
+	  stayIn = false;
+	  _pos.first += _inc[allDir[rd]].first;
+	  _pos.second += _inc[allDir[rd]].first;
 	}
-      if (allDir.size() > 0)
-	{
-	  _dir = allDir[rd];
-	  _pos = newPos;
-	}
+      else
+	allDir.erase(allDir.begin() + rd);
     }
-  else if ((this->*_findWay[_dir])(map, height, width) == false
-	   && newPos.first < width && newPos.second <= height
-	   && map[newPos.first + newPos.second * width]->_type == WALL)
-    _dir = (this->*_changeDir[_dir])();
-  else
-    _pos = newPos;
 }
