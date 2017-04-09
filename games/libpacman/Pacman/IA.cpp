@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 14:20:11 2017 Erwan BALLET
-// Last update Sun Apr  9 20:34:33 2017 Erwan BALLET
+// Last update Sun Apr  9 21:18:26 2017 Erwan BALLET
 //
 
 #include <iostream>
@@ -79,21 +79,25 @@ Arcade::IA::Directions		Arcade::IA::invRight()
   return (Arcade::IA::DOWN);
 }
 
-bool				Arcade::IA::checkUp(std::vector<std::shared_ptr<Arcade::Map>> map, unsigned int height, unsigned int width)
+bool				Arcade::IA::checkDown(std::vector<std::shared_ptr<Arcade::Map>> map, unsigned int height, unsigned int width)
 {
   static_cast<void>(height);
-  if ((_pos.first >= 1 && map[_pos.first + _pos.second * width]->_type != WALL)
-      || (_pos.first + 1 < width && map[_pos.first + _pos.second * width]->_type != WALL))
+  if (_pos.first == 0)
+    return (false);
+  if (map[_pos.first - 1 + _pos.second * width]->_type != Arcade::CellType::WALL
+      || (_pos.first + 1 < width && map[_pos.first + 1 + _pos.second * width]->_type != Arcade::CellType::WALL))
     return (true);
   else
     return (false);
 }
 
-bool				Arcade::IA::checkDown(std::vector<std::shared_ptr<Arcade::Map>> map, unsigned int height, unsigned int width)
+bool				Arcade::IA::checkUp(std::vector<std::shared_ptr<Arcade::Map>> map, unsigned int height, unsigned int width)
 {
   static_cast<void>(height);
-  if ((_pos.first >= 1 && map[_pos.first + _pos.second * width]->_type != WALL)
-      || (_pos.first + 1 < width && map[_pos.first + _pos.second * width]->_type != WALL))
+  if (_pos.first == 0)
+    return (false);
+  if (map[_pos.first - 1 + _pos.second * width]->_type != Arcade::CellType::WALL
+      || (_pos.first + 1 < width && map[_pos.first + 1 + _pos.second * width]->_type != Arcade::CellType::WALL))
     return (true);
   else
     return (false);
@@ -101,8 +105,10 @@ bool				Arcade::IA::checkDown(std::vector<std::shared_ptr<Arcade::Map>> map, uns
 
 bool				Arcade::IA::checkLeft(std::vector<std::shared_ptr<Arcade::Map>> map, unsigned int height, unsigned int width)
 {
-  if ((_pos.second >= 1 && map[_pos.first + _pos.second * width]->_type != WALL)
-      || (_pos.second + 1 < height && map[_pos.first + _pos.second * width]->_type != WALL))
+  if (_pos.second == 0)
+    return (false);
+  if (map[_pos.first + (_pos.second - 1) * width]->_type != WALL
+      || (_pos.second + 1 < height && map[_pos.first + (_pos.second + 1) * width]->_type != Arcade::CellType::WALL))
     return (true);
   else
     return (false);
@@ -110,8 +116,10 @@ bool				Arcade::IA::checkLeft(std::vector<std::shared_ptr<Arcade::Map>> map, uns
 
 bool				Arcade::IA::checkRight(std::vector<std::shared_ptr<Arcade::Map>> map, unsigned int height, unsigned int width)
 {
-  if ((_pos.second >= 1 && map[_pos.first + _pos.second * width]->_type != WALL)
-      || (_pos.second + 1 < height && map[_pos.first + _pos.second * width]->_type != WALL))
+  if (_pos.second == 0)
+    return (false);
+  if (map[_pos.first + (_pos.second - 1) * width]->_type != WALL
+      || (_pos.second + 1 < height && map[_pos.first + (_pos.second + 1) * width]->_type != Arcade::CellType::WALL))
     return (true);
   else
     return (false);
@@ -139,25 +147,34 @@ void				Arcade::IA::mooveIA(std::vector<std::shared_ptr<Arcade::Map>> map, unsig
 	  else
 	    _state = Arcade::IA::LIVE;
 	}
-      allDir.push_back(Arcade::IA::UP);
-      allDir.push_back(Arcade::IA::DOWN);
-      allDir.push_back(Arcade::IA::LEFT);
-      allDir.push_back(Arcade::IA::RIGHT);
-      stayIn = true;
-      while (allDir.size() > 0 && stayIn)
+      if ((this->*_findWay[_dir])(map, height, width) == false)
 	{
-	  rd = std::rand() % allDir.size();
-	  unsigned int idx = (_pos.first + _inc[allDir[rd]].first) + ((_pos.second + _inc[allDir[rd]].second) * width);
-	  if (_pos.first + _inc[allDir[rd]].first < width
-	      && _pos.second + _inc[allDir[rd]].second < height
-	      && map[idx]->_type != Arcade::CellType::WALL)
+	  _pos.first += _inc[_dir].first;
+	  _pos.second += _inc[_dir].second;
+	}
+      else
+	{
+	  allDir.push_back(Arcade::IA::UP);
+	  allDir.push_back(Arcade::IA::DOWN);
+	  allDir.push_back(Arcade::IA::LEFT);
+	  allDir.push_back(Arcade::IA::RIGHT);
+	  stayIn = true;
+	  while (allDir.size() > 0 && stayIn)
 	    {
-	      stayIn = false;
-	      _pos.first += _inc[allDir[rd]].first;
-	      _pos.second += _inc[allDir[rd]].second;
+	      rd = std::rand() % allDir.size();
+	      unsigned int idx = (_pos.first + _inc[allDir[rd]].first) + ((_pos.second + _inc[allDir[rd]].second) * width);
+	      if (_pos.first + _inc[allDir[rd]].first < width
+		  && _pos.second + _inc[allDir[rd]].second < height
+		  && map[idx]->_type != Arcade::CellType::WALL)
+		{
+		  stayIn = false;
+		  _dir = allDir[rd];
+		  _pos.first += _inc[allDir[rd]].first;
+		  _pos.second += _inc[allDir[rd]].second;
+		}
+	      else
+		allDir.erase(allDir.begin() + rd);
 	    }
-	  else
-	    allDir.erase(allDir.begin() + rd);
 	}
     }
 }
