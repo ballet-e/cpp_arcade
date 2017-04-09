@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Apr  9 15:51:30 2017 Arnaud WURMEL
-// Last update Sun Apr  9 21:18:52 2017 Arnaud WURMEL
+// Last update Sun Apr  9 21:25:08 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -362,13 +362,23 @@ void	Arcade::Pacman::getMap()
 	  x = 0;
 	  while (x < _width)
 	    {
-	      if (_map[x + (y * _width)] == 0)
+	      if (_map[x + (y * _width)]->_type == Arcade::CellType::FREE)
 		map->tile[x + (y * _width)] = arcade::TileType::EMPTY;
-	      else
+	      else if (_map[x + (y * _width)]->_type == Arcade::CellType::WALL)
 		map->tile[x + (y * _width)] = arcade::TileType::BLOCK;
+	      else if (_map[x + (y * _width)]->_type == Arcade::CellType::EAT ||
+		       _map[x + (y * _width)]->_type == Arcade::CellType::POWER_UP)
+		map->tile[x + (y * _width)] = arcade::TileType::POWERUP;
 	      ++x;
 	    }
 	  ++y;
+	}
+      std::vector<std::unique_ptr<Arcade::IA>>::iterator it = _ia.begin();
+      while (it != _ia.end())
+	{
+	  unsigned int idx = (*it)->getPos().first + ((*it)->getPos().second * _width);
+	  map->tile[idx] = arcade::TileType::EVIL_DUDE;
+	  ++it;
 	}
       std::cout.write(reinterpret_cast<char *>(map), sizeof(struct arcade::GetMap) + (sizeof(arcade::TileType) * _height * _width));
       delete[] buf;
