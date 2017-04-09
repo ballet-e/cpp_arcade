@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Apr  9 15:51:30 2017 Arnaud WURMEL
-// Last update Sun Apr  9 21:06:59 2017 Arnaud WURMEL
+// Last update Sun Apr  9 21:14:20 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -214,8 +214,12 @@ void	Arcade::Pacman::initGame()
   _frame = 0;
   _score = 0;
   _live = 3;
-  _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA()));
-  _ia[0]->setPos(14, 12);
+  _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
+  _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
+  _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
+  _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
+  _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
+  _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA(14, 12)));
 }
 
 unsigned int	Arcade::Pacman::getMapWidth() const
@@ -339,7 +343,36 @@ void	Arcade::Pacman::whereAmI()
 
 void	Arcade::Pacman::getMap()
 {
+  struct arcade::GetMap	*map;
+  char	*buf;
+  unsigned int		y;
+  unsigned int		x;
 
+  map = NULL;
+  buf = new char[sizeof(struct arcade::GetMap) + (sizeof(arcade::TileType) * _height * _width)];
+  map = new (buf) arcade::GetMap;
+  if (map != NULL)
+    {
+      map->width = _width;
+      map->height = _height;
+      map->type = arcade::CommandType::GET_MAP;
+      y = 0;
+      while (y < _height)
+	{
+	  x = 0;
+	  while (x < _width)
+	    {
+	      if (_map[x + (y * _width)] == 0)
+		map->tile[x + (y * _width)] = arcade::TileType::EMPTY;
+	      else
+		map->tile[x + (y * _width)] = arcade::TileType::BLOCK;
+	      ++x;
+	    }
+	  ++y;
+	}
+      std::cout.write(reinterpret_cast<char *>(map), sizeof(struct arcade::GetMap) + (sizeof(arcade::TileType) * _height * _width));
+      delete buf;
+    }
 }
 
 void	Arcade::Pacman::goForward()

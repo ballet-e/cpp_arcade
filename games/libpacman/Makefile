@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ## 
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Sun Apr  9 20:03:51 2017 Arnaud WURMEL
+## Last update Sun Apr  9 21:09:19 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -23,7 +23,7 @@ SRCS=		$(SRCS_PATH)/mandatory.cpp \
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./Pacman -I ../Common/MapLoader -I ../../Interfaces/ -I $(COMMON_PATH)Event/ -I $(COMMON_PATH)ScoreManager/ -g
+CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./Pacman -I ../Common/MapLoader -I ../../Interfaces/ -I $(COMMON_PATH)Event/ -I $(COMMON_PATH)ScoreManager/
 
 NAME=		lib_arcade_pacman.so
 

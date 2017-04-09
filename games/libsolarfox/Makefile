@@ -5,7 +5,7 @@
 ## Login   <wurmel_a@epitech.net>
 ##
 ## Started on  Thu Mar  9 16:34:27 2017 Arnaud WURMEL
-## Last update Wed Apr  5 15:56:29 2017 Erwan BALLET
+## Last update Sun Apr  9 21:10:17 2017 Arnaud WURMEL
 ##
 
 CC=		g++
@@ -23,7 +23,7 @@ SRCS=		$(SRCS_PATH)/mandatory.cpp \
 
 OBJS=		$(SRCS:.cpp=.o)
 
-CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./SolarFox -I ./Button -I ../../Interfaces/ -I $(COMMON_PATH)Event/ -I $(COMMON_PATH)ScoreManager/ -g
+CXXFLAGS+=	-Wall -Wextra -std=c++14 -fPIC -I ./SolarFox -I ./Button -I ../../Interfaces/ -I $(COMMON_PATH)Event/ -I $(COMMON_PATH)ScoreManager/
 
 NAME=		lib_arcade_solar_fox.so
 
