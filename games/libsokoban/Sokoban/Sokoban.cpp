@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Apr  5 19:05:51 2017 Victorien Fischer
-// Last update Fri Apr  7 23:22:16 2017 Arnaud WURMEL
+// Last update Sun Apr  9 21:37:04 2017 Arnaud WURMEL
 //
 
 #include "Sokoban.hh"
@@ -17,8 +17,6 @@ Arcade::Sokoban::Sokoban() : _mapManager()
 {
   _pseudo = "Player";
   initGame();
-  std::cout << getMapWidth() << std::endl;
-  std::cout << getMapHeight() << std::endl;
 }
 
 void	Arcade::Sokoban::initGame()
