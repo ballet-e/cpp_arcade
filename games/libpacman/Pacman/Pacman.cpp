@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Apr  9 15:51:30 2017 Arnaud WURMEL
-// Last update Sun Apr  9 22:18:37 2017 Arnaud WURMEL
+// Last update Sun Apr  9 22:26:12 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -183,6 +183,18 @@ void	Arcade::Pacman::eat()
       _map[_p.x + (_p.y * _width)]->_type = Arcade::CellType::FREE;
       _score += 10;
     }
+  else if (_map[_p.x + (_p.y * _width)]->_type == Arcade::CellType::POWER_UP)
+    {
+      std::vector<std::unique_ptr<Arcade::IA>>::iterator	it;
+
+      it = _ia.begin();
+      while (it != _ia.end())
+	{
+	  (*it)->setState(Arcade::IA::State::AFRAID);
+	  ++it;
+	}
+      _map[_p.x + (_p.y * _width)]->_type = Arcade::CellType::FREE;
+    }
 }
 
 bool	Arcade::Pacman::shouldRender()
@@ -246,11 +258,20 @@ void	Arcade::Pacman::checkDie()
     {
       if ((*it)->getPos().first == _p.x && (*it)->getPos().second == _p.y)
 	{
-	  _p = _loader.getPlayerPosition();
-	  _live -= 1;
-	  if (_live == 0)
-	    _end = true;
-	  return ;
+	  if ((*it)->getState() == Arcade::IA::State::AFRAID)
+	    {
+	      _score += 1;
+	      (*it)->setState(Arcade::IA::State::DEAD);
+	      (*it)->setPos(14, 12);
+	    }
+	  else if ((*it)->getState() == Arcade::IA::State::LIVE)
+	    {
+	      _p = _loader.getPlayerPosition();
+	      _live -= 1;
+	      if (_live == 0)
+		_end = true;
+	      return ;
+	    }
 	}
       ++it;
     }
