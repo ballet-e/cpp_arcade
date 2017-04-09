@@ -5,10 +5,9 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 14:20:11 2017 Erwan BALLET
-// Last update Sun Apr  9 20:42:14 2017 Arnaud WURMEL
+// Last update Sun Apr  9 18:57:05 2017 Erwan BALLET
 //
 
-#include <iostream>
 #include "IA.hh"
 
 Arcade::IA::IA() : _state(Arcade::IA::LIVE)
@@ -16,10 +15,10 @@ Arcade::IA::IA() : _state(Arcade::IA::LIVE)
   _pos.first = 0;
   _pos.second = 0;
   _dir = Arcade::IA::UP;
-  _changeDir.insert(std::make_pair(Arcade::IA::UP, &Arcade::IA::invUp));
-  _changeDir.insert(std::make_pair(Arcade::IA::DOWN, &Arcade::IA::invDown));
-  _changeDir.insert(std::make_pair(Arcade::IA::LEFT, &Arcade::IA::invLeft));
-  _changeDir.insert(std::make_pair(Arcade::IA::RIGHT, &Arcade::IA::invRight));
+  _changeDir[Arcade::IA::UP] = &Arcade::IA::invUp;
+  _changeDir[Arcade::IA::DOWN] = &Arcade::IA::invDown;
+  _changeDir[Arcade::IA::LEFT] = &Arcade::IA::invLeft;
+  _changeDir[Arcade::IA::RIGHT] = &Arcade::IA::invRight;
   _inc[Arcade::IA::UP].first = 0;
   _inc[Arcade::IA::UP].second = -1;
   _inc[Arcade::IA::DOWN].first = 0;
@@ -28,10 +27,10 @@ Arcade::IA::IA() : _state(Arcade::IA::LIVE)
   _inc[Arcade::IA::LEFT].second = 0;
   _inc[Arcade::IA::RIGHT].first = 1;
   _inc[Arcade::IA::RIGHT].second = 0;
-  _findWay.insert(std::make_pair(Arcade::IA::UP, std::bind(&Arcade::IA::checkUp, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)));
-  _findWay.insert(std::make_pair(Arcade::IA::DOWN, std::bind(&Arcade::IA::checkDown, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)));
-  _findWay.insert(std::make_pair(Arcade::IA::LEFT, std::bind(&Arcade::IA::checkLeft, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)));
-  _findWay.insert(std::make_pair(Arcade::IA::RIGHT, std::bind(&Arcade::IA::checkRight, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)));
+  _findWay[Arcade::IA::UP] = &Arcade::IA::checkUp;
+  _findWay[Arcade::IA::DOWN] = &Arcade::IA::checkDown;
+  _findWay[Arcade::IA::LEFT] = &Arcade::IA::checkLeft;
+  _findWay[Arcade::IA::RIGHT] = &Arcade::IA::checkRight;
 }
 
 Arcade::IA::~IA() {}
@@ -81,42 +80,40 @@ Arcade::IA::Directions		Arcade::IA::invRight()
 
 bool				Arcade::IA::checkUp(std::vector<std::shared_ptr<Arcade::Map>> map, unsigned int height, unsigned int width)
 {
-  // if (_pos.second < 0 || _pos.second >= height || _pos.first < 0 || _pos.first >= width)
-  //   return false;
-  std::cout << "Up: " << _pos.first << " " << _pos.second << std::endl;
-  if (_pos.second > 0 && map[_pos.first + ((_pos.second - 1) * width)]->_type != Arcade::CellType::WALL)
-    return true;
-  return false;
+  static_cast<void>(height);
+  if ((_pos.first >= 1 && map[_pos.first + _pos.second * width]->_type != WALL)
+      || (_pos.first + 1 < width && map[_pos.first + _pos.second * width]->_type != WALL))
+    return (true);
+  else
+    return (false);
 }
 
 bool				Arcade::IA::checkDown(std::vector<std::shared_ptr<Arcade::Map>> map, unsigned int height, unsigned int width)
 {
-  // if (_pos.second < 0 || _pos.second >= height || _pos.first < 0 || _pos.first >= width)
-  //   return false;
-  std::cout << "Down: " <<  _pos.first << " " << _pos.second << std::endl;
-  if (_pos.second + 1 < height && map[_pos.first + ((_pos.second + 1) * width)]->_type != Arcade::CellType::WALL)
-    return true;
-  return false;
+  static_cast<void>(height);
+  if ((_pos.first >= 1 && map[_pos.first + _pos.second * width]->_type != WALL)
+      || (_pos.first + 1 < width && map[_pos.first + _pos.second * width]->_type != WALL))
+    return (true);
+  else
+    return (false);
 }
 
 bool				Arcade::IA::checkLeft(std::vector<std::shared_ptr<Arcade::Map>> map, unsigned int height, unsigned int width)
 {
-  // if (_pos.second < 0 || _pos.second >= height || _pos.first < 0 || _pos.first >= width)
-  //   return false;
-  std::cout << "Left: " << _pos.first << " " << _pos.second << std::endl;
-  if (_pos.first > 0 && map[(_pos.first - 1) + (_pos.second * width)]->_type != Arcade::CellType::WALL)
-    return true;
-  return false;
+  if ((_pos.second >= 1 && map[_pos.first + _pos.second * width]->_type != WALL)
+      || (_pos.second + 1 < height && map[_pos.first + _pos.second * width]->_type != WALL))
+    return (true);
+  else
+    return (false);
 }
 
 bool				Arcade::IA::checkRight(std::vector<std::shared_ptr<Arcade::Map>> map, unsigned int height, unsigned int width)
 {
-  // if (_pos.second < 0 || _pos.second >= height || _pos.first < 0 || _pos.first >= width)
-  //   return false;
-  std::cout << "Right: " << _pos.first << " " << _pos.second << std::endl;
-  if (_pos.first + 1 < width && map[(_pos.first + 1) + (_pos.second * width)]->_type != Arcade::CellType::WALL)
-    return true;
-  return false;
+  if ((_pos.second >= 1 && map[_pos.first + _pos.second * width]->_type != WALL)
+      || (_pos.second + 1 < height && map[_pos.first + _pos.second * width]->_type != WALL))
+    return (true);
+  else
+    return (false);
 }
 
 void				Arcade::IA::mooveIA(std::vector<std::shared_ptr<Arcade::Map>> map, unsigned int height, unsigned int width)
@@ -134,9 +131,9 @@ void				Arcade::IA::mooveIA(std::vector<std::shared_ptr<Arcade::Map>> map, unsig
   allDir.push_back(Arcade::IA::DOWN);
   allDir.push_back(Arcade::IA::LEFT);
   allDir.push_back(Arcade::IA::RIGHT);
-  if ((_findWay[_dir])(map, height, width))
+  if ((this->*_findWay[_dir])(map, height, width))
     {
-      stayIn = false;
+      stayIn = true;
       while (stayIn)
 	{
 	  rd = std::rand() % allDir.size();
@@ -146,20 +143,19 @@ void				Arcade::IA::mooveIA(std::vector<std::shared_ptr<Arcade::Map>> map, unsig
 	    newPos.first = _pos.second + _inc[allDir[rd]].second;
 	  if (newPos.first < width && newPos.second < height
 	      && map[newPos.first + newPos.second * width]->_type != WALL)
-	    stayIn = true;
+	    stayIn = false;
 	  else
 	    allDir.erase(allDir.begin() + rd);
 	}
       if (allDir.size() > 0)
 	{
 	  _dir = allDir[rd];
-	  _pos.first = newPos.first;
-	  _pos.second = newPos.second;
+	  _pos = newPos;
 	}
     }
-  else if ((_findWay[_dir])(map, height, width) == false
-  	   && newPos.first < width && newPos.second <= height
-  	   && map[newPos.first + newPos.second * width]->_type == WALL)
+  else if ((this->*_findWay[_dir])(map, height, width) == false
+	   && newPos.first < width && newPos.second <= height
+	   && map[newPos.first + newPos.second * width]->_type == WALL)
     _dir = (this->*_changeDir[_dir])();
   else
     _pos = newPos;
