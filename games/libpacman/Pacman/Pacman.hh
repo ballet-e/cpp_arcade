@@ -5,7 +5,7 @@
 // Login   <ballet_e@epitech.net>
 // 
 // Started on  Sun Apr  9 13:29:12 2017 Erwan BALLET
-// Last update Sun Apr  9 19:51:06 2017 Arnaud WURMEL
+// Last update Sun Apr  9 21:03:58 2017 Arnaud WURMEL
 //
 
 #ifndef PACMAN_HH_
@@ -53,7 +53,10 @@ namespace	Arcade
 
   private:
     void	moveP();
+    void	moveIA();
+    void	printIA(unsigned int);
     void	eat();
+    void	checkDie();
 
   public:
     void	whereAmI();
@@ -79,7 +82,7 @@ namespace	Arcade
     bool	_graderMode;
     bool	_end;
     unsigned int	_frame;
-    Arcade::IA	ia;
+    std::vector<std::unique_ptr<Arcade::IA>>	_ia;
 
   private:
     Arcade::MapLoader	_loader;
@@ -89,6 +92,7 @@ namespace	Arcade
     unsigned int	_width;
     unsigned int	_height;
     unsigned int	_score;
+    unsigned int	_live;
     Position	_p;
   };
 }

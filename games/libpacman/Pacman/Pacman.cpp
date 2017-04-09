@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Apr  9 15:51:30 2017 Arnaud WURMEL
-// Last update Sun Apr  9 20:02:56 2017 Arnaud WURMEL
+// Last update Sun Apr  9 21:06:59 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -96,24 +96,56 @@ void	Arcade::Pacman::render()
   if (_end)
     return ;
   moveP();
-  ia.mooveIA(_map, _height, _width);
-  size = (_graphic_library->getDrawableWidth() / _width);
-  idx.y = 0;
-  while (idx.y < _height)
+  checkDie();
+  //  moveIA();
+  checkDie();
+  if (_graderMode == false)
     {
-      idx.x = 0;
-      while (idx.x < _width)
+      _graphic_library->setText(std::string("Live : ") + std::to_string(_live), 10, Arcade::ElementPosition::LEFT);
+      _graphic_library->setText(std::string("Pacman"), 10, Arcade::ElementPosition::CENTER, 25);
+      _graphic_library->setText(std::string("Score: ") + std::to_string(_score), 10, Arcade::ElementPosition::RIGHT);
+      size = (_graphic_library->getDrawableWidth() / _width);
+      idx.y = 0;
+      while (idx.y < _height)
 	{
-	  color = Arcade::Colors::ABLACK;
-	  if (colors.find(_map[idx.x + (idx.y * _width)]->_type) != colors.end())
-	    color = colors[_map[idx.x + (idx.y * _width)]->_type];
-	  drawSquare(idx.x * size, idx.y * size, size, color);
-	  ++idx.x;
+	  idx.x = 0;
+	  while (idx.x < _width)
+	    {
+	      color = Arcade::Colors::ABLACK;
+	      if (colors.find(_map[idx.x + (idx.y * _width)]->_type) != colors.end())
+		color = colors[_map[idx.x + (idx.y * _width)]->_type];
+	      drawSquare(idx.x * size, idx.y * size, size, color);
+	      ++idx.x;
+	    }
+	  ++idx.y;
 	}
-      ++idx.y;
+      drawSquare(_p.x * size, _p.y * size, size, Arcade::Colors::AYELLOW);
+      printIA(size);
     }
-  drawSquare(_p.x * size, _p.y * size, size, Arcade::Colors::AYELLOW);
-  drawSquare(ia.getPos().first * size, ia.getPos().second * size, size, Arcade::Colors::ARED);
+}
+
+void	Arcade::Pacman::printIA(unsigned int size)
+{
+  std::vector<std::unique_ptr<Arcade::IA>>::iterator	it;
+
+  it = _ia.begin();
+  while (it != _ia.end())
+    {
+      drawSquare((*it)->getPos().first * size, (*it)->getPos().second * size, size, Arcade::Colors::ARED);
+      ++it;
+    }
+}
+
+void	Arcade::Pacman::moveIA()
+{
+  std::vector<std::unique_ptr<Arcade::IA>>::iterator	it;
+
+  it = _ia.begin();
+  while (it != _ia.end())
+    {
+      (*it)->mooveIA(_map, _height, _width);
+      ++it;
+    }
 }
 
 void	Arcade::Pacman::moveP()
@@ -166,6 +198,7 @@ bool	Arcade::Pacman::shouldRender()
 
 void	Arcade::Pacman::initGame()
 {
+  _ia.clear();
   _end = false;
   _map = _loader.getMap("Ressources/pacman/map.pacman");
   if (_map.size() == 0)
@@ -180,7 +213,9 @@ void	Arcade::Pacman::initGame()
   _height = _loader.getMapHeight();
   _frame = 0;
   _score = 0;
-  ia.setPos(14, 12);
+  _live = 3;
+  _ia.push_back(std::unique_ptr<Arcade::IA>(new Arcade::IA()));
+  _ia[0]->setPos(14, 12);
 }
 
 unsigned int	Arcade::Pacman::getMapWidth() const
@@ -196,6 +231,25 @@ unsigned int	Arcade::Pacman::getMapHeight() const
 Arcade::IGame::GameState	Arcade::Pacman::gameState() const
 {
   return (Arcade::IGame::PLAYING);
+}
+
+void	Arcade::Pacman::checkDie()
+{
+  std::vector<std::unique_ptr<Arcade::IA>>::iterator	it;
+
+  it = _ia.begin();
+  while (it != _ia.end())
+    {
+      if ((*it)->getPos().first == _p.x && (*it)->getPos().second == _p.y)
+	{
+	  _p = _loader.getPlayerPosition();
+	  _live -= 1;
+	  if (_live == 0)
+	    _end = true;
+	  return ;
+	}
+      ++it;
+    }
 }
 
 void	Arcade::Pacman::goUp()
