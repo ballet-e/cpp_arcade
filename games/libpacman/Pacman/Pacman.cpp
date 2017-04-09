@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Apr  9 15:51:30 2017 Arnaud WURMEL
-// Last update Sun Apr  9 22:31:48 2017 Arnaud WURMEL
+// Last update Sun Apr  9 22:57:39 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -13,6 +13,7 @@
 #include <utility>
 #include "Pacman.hh"
 #include "Protocol.hpp"
+#include "ScoreManager.hpp"
 
 Arcade::Pacman::Pacman()
 {
@@ -99,6 +100,7 @@ void	Arcade::Pacman::render()
   checkDie();
   moveIA();
   checkDie();
+  checkEnd();
   if (_graderMode == false)
     {
       _graphic_library->setText(std::string("Live : ") + std::to_string(_live), 10, Arcade::ElementPosition::LEFT);
@@ -122,6 +124,25 @@ void	Arcade::Pacman::render()
       drawSquare(_p.x * size, _p.y * size, size, Arcade::Colors::AYELLOW);
       printIA(size);
     }
+}
+
+void	Arcade::Pacman::checkEnd()
+{
+  std::vector<std::shared_ptr<Map>>::iterator	it;
+  Arcade::ScoreManager	score;
+
+  if (_end != true)
+    {
+      it = _map.begin();
+      while (it != _map.end())
+	{
+	  if ((*it)->_type == Arcade::CellType::EAT)
+	    return ;
+	  ++it;
+	}
+      _end = true;
+    }
+  score.addScoreForGame("pacman", _pseudo, _score + (_live * 1000));
 }
 
 void	Arcade::Pacman::printIA(unsigned int size)
@@ -193,7 +214,8 @@ void	Arcade::Pacman::eat()
       it = _ia.begin();
       while (it != _ia.end())
 	{
-	  (*it)->setState(Arcade::IA::State::AFRAID);
+	  if ((*it)->getState() != Arcade::IA::State::DEAD)
+	    (*it)->setState(Arcade::IA::State::AFRAID);
 	  ++it;
 	}
       _map[_p.x + (_p.y * _width)]->_type = Arcade::CellType::FREE;
@@ -263,7 +285,7 @@ void	Arcade::Pacman::checkDie()
 	{
 	  if ((*it)->getState() == Arcade::IA::State::AFRAID)
 	    {
-	      _score += 1;
+	      _score += 100;
 	      (*it)->setState(Arcade::IA::State::DEAD);
 	      (*it)->setPos(14, 12);
 	    }
