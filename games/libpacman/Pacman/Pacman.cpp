@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Apr  9 15:51:30 2017 Arnaud WURMEL
-// Last update Sun Apr  9 21:14:20 2017 Arnaud WURMEL
+// Last update Sun Apr  9 21:18:52 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -338,7 +338,7 @@ void	Arcade::Pacman::whereAmI()
   amI->position[0].x = _p.x;
   amI->position[0].y = _p.y;
   std::cout.write(reinterpret_cast<char *>(amI), sizeof(struct arcade::WhereAmI) + (sizeof(struct arcade::Position)));
-  delete buf; 
+  delete [] buf;
 }
 
 void	Arcade::Pacman::getMap()
@@ -371,7 +371,7 @@ void	Arcade::Pacman::getMap()
 	  ++y;
 	}
       std::cout.write(reinterpret_cast<char *>(map), sizeof(struct arcade::GetMap) + (sizeof(arcade::TileType) * _height * _width));
-      delete buf;
+      delete[] buf;
     }
 }
 
@@ -392,7 +392,7 @@ void	Arcade::Pacman::illegal()
 
 void	Arcade::Pacman::playRound()
 {
-
+  render();
 }
 
 Arcade::Pacman::~Pacman()

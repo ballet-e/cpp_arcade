@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Mon Mar 13 16:19:28 2017 Arnaud WURMEL
-// Last update Sat Apr  8 20:52:32 2017 Arnaud WURMEL
+// Last update Sun Apr  9 21:18:13 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -369,7 +369,7 @@ void	Arcade::Snake::whereAmI()
       ++pos;
     }
   std::cout.write(reinterpret_cast<char *>(amI), sizeof(struct arcade::WhereAmI) + (sizeof(struct arcade::Position) * _body.size()));
-  delete buf;
+  delete [] buf;
 }
 
 void	Arcade::Snake::getMap()
@@ -402,7 +402,7 @@ void	Arcade::Snake::getMap()
 	  ++y;
 	}
       std::cout.write(reinterpret_cast<char *>(map), sizeof(struct arcade::GetMap) + (sizeof(arcade::TileType) * MAP_HEIGHT * MAP_WIDTH));
-      delete buf;
+      delete [] buf;
     }
 }
 
