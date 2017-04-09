@@ -5,10 +5,12 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Thu Apr  6 18:29:28 2017 Arnaud WURMEL
-// Last update Sat Apr  8 17:03:55 2017 Arnaud WURMEL
+// Last update Sun Apr  9 15:48:13 2017 Arnaud WURMEL
 //
 
 #include <iostream>
+#include <map>
+#include <utility>
 #include <fstream>
 #include "MapLoader.hh"
 
@@ -77,7 +79,13 @@ void	Arcade::MapLoader::loadFile()
   std::string	line;
   std::ifstream	f;
   std::string::iterator	it;
+  std::map<int, Arcade::CellType>	cell_type;
 
+  cell_type.insert(std::make_pair('0', Arcade::CellType::FREE));
+  cell_type.insert(std::make_pair('1', Arcade::CellType::WALL));
+  cell_type.insert(std::make_pair('2', Arcade::CellType::PLAYER));
+  cell_type.insert(std::make_pair('3', Arcade::CellType::EAT));
+  cell_type.insert(std::make_pair('4', Arcade::CellType::POWER_UP));
   _map.clear();
   f.open("Ressources/Wolf3D/map.wolf");
   if (f.is_open())
@@ -90,12 +98,8 @@ void	Arcade::MapLoader::loadFile()
 	    return ;
 	  for (it = line.begin(); it != line.end(); it++)
 	    {
-	      if (*it == '1')
-		_map.push_back(std::shared_ptr<Map>(new Map(Arcade::CellType::WALL)));
-	      else if (*it == '0')
-		_map.push_back(std::shared_ptr<Map>(new Map(Arcade::CellType::FREE)));
-	      else if (*it == '2')
-		_map.push_back(std::shared_ptr<Map>(new Map(Arcade::CellType::PLAYER)));
+	      if (cell_type.find((*it)) != cell_type.end())
+		_map.push_back(std::shared_ptr<Map>(new Map(cell_type[(*it)])));
 	    }
 	  _height += 1;
 	}
