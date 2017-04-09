@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 // 
 // Started on  Sun Apr  9 15:51:30 2017 Arnaud WURMEL
-// Last update Sun Apr  9 22:31:48 2017 Arnaud WURMEL
+// Last update Sun Apr  9 22:39:52 2017 Arnaud WURMEL
 //
 
 #include <iostream>
@@ -193,7 +193,8 @@ void	Arcade::Pacman::eat()
       it = _ia.begin();
       while (it != _ia.end())
 	{
-	  (*it)->setState(Arcade::IA::State::AFRAID);
+	  if ((*it)->getState() != Arcade::IA::State::DEAD)
+	    (*it)->setState(Arcade::IA::State::AFRAID);
 	  ++it;
 	}
       _map[_p.x + (_p.y * _width)]->_type = Arcade::CellType::FREE;
