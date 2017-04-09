@@ -5,7 +5,7 @@
 // Login   <victorien.fischer@epitech.eu>
 // 
 // Started on  Wed Apr  5 19:05:51 2017 Victorien Fischer
-// Last update Sun Apr  9 17:00:02 2017 Victorien Fischer
+// Last update Sun Apr  9 21:36:55 2017 Arnaud WURMEL
 //
 
 #include "Maze.hh"
@@ -17,8 +17,6 @@ Arcade::Maze::Maze() : _mapManager()
 {
   _pseudo = "Player";
   initGame();
-  std::cout << getMapWidth() << std::endl;
-  std::cout << getMapHeight() << std::endl;
 }
 
 void	Arcade::Maze::initGame()
