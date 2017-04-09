@@ -5,7 +5,7 @@
 // Login   <wurmel_a@epitech.net>
 //
 // Started on  Mon Mar 13 16:06:21 2017 Arnaud WURMEL
-// Last update Sat Apr  8 16:25:26 2017 Erwan BALLET
+// Last update Sun Apr  9 12:20:58 2017 Erwan BALLET
 //
 
 #ifndef SOLARFOX_HH_
@@ -13,6 +13,7 @@
 
 # include <vector>
 # include <utility>
+# include <map>
 # include "IGame.hh"
 # include "Event.hh"
 # include "Bullet.hh"
@@ -71,8 +72,14 @@ namespace	Arcade
     void	setPoints();
     void	didIGetPoints();
     void	saveScore() const;
+    void	mooveMyShoot();
+    std::pair<int, int>	incUp(std::pair<int, int>);
+    std::pair<int, int>	incDown(std::pair<int, int>);
+    std::pair<int, int>	incLeft(std::pair<int, int>);
+    std::pair<int, int>	incRight(std::pair<int, int>);
     
   private:
+    std::map<Arcade::Bullet::Directions, std::pair<int, int> (Arcade::SolarFox::*)(std::pair<int, int>)>	_incDir;
     Enemy		_Enemy[4];
     IGraphic		*_graphic_library;
     bool		_graderMode;
@@ -85,10 +92,13 @@ namespace	Arcade
     Bullet::Directions	_dir;
     std::vector<std::vector<unsigned char>>	_map;;
     std::pair<int, int>	_ship;
+    Bullet		_myShoot;
+    unsigned char	_travel;
     int			_score;
     int			_lv;
     int			_enemyMoove;
     bool		_points;
+    int			_shouldMoove;
     std::vector<std::pair<int, int>>		_pointTab;
   };
 }
